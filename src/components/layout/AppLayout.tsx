@@ -1,1 +1,49 @@
-import React, { useState } from 'react';\nimport { Layout, theme, Typography,Grid, Menu } from 'antd';\nimport { useNavigate, useLocation } from 'react-router-dom';\nimport {\n  DashboardOutlined,\n  SettingOutlined,\n  TeamOutlined,\n  ScheduleOutlined,\n  PayCircleOutlined,\n  TrophyOutlined,\n  CustomerServiceOutlined,\n  RobotOutlined,\n  ApiOutlined,\n  DollarCircleOutlined,\n  CreditCardOutlined,\n  HomeOutlined,\n  UserOutlined\n} from '@ant-design/icons';\n\nconst { Header, Sider, Content } = Layout;\nconst { Title } = Typography;\nconst { useBreakpoint } = Grid;\n\ninterface MenuItem {\n  key: string;\n  label: string;\n  icon: React.ReactNode;\n  path: string;\n}\n\nconst menuItems: MenuItem[] = [\n  {\n    key:'/admin/dashboard',\n    label: '亾单입드꧙',\n    icon: <DashboardOutlined />, \n    path: '/admin/dashboard'\n  },\n  {\n    key: '/admin/tenants',\n    label: '崦窌扩犵 다로',\n    icon: <SettingOutlined />, \n    path: '/admin/tenants'\n  },\n  {\n    key:'/admin/permissions',\n    label: '각드긵渵',\n    icon: <TeamOutlined />, \n    path: '/admin/permissions'\n  },\n  {\n    key: '/attendance',\n    label: '乘抲입드꧙',\n    icon: <ScheduleOutlined />, \n    path: '/attendance'\n  },\n  {\n    key: '/payroll',\n    label: '丘泝라꧙',\n    icon: <PayCircleOutlined />, \n    path: '/payroll'\n  },\n  {\n    key: '/performance',\n    label: '줐드벌적膌멕'',\n    icon: <TrophyOutlined />, \n    path: '/performance'\n  },\n  {\n    key:'/ess',\n    label: '丘抲眈啼꧙ Portal (ESS)',\n    icon: <CustomerServiceOutlined />, \n    path: '/ess'\n  },\n  {\n    key: '/analytics/ai-dashboard',\n    label: 'AI 부롘 로멕G',\n    icon: <RobotOutlined />, \n    path: '/analytics/ai-dashboard'\n  },\n  {\n    key: '/api-management',\n    label: 'Open API 겋骫',\n    icon: <ApiOutlined />, \n    path: '/api-management'\n  },\n  {\n    key: '/subscription',\n    label: '땔멕G',\n    icon: <DollarCircleOutlined />, \n    path: '/subscription'\n  },\n  {\n    key: '/billing',\n    label: '삟븰，경고맄롘',\n    icon: <CreditCardOutlined />, \n    path: '/billing'\n  },\n  {\n    key:'/',\n    label: '다틨임',\n    icon: <HomeOutlined />, \n    path: '/'\n  },\n  {\n    key:'/my-page',\n    label: '나입어 놄얼',\n    icon: <UserOutlined />, \n    path: '/my-page'\n  },\n];\n\nexport default function AppLayout({ children }: React.PropsWithChildren<{}>) {\n  const [collapsed, setCollapsed] = useState(false);\n  const navigate = useNavigate();\n  const location = useLocation();\n  const screens = useBreakpoint();\n  const { token } = theme.useToken();\n\n  return (\n    <Layout style={{ height: '100vh', backgroundColor: token.colorBgContainer }}>\n      <Sider collapsed={collapsed} onCollapse={setCollapsed} trigger={'breakpoint'} breakpoint={'md'}>\n        <div style={{ padding: '16px 0 &#10;", textAlign: 'center' }}>\n          <Title level={3} style={{ margin: 0, color: '#007aff' }}>HRIzen</Title>\n        </div>\n        <Menu\n          theme=\"dark\"\n          mode=\"vertical\"\n          defaultSelectedKeys={[location.pathname|| '/']]\n          onClick={() => navigate()/* Fix later */}\n          items={menuItems.map((item) => ({\n            key: item.key,\n            icon: item.icon,\n            label: item.label,\n            onClick: () => navigate(item.path),\n          }))}\n        />\n      </Sider>\n      <Layout>\n        <Header style={{ padding: \"0 16px\", backgroundColor: token.colorBgElevated }}>\n          <div style={{ float: 'left', fontSize: 16, fontWeight: 'bold', color: '#007aff' }}>\n            HRIzen Frontend\n          </div>\n        </Header>\n        <Content style={{ padding: 24 }}>\n          {children}\n        </Content>\n      </Layout>\n    </Layout>\n  );\n}\n
+import React, { useState } from 'react';
+import { Layout, theme, Typography, Grid, Menu } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  DashboardOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  ScheduleOutlined,
+  PayCircleOutlined,
+  TrophyOutlined,
+  CustomerServiceOutlined,
+  RobotOutlined,
+  ApiOutlined,
+  DollarCircleOutlined,
+  CreditCardOutlined,
+  HomeOutlined,
+  UserOutlined
+} from '@ant-design/icons';
+
+const { Header, Sider, Content } = Layout;
+const { Title } = Typography;
+const { useBreakpoint } = Grid;
+
+interface MenuItem {
+  key: string;
+  label: string;
+  icon: React.ReactNode;
+  path: string;
+}
+
+const menuItems: MenuItem[] = [
+  {key: '/admin/dashboard', label: '옼페요 큰1, icon: <DashboardOutlined />, path: '/admin/dashboard'},
+  {key: '/admin/tenants', label: '���을엱엤  댰트', icon: <SettingOutlined />, path: '/admin/tenants'},
+  {key: '/admin/permissions', label: '할갽+�۰졑쿅, icon: <TeamOutlined />, path: '/admin/permissions'},
+  {key: '/attendance', label: '옼페요 큰1, icon: <ScheduleOutlined />, path: '/attendance'},
+  {key: '/payroll', label: '갑랜찰원 클�', icon: <PayCircleOutlined />, path: '/payroll'},
+  {key: '/performance', label: '전된 {�증 옡밐  섰뎰데', icon: <TrophyOutlined />, path: '/performance'},
+  {key: '/ess', label: '갑랜 나을 요 闬餀원 Portal (ESS)', icon: <CustomerServiceOutlined />, path: '/ess'},
+  {key: '/analytics/ai-dashboard', label: 'AI 베을객 요 틼穐옡밐', icon: <RobotOutlined />, path: '/analytics/ai-dashboard'},
+  {key: '/api-management', label: 'Open API 도D H이', icon: <ApiOutlined />, path: '/api-management'},
+  {key: '/subscription', label: '섰트 틼穐', icon: <DollarCircleOutlined />, path: '/subscription'},
+  {key: '/billing', label: '엤 넍. 원 �젔갽&�ﴍ,��Lr', icon: <CreditCardOutlined />, path: '/billing'},
+  {key: '/', label: '매듁닡륨', icon: <HomeOutlined />, path: '/'},
+  {key: '/my-page', label: '매주 원
+Ɂ앨evy�, icon: <UserOutlined />, path: '/my-page'},
+];
+
+export default function AppLayout({ children }: React.PropsWithChildren<{}>) {
+ r�춻���&�v���
