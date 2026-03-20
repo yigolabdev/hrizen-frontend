@@ -1,52 +1,7 @@
-import React from 'react';
-import { Card, Typography } from 'antd';
-import { Heatmap } from '@ant-design/plots';
+import React from 'react'; import { Card, Typography } from 'antd'; import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { 부서: '개발팀', 위험도: 23 },
-  { 부서: '영업팀', 위험도: 41 },
-  { 부서: '인사팀', 위험도: 12 },
-  { 부서: '재무팀', 위험도: 35 },
-  { 부서: '품질관리팀', 위험도: 8 },
-  { 부서: '고객지원팀', 위험도: 19 },
-];
+const data = [  { "읔n��": "쒅ˤ�", "劥뺽": 23 },  { "읔n��": "쏄다겠", "劥뺽": 41 },  { "읔n��": "觮는멼", "劥뺽": 12 },  { "읔n��": "돝마�R", "劥뺽": 35 },  { "읔n��": "재ꪭ늤멬", "劥뺽": 8 },  { "읔���": "������:�,��H����9b�z�H��NHKN�^ܝY�][�[��[ۈ�][�[۔�\��X]X\
 
-const config = {
-  data: data.map((d) => ({
-    x: d.부서,
-    y: '리스크',
-    value: d.위험도,
-  })),
-  xField: 'x',
-  yField: 'y',
-  colorField: 'value',
-  color: ['#e0f3ff', '#007AFF', '#003d99'],
-  height: 300,
-  legend: { position: 'top-left' },
-  tooltip: {
-    formatter: (datum: { x: string; y: string; value: number }) => ({
-      name: datum.x,
-      value: `${datum.value} % 이직 위험도`,
-    }),
-  },
-  meta: {
-    value: { range: [0, 50] },
-  },
-};
-
-export default function RetentionRiskHeatmap() {
-  return (
-    <Card
-      title="AI 기반 이직 위험도"
-      bordered={false}
-      style={{ borderRadius: 12, backgroundColor: '#FFFFFF' }}
-      headStyle={{ fontWeight: 'bold', color: '#007AFF' }}
-      aria-label="이직 위험도 히트맵"
-    >
-      <Typography.Paragraph>
-        부서별 이직 위험도를 AI가 분석하여 시각화한 결과입니다. 높은 %는 주의가 필요합니다.
-      </Typography.Paragraph>
-      <Heatmap {...config} />
-    </Card>
-  );
-}
+H��]\���\�]OH�RH;&oz�,:�,;(�z��\����ܙ\�Y^٘[�_H�[O^���ܙ\��Y]\ΈL��X��ܛ�[���܎�	�ё������_HXY�[O^���۝�ZY��	؛�	���܎�	���Q���_H\�XK[X�[H��,;(�z��\�xni��\�ܘ\K�\�Yܘ\��#�:��:��:��:�(:���&oz�,:��;!�;a,:� ;'f�'e:� ;"�:�$:��;&)	���T���+n
+;.nz��;*�;"����\�ܘ\K�\�Yܘ\�]��[O^��ZY���Y[�ΈM�_O�Ց��YH��ZY�H���[O^���X��ܛ�[���܎�	�ь������_O�^H�L�OH����۝�^�OH�L���[H����ȏ�:�:��:��;&)�&);'�{!,{"&"�^��X�H�L�OH�H��YH���ZY�H���[H��L�ٙ��ψ^H���OH����۝�^�OH�L��[H����ȏ���O�^��X�H�L��OH�H��YH���ZY�H���[H���Q���ψ^H�MH�OH����۝�^�OH�L��[H�ٙ����IO�^�^H�L�OH�̌��۝�^�OH�L���[H�͍����[�X\�X]X\��[H;&�:�.��^N����]\�I\��[YOIY_H�^��Ցψ�]����\��
+N�

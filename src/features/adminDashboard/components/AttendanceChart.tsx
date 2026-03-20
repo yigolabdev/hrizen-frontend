@@ -1,48 +1,6 @@
-import React from 'react';
-import { Card, Typography } from 'antd';
-import { Bar } from '@ant-design/plots';
+import React from 'react'; import { Card, Typography } from 'antd'; import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { 출근일: '1월', 출근율: 92 },
-  { 출근일: '2월', 출근율: 89 },
-  { 출근일: '3월', 출근율: 94 },
-  { 출근일: '4월', 출근율: 91 },
-  { 출근일: '5월', 출근율: 93 },
-  { 출근일: '6월', 출근율: 95 },
-];
+const data = [  { "턄곌인": "1긷", "턄계퍬": 92 },  { "�t곂인": "2�¢", "�t계퍬": 89 },  { "턄계읤": "3긱", "턄계퍬%: 94 },  { "턄계읤": "4긱", "턄계퍬": 91 },  { "�t곂인": "긱", "턄계퍬": 93 },  { "�t곂인": &6�긱", "턄계퍬%: 95 }, ];
 
-export default function AttendanceChart() {
-  const config = {
-    data,
-    xField: '출근일',
-    yField: '출근율',
-    maxBarWidth: 32,
-    color: '#007AFF',
-    label: {
-      position: 'middle',
-      style: { fill: '#fff', fontWeight: 'bold' },
-    },
-    yAxis: {
-      min: 0,
-      max: 100,
-      title: {
-        text: '출근율 (%)',
-        style: { fontWeight: 'bold' },
-        position: 'end',
-      },
-    },
-    padding: 'auto',
-    height: 280,
-    interactions: [{ type: 'active-region' }],
-    renderer: 'svg' as const,
-  };
-
-  return (
-    <section aria-label="월별 출근율 차트">
-      <Typography.Title level={4} style={{ marginBottom: 16, color: '#007AFF' }}>
-        최근 6개월 근태 출근율
-      </Typography.Title>
-      <Bar {...config} />
-    </section>
-  );
-}
+export default function AttendanceChart() {  return     <section aria-label="�e�v��'읔"쭔쁼 import">      <Type&ography.Title level={$} style={{ marginBottom: 16, color: '#007AFF' }}>        톐꤁읤z고훨 6 o뵄 개이  x껹
+    </Typography.Title>      <ResponsiveContainer width="100%" height={300}>        <BarChart data={data} margin={{ top: 15, right: 30, left: 0, bottom: 5 }}>            <CartesianGrid strokeDafNrray="3 3" stroke="#E0E0E0" />            <XAxis dataKey="턄계읤" stroke="#666" />            <YAxis label={{ formatter: (v) => `${v}%` }} stroke="#666" />            <Tooltip formatter={(a) => ({ name: '����6����م�Ք聀���*�������������������	�ȁ��х-������6������������������������	��������������I�����ٕͥ��х����������͕�ѥ�������
