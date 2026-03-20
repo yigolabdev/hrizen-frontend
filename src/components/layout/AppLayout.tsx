@@ -114,6 +114,7 @@ export default function AppLayout({ children }: React.PropsWithChildren<{}>) {
   const navigate = useNavigate();
   const location = useLocation();
   const screens = useBreakpoint();
+  const { token } = theme.useToken();
 
   // 반응형: md 이하일 때 자동으로 사이더 접힘
   const isMobile = !screens.md;
@@ -126,6 +127,16 @@ export default function AppLayout({ children }: React.PropsWithChildren<{}>) {
   // 현재 경로에 가장 가까운 매칭된 메뉴키
   const selectedKey = menuItems.find(item => item.path === location.pathname)?.key || '/';
 
+  const handleMenuClick = (key: string) => {
+    const item = menuItems.find(m => m.key === key);
+    if (item) {
+      navigate(item.path);
+      if (isMobile) {
+        setCollapsed(true);
+      }
+    }
+  };
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
@@ -136,40 +147,13 @@ export default function AppLayout({ children }: React.PropsWithChildren<{}>) {
         collapsedWidth={48}
         style={{
           background: '#FFFFFF',
-          borderRight: '1px solid #F2F2F7',
+          borderRight: `1px solid ${token.colorBorder}`,
         }}
-        trigger={null}
+        width={220}
       >
-        <div
-          style={{
-            height: 64,
-            margin: 16,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: collapsed ? 'center' : 'flex-start',
-            cursor: 'pointer',
-          }}
-          onClick={() => navigate('/')}
-          aria-label="홈으로 이동"
-          role="button"
-          tabIndex={0}
-          onKeyDown={e => {
-            if (e.key === 'Enter') navigate('/');
-          }}
-        >
-          <img
-            src="/logo192.png"
-            alt="HRiZen 로고"
-            style={{
-              height: 32,
-              width: 32,
-              borderRadius: 8,
-              marginRight: collapsed ? 0 : 12,
-              transition: 'margin 0.3s ease',
-            }}
-          />
+        <div style={{ padding: '16px', textAlign: 'center', borderBottom: `1px solid ${token.colorBorder}` }}>
           {!collapsed && (
-            <Title level={5} style={{ color: '#007AFF', margin: 0, userSelect: 'none' }}>
+            <Title level={3} style={{ margin: 0, color: '#007AFF' }}>
               HRiZen
             </Title>
           )}
@@ -177,49 +161,39 @@ export default function AppLayout({ children }: React.PropsWithChildren<{}>) {
         <Menu
           mode="inline"
           selectedKeys={[selectedKey]}
-          items={menuItems.map(({ key, label, icon, path }) => ({ key, label, icon }))}
-          onClick={({ key }) => {
-            const item = menuItems.find(i => i.key === key);
-            if (item && item.path !== location.pathname) {
-              navigate(item.path);
-            }
-          }}
-          style={{ flex: 1, borderRight: 'none', background: '#FFFFFF' }}
+          items={menuItems.map((item) => ({
+            key: item.key,
+            icon: item.icon,
+            label: item.label,
+            onClick: () => handleMenuClick(item.key),
+          }))}
+          style={{ border: 'none' }}
         />
       </Sider>
       <Layout>
         <Header
           style={{
+            background: token.colorBgContainer,
+            boxShadow: `0 1px 2px ${token.colorBorder}`,
             padding: '0 24px',
-            background: '#FFFFFF',
-            borderBottom: '1px solid #F2F2F7',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            height: 64,
+            borderBottom: `1px solid ${token.colorBorder}`,
           }}
         >
-          {isMobile && (
-            <div
-              onClick={() => setCollapsed(v => !v)}
-              style={{ fontSize: 20, color: '#007AFF', cursor: 'pointer' }}
-              aria-label={collapsed ? '사이드바 열기' : '사이드바 닫기'}
-              role="button"
-              tabIndex={0}
-              onKeyDown={e => {
-                if (e.key === 'Enter') setCollapsed(v => !v);
-              }}
-            >
-              {/* 햄버거 아이콘: 기본 MenuFoldOutlined과 MenuUnfoldOutlined 변경없이 사용 가능 */}
-              {collapsed ? <DashboardOutlined /> : <DashboardOutlined />}
-            </div>
-          )}
-          <Title level={4} style={{ margin: 0, color: '#007AFF', userSelect: 'none' }}>
-            HRiZen
+          <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
+            HRiZen 관리 시스템
           </Title>
-          <div />
         </Header>
-        <Content style={{ margin: 24, backgroundColor: '#FFFFFF', borderRadius: 8, minHeight: 360, padding: 24, boxShadow: '0 2px 8px rgb(0 0 0 / 0.1)' }}>
+        <Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            background: token.colorBgContainer,
+            borderRadius: token.borderRadius,
+            minHeight: 360,
+          }}
+        >
           {children}
         </Content>
       </Layout>

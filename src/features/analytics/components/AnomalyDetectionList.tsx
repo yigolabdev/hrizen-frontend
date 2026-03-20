@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { List, Typography, Badge } from "antd";
-import { ClockCircleOutlined, WarningOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined } from '@ant-design/icons';
 
 interface Anomaly {
   id: string;
@@ -59,7 +59,7 @@ export function AnomalyDetectionList() {
 
   return (
     <>
-      <Typography.Title level={4} style={{ marginBottom: 24, color: "var(--main)" }}>
+      <Typography.Title level={4} style={{ marginBottom: 24, color: "#007AFF" }}>
         이상 징후 탐지
       </Typography.Title>
       <List
