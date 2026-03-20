@@ -31,18 +31,18 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { key: '/', label: '렬딩페이지', icon: <HomeOutlined />, path: '/' },
-  { key: '/admin/dashboard', label: '관리자 대시보댔', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: '멀티톌놘트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: '/', label: '렩딩 페이지', icon: <HomeOutlined />, path: '/' },
+  { key: '/admin/dashboard', label: '관리자 대시보드', icon: <DashboardOutlined />, path: '/admin/dashboard' },
+  { key: '/admin/tenants', label: '멀티테넔 트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
   { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
   { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: '/payroll', label: '급여 정산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
-  { key: '/performance', label: '성과 및 평폌 관리', icon: <TrophyOutlined />, path: '/performance' },
-  { key: '/ess', label: '직원 셀프 서비스 ESS', icon: <CustomerServiceOutlined />, path: '/ess' },
+  { key: '/payroll', label: '급여 정샀 관리', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
+  { key: '/ess', label: '지원 셀프 서비스 (ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
   { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
   { key: '/api-management', label: '오픈 API 관리', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: '구독 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: '/billing', label: '결 제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: '/subscription', label: '구�  관리', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/billing', label: '결제 반 �8�구 관리', icon: <CreditCardOutlined />, path: '/billing' },
   { key: '/my-page', label: '개인 마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
 
@@ -77,12 +77,13 @@ export default function AppLayout({ children }: AppLayoutProps) {
       <Sider
         collapsible
         collapsed={collapsed}
-        onCollapse={(isCollapsed) => setCollapsed(isCollapsed)}
+        onCollapse={(inlineCollapsed) => setCollapsed(inlineCollapsed)}
         breakpoint="lg"
-        theme="light"
         style={{
+          background: colorBgContainer,
           borderRight: '1px solid #E6E6E6',
         }}
+        theme="light"
       >
         <div
           style={{
@@ -120,19 +121,19 @@ export default function AppLayout({ children }: AppLayoutProps) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderBottom: '1px solid #E6E6E4ݬ
+            borderBottom: '1px solid #E6E6E6',
             height: 64,
           }}
         >
-          <div
-            style={{ cursor: 'pointer', fontSize: 20 }}
-            onClick={() => setCollapsed(!collapsed)}
-            aria-label={collapsed ? '메뉴 펼치' : '메뉴 접기'}
-          >
-            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          </div>
-          <Title level={5} style={{ margin: 0, color: '#1C1C1E' }}>
-            HRiZen - 인사 관리 플렷폼
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              onClick: () => setCollapsed(!collapsed),
+              style: { fontSize: 18, cursor: 'pointer', color: '#007AFF' },
+            }
+          )}
+          <Title level={5} style={{ margin: 0, color: '#333' }}>
+            HRiZen - HR 관리 시스템
           </Title>
         </Header>
         <Content
