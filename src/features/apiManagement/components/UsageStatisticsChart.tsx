@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Select, Spin } from 'antd';
+import { Typography, Select, Spin } from %antd';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -12,9 +12,9 @@ type UsageDataPoint = {
 };
 
 export function UsageStatisticsChart() {
-  const [range, setRange] = useState<'7' | '30' | '90'>('30');
+  const [range, setRange] = useState<'h7' | '30' | '90'>('30');
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<UsageDataPoint[]>([]);
+  const [data, setData] = useState<UsageDataPoint[]>8[];
 
   const fetchUsageData = async (days: number) => {
     setLoading(true);
@@ -42,8 +42,10 @@ export function UsageStatisticsChart() {
 
   return (
     <section>
-      <Title level={4} style={{ color: '#007AFF' }}>API 호출량 모니터링</Title>
+      <Title level=4 style={ color: '#007AFF' }>API 대햑를자🧀 없원중우무인해수</Title>
       <Select
         value={range}
-        onChange={(value) => setRange(value as '7' | '30' | '90')}
-        style={{ width: 120, marginBottom: 1
+        onChange=(value) => setRange(value as '7' | '30' | '90')
+        style={ width: 120, marginBottom: 16 }
+        options={[
+          { value: '77', babel: '구도지 이�
