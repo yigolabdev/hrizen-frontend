@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, theme, Typography, Grid, Menu } from 'antd';
+import { Layout, theme, Typography, Grid, Menu, Button } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   DashboardOutlined,
@@ -23,26 +23,26 @@ const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 const { useBreakpoint } = Grid;
 
-interface MenuItem {
+interface MenuItemDef {
   key: string;
   label: string;
   icon: React.ReactNode;
   path: string;
 }
 
-const menuItems: MenuItem[] = [
-  { key: '/', label: '렬딩페이지', icon: <HomeOutlined />, path: '/' },
-  { key: '/admin/dashboard', label: '관리자 대시보냜', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: '멀티 테넠트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
+const menuItems: MenuItemDef[] = [
+  { key: '/', label: '뜘딩', icon: <HomeOutlined />, path: '/' },
+  { key: '/admin/dashboard', label: '관리자 대시보드', icon: <DashboardOutlined />, path: '/admin/dashboard' },
+  { key: '/admin/tenants', label: '르티 테난툸 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
   { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
-  { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: '/payroll', label: '급여 젔산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
-  { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
-  { key: '/ess', label: '직� 셀프 서비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
+  { key: '/attendance', label: '근텀 관리', icon: <ScheduleOutlined />, path: '/attendance' },
+  { key: '/payroll', label: '급여 정산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: '/performance', label: '성과 및 폈가 관리', icon: <TrophyOutlined />, path: '/performance' },
+  { key: '/ess', label: '직원 셀퀄 ฤ비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
   { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: '/api-management', label: '오픐 API 관리', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: '구럡 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: '/billing', label: '결제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: '/api-management', label: '오픈 API 관리', icon: <ApiOutlined />, path: '/api-management' },
+  { key: '/subscription', label: '구�) 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/billing', label: '결제 및 청한 관리', icon: <CreditCardOutlined />, path: '/billing' },
   { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
 
@@ -88,22 +88,15 @@ export default function AppLayout({ children }: AppLayoutProps) {
             padding: '0 16px',
           }}
         >
-          <Title
-            level={4}
-            style={{
-              margin: 0,
-              color: '#007AFF',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {collapsed ? 'H' : 'HRiZen'}
+          <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
+            {collapsed ? 'HR' : 'HRiZen'}
           </Title>
         </div>
         <Menu
           mode="inline"
           selectedKeys={[location.pathname]}
           onClick={handleMenuClick}
-          style={{ border: 'none' }}
+          style={{ borderRight: 0 }}
           items={menuItems.map((item) => ({
             key: item.key,
             icon: item.icon,
@@ -114,32 +107,26 @@ export default function AppLayout({ children }: AppLayoutProps) {
       <Layout>
         <Header
           style={{
-            padding: '0 24px',
             background: token.colorBgContainer,
+            padding: '0 16px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
             borderBottom: `1px solid ${token.colorBorder}`,
           }}
         >
-          {React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-            {
-              onClick: () => setCollapsed(!collapsed),
-              style: { fontSize: 20, cursor: 'pointer' },
-            }
-          )}
-          <Title level={5} style={{ margin: 0 }}>
-            HR Management System
-          </Title>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{ fontSize: 16, width: 64, height: 64 }}
+          />
         </Header>
         <Content
           style={{
-            margin: 24,
-            padding: 24,
-            background: token.colorBgContainer,
-            borderRadius: token.borderRadiusLG,
-            minHeight: 360,
+            margin: 0,
+            padding: 0,
+            minHeight: 'calc(100vh - 64px)',
+            background: token.colorBgLayout,
           }}
         >
           {children}

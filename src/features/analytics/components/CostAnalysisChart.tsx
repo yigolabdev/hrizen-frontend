@@ -12,9 +12,9 @@ import {
 } from 'recharts';
 
 interface CostDataPoint {
-  month: string; // YYYY-MM
-  personnelCost: number; // 인력 비용
-  otherCost: number; // 기타 비용
+  month: string;
+  personnelCost: number;
+  otherCost: number;
 }
 
 export function CostAnalysisChart() {
@@ -45,7 +45,7 @@ export function CostAnalysisChart() {
   return (
     <>
       <Typography.Title level={4} style={{ marginBottom: 24, color: '#007AFF' }}>
-        인력 비용 분석
+        인청 비용 분석
       </Typography.Title>
       {latestMonth && (
         <Statistic
@@ -55,7 +55,7 @@ export function CostAnalysisChart() {
           suffix="원"
           valueStyle={{ color: '#007AFF' }}
           style={{ marginBottom: 24 }}
-          formatter={(value) => value ? Number(value).toLocaleString() : '-'}
+          formatter={(value) => (value ? Number(value).toLocaleString() : '-')}
         />
       )}
       {loading ? (
@@ -75,12 +75,12 @@ export function CostAnalysisChart() {
             />
             <Tooltip
               formatter={(value: number, name: string) => [
-                `${Number(value).toLocaleString()} �`,
+                `${Number(value).toLocaleString()} 원`,
                 name === 'personnelCost' ? '인력 비용' : '기타 비용',
               ]}
             />
             <Legend />
-            <Line type="monotone" dataKey="personnelCost" stroke="#007AFF" name="인력 비용" strokeWidth={2} />
+            <Line type="monotone" dataKey="personnelCost" stroke="#007AFF" name="인청 비용" strokeWidth={2} />
             <Line type="monotone" dataKey="otherCost" stroke="#FF9500" name="기타 비용" strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>

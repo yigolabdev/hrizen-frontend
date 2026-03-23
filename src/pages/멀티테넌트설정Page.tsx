@@ -1,48 +1,45 @@
 import React from 'react';
-import { Typography, Divider, Row, Col, Card } from 'antd';
+import { Typography, Row, Col, Card, Breadcrumb } from 'antd';
+import { Link } from 'react-router-dom';
 import TenantListTable from '@/features/tenants/components/TenantListTable';
 import TenantSettingsForm from '@/features/tenants/components/TenantSettingsForm';
 import SubscriptionStatusCard from '@/features/tenants/components/SubscriptionStatusCard';
+import LanguageCurrencySelector from '@/features/tenants/components/LanguageCurrencySelector';
 
 const { Title } = Typography;
 
-export default function 멀티테넌트설정Page() {
+export default function 멀티톌(트설정Page() {
   return (
-    <div style={{ padding: 24, backgroundColor: '#F2F2F7', minHeight: '100vh' }}>
-      <Title level={2} style={{ color: '#007AFF', marginBottom: 24 }}>
-        멀티테넌트 설정
+    <div style={{ padding: 24 }}>
+      <Breadcrumb
+        items={[
+          { title: <Link to="/">홈</Link> },
+          { title: '멀티 테널트 설정' },
+        ]}
+      />
+      <Title level={2} style={{ marginTop: 16, color: '#007AFF' }}>
+        멀티 테넌트 설정
       </Title>
       <Row gutter={[24, 24]}>
-        <Col xs={24} lg={14}>
-          <Card size="large" bordered={false} style={{ borderRadius: 12, boxShadow: '0 2px 8px rgb(0 122 255 / 0.1)' }}>
+        <Col xs={24}>
+          <Card title="테널트 목록" bordered={false} style={{ borderRadius: 12, marginBottom: 24 }}>
             <TenantListTable />
           </Card>
         </Col>
-        <Col xs={24} lg={10}>
-          <Row gutter={[0, 24]}>
-            <Col span={24}>
-              <Card
-                size="large"
-                title="테넌트 구독 상태"
-                bordered={false}
-                style={{ borderRadius: 12, boxShadow: '0 2px 8px rgb(0 122 255 / 0.1)' }}
-                headStyle={{ color: '#007AFF', fontWeight: 'bold' }}
-              >
-                <SubscriptionStatusCard />
-              </Card>
-            </Col>
-            <Col span={24}>
-              <Card
-                size="large"
-                title="테넌트 설정"
-                bordered={false}
-                style={{ borderRadius: 12, boxShadow: '0 2px 8px rgb(0 122 255 / 0.1)' }}
-                headStyle={{ color: '#007AFF', fontWeight: 'bold' }}
-              >
-                <TenantSettingsForm />
-              </Card>
-            </Col>
-          </Row>
+        <Col xs={24} lg={12}>
+          <Card title="테널트 설정" bordered={false} style={{ borderRadius: 12, marginBottom: 24 }}>
+            <TenantSettingsForm />
+          </Card>
+        </Col>
+        <Col xs={24} lg={12}>
+          <Card title="구럡 상태" bordered={false} style={{ borderRadius: 12, marginBottom: 24 }}>
+            <SubscriptionStatusCard />
+          </Card>
+        </Col>
+        <Col xs={24}>
+          <Card title="言詞/통화 설정" bordered={false} style={{ borderRadius: 12 }}>
+            <LanguageCurrencySelector />
+          </Card>
         </Col>
       </Row>
     </div>

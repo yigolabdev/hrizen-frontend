@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { List, Typography, Progress, Tooltip, Space, message } from 'antd';
+import { List, Typography, Progress, Tooltip, Space } from 'antd';
 import { SyncOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
-import { apiClient } from '@/lib/api';
 
 interface PaymentStatus {
   id: string;
   invoiceNumber: string;
-  progressPercent: number; // 0~100
+  progressPercent: number;
   status: 'processing' | 'completed' | 'failed';
-  lastUpdated: string; // ISO string
+  lastUpdated: string;
 }
 
 export default function PaymentStatusTracker() {
@@ -17,7 +16,6 @@ export default function PaymentStatusTracker() {
 
   useEffect(() => {
     setLoading(true);
-    // 모의 API 호출
     setTimeout(() => {
       setStatuses([
         {
@@ -63,17 +61,31 @@ export default function PaymentStatusTracker() {
           key={item.id}
         >
           <List.Item.Meta
-            title={<Typography.Text strong>{`청구서 번호: ${item.invoiceNumber}`}</Typography.Text>}
-            description={`최종 업데이트: ${new Date(item.lastUpdated).toLocaleString('ko-KR')}`}
+            title={<Typography.Text strong>{`청핬서 번호: ${item.invoiceNumber}`}</Typography.Text>}
+            description={`최종 업데이툰: ${new Date(item.lastUpdated).toLocaleString('ko-KR')}`}
           />
           <Space size="large" align="center">
-            <Tooltip title={item.status === 'processing' ? '결제 진행 중' : item.status === 'completed' ? '결제 완료' : '결제 실패'}>
+            <Tooltip
+              title={
+                item.status === 'processing'
+                  ? '결제 진행 중'
+                  : item.status === 'completed'
+                  ? '결제 완료'
+                  : '결제 실패'
+              }
+            >
               {renderStatusIcon(item.status)}
             </Tooltip>
             <div style={{ width: 160 }}>
               <Progress
                 percent={item.progressPercent}
-                status={item.status === 'failed' ? 'exception' : item.status === 'completed' ? 'success' : 'active'}
+                status={
+                  item.status === 'failed'
+                    ? 'exception'
+                    : item.status === 'completed'
+                    ? 'success'
+                    : 'active'
+                }
                 strokeColor={
                   item.status === 'completed'
                     ? '#52c41a'
