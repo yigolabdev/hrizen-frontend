@@ -16,7 +16,7 @@ import {
   HomeOutlined,
   UserOutlined,
   MenuFoldOutlined,
-  MenuUnoldOutlined,
+  MenuUnfoldOutlined,
 } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
@@ -31,26 +31,120 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { key: '/', label: '어키을 쑉지로', con: <HomeOutlined />, path: '/' },
-  { key: '/admin/dashboard', label: '센하홤안구 추구젝����������͡���ɑ=�ѱ�����������Ѡ耜���������͡���ɐ����(��쁭��耜�������ѕ����̜�������耟��#�£�v�p���Ӫ�ò����������M��ѥ��=�ѱ�����������Ѡ耜�������ѕ����̜���(��쁭��耜���������ɵ��ͥ��̜�������耟�΃�j���z�j����������Q���=�ѱ�����������Ѡ耜���������ɵ��ͥ��̜���(��쁭��耜���ѕ��������������耟�΃�b����G�*����������M����ձ�=�ѱ�����������Ѡ耜���ѕ����������(��쁭��耜����ɽ����������耟�΃��Ѓ�V#��������������A���ɍ��=�ѱ�����������Ѡ耜����ɽ������(��쁭��耜���ə�ɵ������������耟���jò.p���6���G&����WFƖ�VB���F��r�W&f�&��6Rr�����W��r�W72r��&Vâ~ػ�8B�kB��BɈ���Br��6���7W7F��W%6W'f�6T�WFƖ�VB���F��r�W72r�����W��r��ǗF�72���F6�&�&Br��&Vât��h�K�[N�x�H�z�	�X�ێ��؛��][�Yϋ]�	��[�[]X���ZKY\���\�	�K���^N�	��\K[X[�Y�[Y[�	�X�[�	�"&;%��;%�;)�;b�:�{&)	�X�ێ�\S�][�Yϋ]�	��\K[X[�Y�[Y[�	�K���^N�	���X��ܚ\[ۉ�X�[�	���{.m:��;.f;"):�%{'o	��ێ��\��\��S�][�Yϋ]�	���X��ܚ\[ۉ�K���^N�	�ؚ[[���X�[�	�&);)$H;!';"�;e'{%a:��;'m	�X�ێ�ܙY]�\��][�Yϋ]�	�ؚ[[���K���^N�	��^K\Y�I��ێ�\�\��][�YϋX�[�	��%{'o;-�:�k;('{%�:�%{!/;('	�\�X�Y��[�K]�	��^K\Y�I�K���N����
-�����J���\^[�]���
-��[�\��X�H\^[�]����[�[���XX���XX���N�B��^ܝY�][�[��[ۈ\^[�]
-��[�[�N�\^[�]���H�ۜ����\�Y�]��\�YHH\�T�]J�[�JN�ۜ��]�Y�]HH\�S�]�Y�]J
-N�ۜ���][ۈH\�S��][ۊ
-N�ۜ��ܙY[��H\�P��XZ��[�
+  { key: '/', label: '렬딩페이지', icon: <HomeOutlined />, path: '/' },
+  { key: '/admin/dashboard', label: '관리자 대시보냜', icon: <DashboardOutlined />, path: '/admin/dashboard' },
+  { key: '/admin/tenants', label: '멀티 테넠트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
+  { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
+  { key: '/payroll', label: '급여 젔산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
+  { key: '/ess', label: '직� 셀프 서비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
+  { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
+  { key: '/api-management', label: '오픐 API 관리', icon: <ApiOutlined />, path: '/api-management' },
+  { key: '/subscription', label: '구럡 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/billing', label: '결제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
+];
 
-N�ۜ���[�����ܐ���۝Z[�\��ܙ\��Y]\��K�HH[YK�\�U��[�
-N��ۜ�[�SY[�P�X��H
-��^HN��[���HO��ۜ�][HHY[�R][\˙�[�
+interface AppLayoutProps {
+  children: React.ReactNode;
+}
 
-JHO�K��^HOOH�^JNY�
-][JH�]�Y�]J][K�]
-NB�N��ۜ�[�Y[�R][\�HY[�R][\˛X\
+export default function AppLayout({ children }: AppLayoutProps) {
+  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { token } = theme.useToken();
+  const screens = useBreakpoint();
 
-][JHO�
-�^N�][K��^K�X�ێ�][K�X�ۋ�X�[�][K�X�[�JJN��]\��
-�^[�]�[O^�Z[�ZY��	�L��O���Y\����\�X�B���\�YX��\�Y�ې��\�O^�[��[�P��\�Y
-HO��]��\�Y
-[��[�P��\�Y
-JB���XZ��[�H�Ȃ��[O^��X��ܛ�[����ܐ���۝Z[�\���ܙ\��Y��	�\��Y�M�M�M���B�[YOH�Y�����]��[O^�X\��[���۝�ZY����۝�^�N�L�O��]H]�[�����V�[�М���]O���]���Y[�B�][\�^�[�Y[�R][\�B��[X�YY�][�[X�Y�^O[��][ۋ�]�[YB�ې�X��Z[�SY[�P�X�[�OH�[��[�H���[O^���ܙ\��Y]\ԚY��	�	�B�[YOH�Y���ς�]��[O^��X\��[����N�M_O��]�����Y\���^[�]��XY\��[O^�X��ܛ�[��[��\���\���ܐ���۝Z[�\�B�O���]ۏ���[����[���؝]ۏ���XY\����۝[��[O^X\��[����X��ܛ�[��[��\���\���ܐ���۝Z[�\�K��ܙ\��Y]\���Y]\�HO���^[�]��
-NB
+  const isMobile = !screens.md;
+
+  const handleMenuClick = (e: { key: string }) => {
+    const item = menuItems.find((m) => m.key === e.key);
+    if (item) {
+      navigate(item.path);
+    }
+  };
+
+  return (
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(val) => setCollapsed(val)}
+        breakpoint="md"
+        collapsedWidth={isMobile ? 0 : 80}
+        style={{
+          background: token.colorBgContainer,
+          borderRight: `1px solid ${token.colorBorder}`,
+        }}
+      >
+        <div
+          style={{
+            height: 64,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0 16px',
+          }}
+        >
+          <Title
+            level={4}
+            style={{
+              margin: 0,
+              color: '#007AFF',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {collapsed ? 'H' : 'HRiZen'}
+          </Title>
+        </div>
+        <Menu
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          onClick={handleMenuClick}
+          style={{ border: 'none' }}
+          items={menuItems.map((item) => ({
+            key: item.key,
+            icon: item.icon,
+            label: item.label,
+          }))}
+        />
+      </Sider>
+      <Layout>
+        <Header
+          style={{
+            padding: '0 24px',
+            background: token.colorBgContainer,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderBottom: `1px solid ${token.colorBorder}`,
+          }}
+        >
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              onClick: () => setCollapsed(!collapsed),
+              style: { fontSize: 20, cursor: 'pointer' },
+            }
+          )}
+          <Title level={5} style={{ margin: 0 }}>
+            HR Management System
+          </Title>
+        </Header>
+        <Content
+          style={{
+            margin: 24,
+            padding: 24,
+            background: token.colorBgContainer,
+            borderRadius: token.borderRadiusLG,
+            minHeight: 360,
+          }}
+        >
+          {children}
+        </Content>
+      </Layout>
+    </Layout>
+  );
+}
