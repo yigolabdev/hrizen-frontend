@@ -4,12 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import koKR from 'antd/locale/ko_KR';
 import App from './App';
-import { themeConfig } from './theme/themeConfig';
-import './globals.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ConfigProvider theme={themeConfig} locale={koKR}>
+    <ConfigProvider locale={koKR}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

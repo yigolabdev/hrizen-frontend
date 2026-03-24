@@ -1,15 +1,15 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout';
 import AdminDashboardPage from '@/pages/관리자대시보드Page';
-import MultiTenantSettingsPage from '@/pages/멀티테뀠트설정Page';
+import MultiTenantSettingsPage from '@/pages/멀티테넌트설정Page';
 import PermissionsPage from '@/pages/권한관리Page';
 import AttendancePage from '@/pages/근태관리Page';
 import PayrollManagementPage from '@/pages/급여정산관리Page';
 import PerformancePage from '@/pages/성과및평가관리Page';
-import ESSPage from '@/pages/직원셀프서비스포�DF5SPage';
+import ESSPage from '@/pages/직원셀프서비스포털ESSPage';
 import AIAnalyticsPage from '@/pages/AI분석대시보드Page';
-import OpenAPIPage from '@/pages/오퍒API관리Page';
-import SubscriptionPage from '@/pages/구럠관리Page';
+import OpenAPIPage from '@/pages/오픈API관리Page';
+import SubscriptionPage from '@/pages/구독관리Page';
 import BillingPage from '@/pages/결제및청구관리Page';
 import LandingPage from '@/pages/랜딩페이지Page';
 import MyPage from '@/pages/개인마이페이지Page';
@@ -18,6 +18,7 @@ export default function App() {
   return (
     <AppLayout>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/tenants" element={<MultiTenantSettingsPage />} />
         <Route path="/admin/permissions" element={<PermissionsPage />} />
@@ -29,9 +30,8 @@ export default function App() {
         <Route path="/api-management" element={<OpenAPIPage />} />
         <Route path="/subscription" element={<SubscriptionPage />} />
         <Route path="/billing" element={<BillingPage />} />
-        <Route path="/" element={<LandingPage />} />
         <Route path="/my-page" element={<MyPage />} />
-        <Route path="*" element={<div style={{ padding: 24 }}>페이지를 찾을 수 없습니다.</div>}} />
+        <Route path="*" element={<div style={{ padding: 24, color: '#999' }}>페이지를 찾을 수 없습니다.</div>} />
       </Routes>
     </AppLayout>
   );

@@ -1,341 +1,169 @@
-import React, { useState } from 'react';
-import {
-  Card,
-  Form,
-  Input,
-  Button,
-  Upload,
-  Avatar,
-  Row,
-  Col,
-  Select,
-  DatePicker,
-  message,
-  Space,
-  Typography,
-  Divider,
-} from 'antd';
-import {
-  UserOutlined,
-  UploadOutlined,
-  CameraOutlined,
-  MailOutlined,
-  PhoneOutlined,
-  BankOutlined,
-  IdcardOutlined,
-} from '@ant-design/icons';
-import type { UploadFile } from 'antd/es/upload/interface';
-import dayjs from 'dayjs';
+import React, { useCallback } from 'react';
+import { Form, Input, Button, Avatar, Upload, message, Row, Col } from 'antd';
+import { RcFile, UploadFile } from 'antd/es/upload';
+import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 
-const { Text } = Typography;
-
-interface ProfileFormValues {
+interface UserProfile {
+  id: string;
   name: string;
   email: string;
-  phone: string;
-  department: string;
-  position: string;
-  employeeId: string;
-  birthDate: dayjs.Dayjs | null;
-  address: string;
-  bio: string;
+  phone?: string;
+  department?: string;
+  position?: string;
+  avatarUrl?: string;
 }
 
-const initialValues: ProfileFormValues = {
-  name: '김민수',
-  email: 'minsu.kim@hrizen.com',
-  phone: '010-1234-5678',
-  department: 'engineering',
-  position: '시니어 개발자',
-  employeeId: 'EMP-2024-001',
-  birthDate: dayjs('1990-05-15'),
-  address: '서울특별시 강남구 테헤란로 123',
-  bio: 'HRiZen 플랫폼 프론트엔드 개발을 담당하고 있습니다.',
+interface ProfileEditorProps {
+  profile: UserProfile;
+  onUpdate: (profile: UserProfile) => void;
+}
+
+const normFile = (e: any) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
 };
 
-export default function ProfileEditor() {
-  const [form] = Form.useForm<ProfileFormValues>();
-  const [loading, setLoading] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
+export default function ProfileEditor({ profile, onUpdate }: ProfileEditorProps) {
+  const [form] = Form.useForm();
 
-  const handleSave = async () => {
-    try {
-      await form.validateFields();
-      setLoading(true);
-      // 실제 API 호출 시뮬레이션
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      message.success('프로필이 성공적으로 업데이트되었습니다.');
-      setIsEditing(false);
-    } catch {
-      message.error('입력 정보를 확인해주세요.');
-    } finally {
-      setLoading(false);
+  React.useEffect(() => {
+    form.setFieldsValue({
+      name: profile.name,
+      email: profile.email,
+      phone: profile.phone,
+      department: profile.department,
+      position: profile.position,
+      avatarUrl: profile.avatarUrl,
+    });
+  }, [profile, form]);
+
+  const handleFinish = (values: any) => {
+    // 이미지 업로드와 함께 프로필 변경
+    const updatedProfile: UserProfile = {
+      ...profile,
+      name: values.name,
+      phone: values.phone,
+      department: values.department,
+      position: values.position,
+      avatarUrl: values.avatarUrl || profile.avatarUrl,
+    };
+    onUpdate(updatedProfile);
+    message.success('프로필이 성공적으로 업데이트되었습니다.');
+  };
+
+  // 이미지 업로드 검증
+  const beforeUpload = useCallback((file: RcFile) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('JPEG/PNG 이미지 파일만 업로드할 수 있습니다.');
+      return Upload.LIST_IGNORE;
     }
-  };
-
-  const handleCancel = () => {
-    form.resetFields();
-    setIsEditing(false);
-  };
-
-  const handleAvatarChange = (info: { file: UploadFile }) => {
-    if (info.file.status === 'done' || info.file.originFileObj) {
-      const url = info.file.originFileObj
-        ? URL.createObjectURL(info.file.originFileObj)
-        : undefined;
-      if (url) {
-        setAvatarUrl(url);
-        message.success('프로필 사진이 변경되었습니다.');
-      }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('이미지 크기는 2MB 미만이어야 합니다.');
+      return Upload.LIST_IGNORE;
     }
-  };
+    return true;
+  }, []);
 
   return (
-    <Card
-      bordered={false}
-      style={{ borderRadius: 12, backgroundColor: '#FFFFFF' }}
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={handleFinish}
+      style={{ maxWidth: 480 }}
+      initialValues={{
+        name: profile.name,
+        email: profile.email,
+        phone: profile.phone,
+        department: profile.department,
+        position: profile.position,
+      }}
     >
-      <Row gutter={[32, 24]}>
-        {/* 아바타 섹션 */}
-        <Col xs={24} sm={24} md={8} lg={6}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              padding: '24px 0',
-            }}
-          >
-            <div style={{ position: 'relative', marginBottom: 16 }}>
+      <Form.Item label="아바타">
+        <Form.Item noStyle shouldUpdate>
+          {() => {
+            const url = form.getFieldValue('avatarUrl') || profile.avatarUrl;
+            return (
               <Avatar
-                size={120}
-                src={avatarUrl}
-                icon={!avatarUrl ? <UserOutlined /> : undefined}
-                style={{
-                  backgroundColor: avatarUrl ? undefined : '#007AFF',
-                  fontSize: 48,
-                }}
+                size={96}
+                src={url}
+                icon={!url && <UserOutlined />}
+                style={{ borderRadius: 48, marginBottom: 12, backgroundColor: '#F2F2F7' }}
               />
-              {isEditing && (
-                <Upload
-                  showUploadList={false}
-                  beforeUpload={() => false}
-                  onChange={handleAvatarChange}
-                  accept="image/*"
-                >
-                  <Button
-                    type="primary"
-                    shape="circle"
-                    icon={<CameraOutlined />}
-                    size="small"
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      right: 0,
-                      backgroundColor: '#007AFF',
-                      borderColor: '#007AFF',
-                    }}
-                  />
-                </Upload>
-              )}
-            </div>
-            <Text strong style={{ fontSize: 18 }}>
-              {initialValues.name}
-            </Text>
-            <Text type="secondary" style={{ marginTop: 4 }}>
-              {initialValues.position}
-            </Text>
-            <Text
-              type="secondary"
-              style={{ fontSize: 12, marginTop: 2, color: '#007AFF' }}
-            >
-              {initialValues.employeeId}
-            </Text>
-          </div>
-        </Col>
-
-        {/* 폼 섹션 */}
-        <Col xs={24} sm={24} md={16} lg={18}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: 24,
+            );
+          }}
+        </Form.Item>
+        <Form.Item
+          name="avatarUpload"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          noStyle
+        >
+          <Upload
+            name="avatar"
+            listType="picture"
+            maxCount={1}
+            beforeUpload={beforeUpload}
+            onRemove={() => {
+              form.setFieldsValue({ avatarUrl: undefined });
+            }}
+            customRequest={({ onSuccess, file }) => {
+              // Mock 업로드 처리 - 실제 업로드 API 호출해야 함
+              setTimeout(() => {
+                const url = URL.createObjectURL(file as RcFile);
+                form.setFieldsValue({ avatarUrl: url });
+                if (onSuccess) onSuccess('ok');
+              }, 1000);
             }}
           >
-            <Text strong style={{ fontSize: 16 }}>
-              기본 정보
-            </Text>
-            {!isEditing ? (
-              <Button
-                type="primary"
-                onClick={() => setIsEditing(true)}
-                style={{
-                  backgroundColor: '#007AFF',
-                  borderColor: '#007AFF',
-                  borderRadius: 8,
-                }}
-              >
-                편집
-              </Button>
-            ) : (
-              <Space>
-                <Button onClick={handleCancel} style={{ borderRadius: 8 }}>
-                  취소
-                </Button>
-                <Button
-                  type="primary"
-                  loading={loading}
-                  onClick={handleSave}
-                  style={{
-                    backgroundColor: '#007AFF',
-                    borderColor: '#007AFF',
-                    borderRadius: 8,
-                  }}
-                >
-                  저장
-                </Button>
-              </Space>
-            )}
-          </div>
+            <Button icon={<UploadOutlined />} type="link">
+              이미지 업로드
+            </Button>
+          </Upload>
+        </Form.Item>
+      </Form.Item>
 
-          <Form
-            form={form}
-            layout="vertical"
-            initialValues={{
-              ...initialValues,
-              birthDate: initialValues.birthDate,
-            }}
-            disabled={!isEditing}
-          >
-            <Row gutter={16}>
-              <Col xs={24} sm={12}>
-                <Form.Item
-                  label="이름"
-                  name="name"
-                  rules={[{ required: true, message: '이름을 입력해주세요.' }]}
-                >
-                  <Input
-                    prefix={<UserOutlined style={{ color: '#007AFF' }} />}
-                    placeholder="이름"
-                    style={{ borderRadius: 8 }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12}>
-                <Form.Item
-                  label="사번"
-                  name="employeeId"
-                >
-                  <Input
-                    prefix={<IdcardOutlined style={{ color: '#007AFF' }} />}
-                    disabled
-                    style={{ borderRadius: 8 }}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+      <Form.Item
+        name="name"
+        label="이름"
+        rules={[{ required: true, message: '이름을 입력해주세요.' }]}
+      >
+        <Input placeholder="이름" />
+      </Form.Item>
 
-            <Row gutter={16}>
-              <Col xs={24} sm={12}>
-                <Form.Item
-                  label="이메일"
-                  name="email"
-                  rules={[
-                    { required: true, message: '이메일을 입력해주세요.' },
-                    { type: 'email', message: '유효한 이메일을 입력해주세요.' },
-                  ]}
-                >
-                  <Input
-                    prefix={<MailOutlined style={{ color: '#007AFF' }} />}
-                    placeholder="이메일"
-                    style={{ borderRadius: 8 }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12}>
-                <Form.Item
-                  label="연락처"
-                  name="phone"
-                  rules={[
-                    { required: true, message: '연락처를 입력해주세요.' },
-                  ]}
-                >
-                  <Input
-                    prefix={<PhoneOutlined style={{ color: '#007AFF' }} />}
-                    placeholder="010-0000-0000"
-                    style={{ borderRadius: 8 }}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+      <Form.Item label="이메일" name="email">
+        <Input disabled readOnly />
+      </Form.Item>
 
-            <Row gutter={16}>
-              <Col xs={24} sm={12}>
-                <Form.Item label="부서" name="department">
-                  <Select
-                    placeholder="부서 선택"
-                    style={{ borderRadius: 8 }}
-                    suffixIcon={
-                      <BankOutlined style={{ color: '#007AFF' }} />
-                    }
-                    options={[
-                      { value: 'engineering', label: '개발팀' },
-                      { value: 'design', label: '디자인팀' },
-                      { value: 'hr', label: '인사팀' },
-                      { value: 'marketing', label: '마케팅팀' },
-                      { value: 'sales', label: '영업팀' },
-                      { value: 'finance', label: '재무팀' },
-                    ]}
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12}>
-                <Form.Item label="직책" name="position">
-                  <Input
-                    placeholder="직책"
-                    style={{ borderRadius: 8 }}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+      <Form.Item
+        name="phone"
+        label="휴대폰 번호"
+        rules={[
+          {
+            pattern: /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/,
+            message: '유효한 휴대폰 번호를 입력해주세요.',
+          },
+        ]}
+      >
+        <Input placeholder="예: 010-1234-5678" maxLength={13} />
+      </Form.Item>
 
-            <Row gutter={16}>
-              <Col xs={24} sm={12}>
-                <Form.Item label="생년월일" name="birthDate">
-                  <DatePicker
-                    style={{ width: '100%', borderRadius: 8 }}
-                    placeholder="생년월일 선택"
-                    format="YYYY-MM-DD"
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12}>
-                <Form.Item label="주소" name="address">
-                  <Input
-                    placeholder="주소"
-                    style={{ borderRadius: 8 }}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+      <Form.Item name="department" label="부서">
+        <Input placeholder="부서명" />
+      </Form.Item>
 
-            <Divider />
+      <Form.Item name="position" label="직책">
+        <Input placeholder="직책" />
+      </Form.Item>
 
-            <Form.Item label="자기소개" name="bio">
-              <Input.TextArea
-                rows={3}
-                placeholder="간단한 자기소개를 입력해주세요."
-                showCount
-                maxLength={200}
-                style={{ borderRadius: 8 }}
-              />
-            </Form.Item>
-          </Form>
-        </Col>
-      </Row>
-    </Card>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" style={{ backgroundColor: '#007AFF', borderColor: '#007AFF' }}>
+          저장
+        </Button>
+      </Form.Item>
+    </Form>
   );
 }
