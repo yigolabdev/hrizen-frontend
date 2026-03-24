@@ -1,54 +1,45 @@
 import React from 'react';
-import { Typography, Row, Col, Card, Breadcrumb } from 'antd';
-import { HomeOutlined, RobotOutlined } from '@ant-design/icons';
-import { AnomalyDetectionList } from '@/features/analytics/components/AnomalyDetectionList';
-import { CostAnalysisChart } from '@/features/analytics/components/CostAnalysisChart';
-import { TurnoverRiskGraph } from '@/features/analytics/components/TurnoverRiskGraph';
-import { UsageAnalyticsPanel } from '@/features/analytics/components/UsageAnalyticsPanel';
-import styles from './AI\ubd84\uc11d\ub300\uc2dc\ubcf4\ub4dcPage.module.css';
+import { Typography, Row, Col, Grid } from 'antd';
+import CostAnalysisChart from '@/features/aiAnalytics/components/CostAnalysisChart';
+import TurnoverRiskGraph from '@/features/aiAnalytics/components/TurnoverRiskGraph';
+import AnomalyDetectionList from '@/features/aiAnalytics/components/AnomalyDetectionList';
+import UsageAnalyticsPanel from '@/features/aiAnalytics/components/UsageAnalyticsPanel';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
+const { useBreakpoint } = Grid;
 
-export default function AI분석팀시보드Page() {
+export default function AIAnalyticsPage() {
+  const screens = useBreakpoint();
+
   return (
-    <div className={styles.container}>
-      <Breadcrumb
-        items={[
-          { title: <><HomeOutlined /><span>분석</span></> },
-          { title: <><RobotOutlined /><span>AI 분석 대시보드</span></> },
-        ]}
-        style={{ marginBottom: 16 }}
-      />
-      <div style={{ marginBottom: 24 }}>
-        <Title level={2} style={{ margin: 0, color: '#007AFF' }}>
-          <RobotOutlined style={{ marginRight: 8 }} />
+    <div style={{ padding: screens.md ? 32 : 16 }}>
+      <div style={{ marginBottom: 32 }}>
+        <Title
+          level={3}
+          style={{ margin: 0, color: '#1A1A1A', fontWeight: 700 }}
+        >
           AI 분석 대시보드
         </Title>
-        <Typography.Paragraph type="secondary" style={{ marginBottom: 0 }}>
-          AI기반 분석 결과와 이상 징후 탐지, 비용 분석, 이직 위험도 분석 결과를 한눈에 보여드림니다.
-        </Typography.Paragraph>
+        <Text style={{ color: '#8E8E93', fontSize: 14, marginTop: 4, display: 'block' }}>
+          인력 비용, 이직 위험도, 근태 이상 징후 등 AI 기반 분석 결과를 한눈에 확인하세요.
+        </Text>
       </div>
 
       <Row gutter={[24, 24]}>
-        <Col xs={24} lg={12}>
-          <Card bordered={false} style={{ borderRadius: 12, minHeight: 360 }}>
-            <AnomalyDetectionList />
-          </Card>
+        <Col xs={24} xl={12}>
+          <CostAnalysisChart />
         </Col>
-        <Col xs={24} lg={12}>
-          <Card bordered={false} style={{ borderRadius: 12, minHeight: 360 }}>
-            <CostAnalysisChart />
-          </Card>
+        <Col xs={24} xl={12}>
+          <TurnoverRiskGraph />
         </Col>
-        <Col xs={24} lg={12}>
-          <Card bordered={false} style={{ borderRadius: 12, minHeight: 360 }}>
-            <TurnoverRiskGraph />
-          </Card>
+      </Row>
+
+      <Row gutter={[24, 24]} style={{ marginTop: 24 }}>
+        <Col xs={24} lg={14}>
+          <AnomalyDetectionList />
         </Col>
-        <Col xs={24} lg={12}>
-          <Card bordered={false} style={{ borderRadius: 12, minHeight: 360 }}>
-            <UsageAnalyticsPanel />
-          </Card>
+        <Col xs={24} lg={10}>
+          <UsageAnalyticsPanel />
         </Col>
       </Row>
     </div>

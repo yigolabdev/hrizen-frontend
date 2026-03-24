@@ -1,48 +1,42 @@
 import React from 'react';
-import { Card, Typography, Divider, Row, Col } from 'antd';
-import { APIKeyGenerator } from '@/features/apiManagement/components/APIKeyGenerator';
-import { UsageStatisticsChart } from '@/features/apiManagement/components/UsageStatisticsChart';
-import { IntegrationSettingsForm } from '@/features/apiManagement/components/IntegrationSettingsForm';
+import { Typography, Row, Col, Space } from 'antd';
+import APIKeyGenerator from '@/features/openAPI/components/APIKeyGenerator';
+import UsageStatisticsChart from '@/features/openAPI/components/UsageStatisticsChart';
+import IntegrationSettingsForm from '@/features/openAPI/components/IntegrationSettingsForm';
 
-const { Title, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
-export default function 오픈API관리Page() {
+export default function OpenAPIPage() {
   return (
-    <main style={{ backgroundColor: '#F2F2F7', minHeight: '100vh', padding: 24 }}>
-      <Typography style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <Title level={2} style={{ color: '#007AFF', marginBottom: 8 }}>오픈 API 관리</Title>
-        <Paragraph style={{ marginBottom: 24, maxWidth: 600, fontSize: 16, color: '#333' }}>
-          ERP, 그룹웨어, 재무 시스템 등 외부 시스템과 연동을 위한 API 키 발급, 호출량 모니터링 및 사용 설정을 관리합니다.
-        </Paragraph>
-        <Divider />
-      </Typography>
+    <div style={{ padding: '0 4px' }}>
+      <Space direction="vertical" size={8} style={{ marginBottom: 28 }}>
+        <Title
+          level={2}
+          style={{
+            margin: 0,
+            fontWeight: 700,
+            color: '#1A1A1A',
+            letterSpacing: -0.5,
+          }}
+        >
+          오픈 API 관리
+        </Title>
+        <Text style={{ color: '#8E8E93', fontSize: 15 }}>
+          외부 시스템 연동을 위한 API 키 발급, 호출량 모니터링 및 통합 설정을 관리합니다.
+        </Text>
+      </Space>
 
-      <Row gutter={[24, 24]} justify="center" style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <Col xs={24} lg={16}>
-          <Card
-            bordered={false}
-            style={{ borderRadius: 12, backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
-          >
+      <Row gutter={[24, 24]}>
+        <Col xs={24} lg={14}>
+          <Space direction="vertical" size={24} style={{ width: '100%' }}>
             <APIKeyGenerator />
-          </Card>
-        </Col>
-        <Col xs={24} lg={8}>
-          <Card
-            bordered={false}
-            style={{ borderRadius: 12, backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', height: '100%' }}
-          >
             <UsageStatisticsChart />
-          </Card>
+          </Space>
         </Col>
-        <Col xs={24}>
-          <Card
-            bordered={false}
-            style={{ borderRadius: 12, backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
-          >
-            <IntegrationSettingsForm />
-          </Card>
+        <Col xs={24} lg={10}>
+          <IntegrationSettingsForm />
         </Col>
       </Row>
-    </main>
+    </div>
   );
 }

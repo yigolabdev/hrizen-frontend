@@ -1,103 +1,231 @@
-import React, { useEffect, useState } from 'react';
-import { List, Typography, Progress, Tooltip, Space } from 'antd';
-import { SyncOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
+import React from 'react';
+import { Card, Row, Col, Statistic, Progress, Space, Typography, Tag, Steps } from 'antd';
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  ExclamationCircleOutlined,
+  DollarOutlined,
+  CreditCardOutlined,
+  CalendarOutlined,
+  WarningOutlined,
+} from '@ant-design/icons';
 
-interface PaymentStatus {
-  id: string;
-  invoiceNumber: string;
-  progressPercent: number;
-  status: 'processing' | 'completed' | 'failed';
-  lastUpdated: string;
+interface BillingSummary {
+  totalPaid: number;
+  pendingAmount: number;
+  overdueAmount: number;
+  nextBillingDate: string;
+  currentPlanName: string;
+  billingCycle: string;
+  paymentSuccessRate: number;
+}
+
+const summaryData: BillingSummary = {
+  totalPaid: 4140000,
+  pendingAmount: 1080000,
+  overdueAmount: 1170000,
+  nextBillingDate: '2025-05-01',
+  currentPlanName: 'HRiZen Pro',
+  billingCycle: '월간',
+  paymentSuccessRate: 75,
+};
+
+const formatCurrency = (value: number): string =>
+  new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(value);
+
+interface StatCardProps {
+  title: string;
+  value: string;
+  icon: React.ReactNode;
+  iconBg: string;
+  iconColor: string;
+  extra?: React.ReactNode;
+}
+
+function StatCard({ title, value, icon, iconBg, iconColor, extra }: StatCardProps) {
+  return (
+    <Card
+      bordered={false}
+      style={{
+        borderRadius: 12,
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+        height: '100%',
+      }}
+      bodyStyle={{ padding: '20px 24px' }}
+    >
+      <Space size={16} align="start">
+        <div
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: 12,
+            backgroundColor: iconBg,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
+        >
+          {React.cloneElement(icon as React.ReactElement, {
+            style: { fontSize: 22, color: iconColor },
+          })}
+        </div>
+        <div>
+          <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+            {title}
+          </Typography.Text>
+          <div>
+            <Typography.Text strong style={{ fontSize: 20 }}>
+              {value}
+            </Typography.Text>
+          </div>
+          {extra && <div style={{ marginTop: 4 }}>{extra}</div>}
+        </div>
+      </Space>
+    </Card>
+  );
 }
 
 export default function PaymentStatusTracker() {
-  const [statuses, setStatuses] = useState<PaymentStatus[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setStatuses([
-        {
-          id: 'status_001',
-          invoiceNumber: '202306-0001',
-          progressPercent: 100,
-          status: 'completed',
-          lastUpdated: new Date().toISOString(),
-        },
-        {
-          id: 'status_002',
-          invoiceNumber: '202307-0002',
-          progressPercent: 60,
-          status: 'processing',
-          lastUpdated: new Date().toISOString(),
-        },
-        {
-          id: 'status_003',
-          invoiceNumber: '202308-0003',
-          progressPercent: 100,
-          status: 'failed',
-          lastUpdated: new Date().toISOString(),
-        },
-      ]);
-      setLoading(false);
-    }, 1000);
-  }, []);
-
-  const renderStatusIcon = (status: PaymentStatus['status']) => {
-    if (status === 'completed') return <CheckCircleTwoTone twoToneColor="#52c41a" />;
-    if (status === 'failed') return <CloseCircleTwoTone twoToneColor="#f5222d" />;
-    return <SyncOutlined spin style={{ color: '#007AFF' }} />;
-  };
-
   return (
-    <List
-      loading={loading}
-      dataSource={statuses}
-      locale={{ emptyText: '결제 상태 내역이 없습니다.' }}
-      renderItem={(item) => (
-        <List.Item
-          style={{ padding: '12px 16px', borderRadius: 8, backgroundColor: '#FAFAFA', marginBottom: 12 }}
-          key={item.id}
-        >
-          <List.Item.Meta
-            title={<Typography.Text strong>{`청粬서 번호: ${item.invoiceNumber}`}</Typography.Text>}
-            description={`최종 업데이트: ${new Date(item.lastUpdated).toLocaleString('ko-KR')}`}
+    <Space direction="vertical" size={24} style={{ width: '100%' }}>
+      <Row gutter={[16, 16]}>
+        <Col xs={24} sm={12} lg={6}>
+          <StatCard
+            title="총 결제 금액"
+            value={formatCurrency(summaryData.totalPaid)}
+            icon={<DollarOutlined />}
+            iconBg="#E8F5E9"
+            iconColor="#52c41a"
+            extra={
+              <Tag color="green" style={{ borderRadius: 6, fontSize: 11 }}>
+                <CheckCircleOutlined /> 정상
+              </Tag>
+            }
           />
-          <Space size="large" align="center">
-            <Tooltip
-              title={
-                item.status === 'processing'
-                  ? '결제 진행 중'
-                  : item.status === 'completed'
-                  ? '결제 완료'
-                  : '결제 실패'
-              }
-            >
-              {renderStatusIcon(item.status)}
-            </Tooltip>
-            <div style={{ width: 160 }}>
-              <Progress
-                percent={item.progressPercent}
-                status={
-                  item.status === 'failed'
-                    ? 'exception'
-                    : item.status === 'completed'
-                    ? 'success'
-                    : 'active'
-                }
-                strokeColor={
-                  item.status === 'completed'
-                    ? '#52c41a'
-                    : item.status === 'failed'
-                    ? '#f5222d'
-                    : '#007AFF'
-                }
-              />
+        </Col>
+        <Col xs={24} sm={12} lg={6}>
+          <StatCard
+            title="결제 대기"
+            value={formatCurrency(summaryData.pendingAmount)}
+            icon={<ClockCircleOutlined />}
+            iconBg="#EBF5FF"
+            iconColor="#007AFF"
+            extra={
+              <Tag color="blue" style={{ borderRadius: 6, fontSize: 11 }}>
+                <ClockCircleOutlined /> 대기중
+              </Tag>
+            }
+          />
+        </Col>
+        <Col xs={24} sm={12} lg={6}>
+          <StatCard
+            title="연체 금액"
+            value={formatCurrency(summaryData.overdueAmount)}
+            icon={<ExclamationCircleOutlined />}
+            iconBg="#FFF2F0"
+            iconColor="#ff4d4f"
+            extra={
+              <Tag color="red" style={{ borderRadius: 6, fontSize: 11 }}>
+                <WarningOutlined /> 연체
+              </Tag>
+            }
+          />
+        </Col>
+        <Col xs={24} sm={12} lg={6}>
+          <StatCard
+            title="다음 결제일"
+            value="2025.05.01"
+            icon={<CalendarOutlined />}
+            iconBg="#FFF7E6"
+            iconColor="#FF9500"
+            extra={
+              <Space size={4}>
+                <Tag style={{ borderRadius: 6, fontSize: 11 }}>
+                  {summaryData.currentPlanName}
+                </Tag>
+                <Tag style={{ borderRadius: 6, fontSize: 11 }}>
+                  {summaryData.billingCycle}
+                </Tag>
+              </Space>
+            }
+          />
+        </Col>
+      </Row>
+
+      <Card
+        bordered={false}
+        style={{ borderRadius: 12, backgroundColor: '#FFFFFF' }}
+        bodyStyle={{ padding: '20px 24px' }}
+      >
+        <Row gutter={[32, 16]} align="middle">
+          <Col xs={24} md={8}>
+            <div style={{ textAlign: 'center' }}>
+              <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+                결제 성공률
+              </Typography.Text>
+              <div style={{ marginTop: 8 }}>
+                <Progress
+                  type="dashboard"
+                  percent={summaryData.paymentSuccessRate}
+                  size={120}
+                  strokeColor={{
+                    '0%': '#007AFF',
+                    '100%': '#52c41a',
+                  }}
+                  format={(percent) => (
+                    <span style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a' }}>
+                      {percent}%
+                    </span>
+                  )}
+                />
+              </div>
             </div>
-          </Space>
-        </List.Item>
-      )}
-    />
+          </Col>
+          <Col xs={24} md={16}>
+            <Typography.Text strong style={{ fontSize: 15, display: 'block', marginBottom: 16 }}>
+              최근 결제 흐름
+            </Typography.Text>
+            <Steps
+              current={3}
+              size="small"
+              items={[
+                {
+                  title: '1월',
+                  description: '결제완료',
+                  status: 'finish',
+                  icon: <CheckCircleOutlined style={{ color: '#52c41a' }} />,
+                },
+                {
+                  title: '2월',
+                  description: '결제완료',
+                  status: 'finish',
+                  icon: <CheckCircleOutlined style={{ color: '#52c41a' }} />,
+                },
+                {
+                  title: '3월',
+                  description: '결제완료',
+                  status: 'finish',
+                  icon: <CheckCircleOutlined style={{ color: '#52c41a' }} />,
+                },
+                {
+                  title: '4월',
+                  description: '대기중',
+                  status: 'process',
+                  icon: <ClockCircleOutlined style={{ color: '#007AFF' }} />,
+                },
+                {
+                  title: '5월',
+                  description: '연체',
+                  status: 'error',
+                  icon: <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />,
+                },
+              ]}
+            />
+          </Col>
+        </Row>
+      </Card>
+    </Space>
   );
 }

@@ -1,53 +1,42 @@
 import React from 'react';
-import { Typography, Card, Row, Col, Breadcrumb } from 'antd';
-import { Link } from 'react-router-dom';
-import InvoiceList from '@/features/billing/components/InvoiceList';
+import { Typography, Row, Col, Space } from 'antd';
 import PaymentMethodForm from '@/features/billing/components/PaymentMethodForm';
+import InvoiceList from '@/features/billing/components/InvoiceList';
 import PaymentStatusTracker from '@/features/billing/components/PaymentStatusTracker';
 
 const { Title } = Typography;
 
-export default function 결제밌청杭瀱리Page() {
+export default function BillingPage() {
   return (
-    <div style={{ padding: 24 }}>
-      <Breadcrumb
-        items={[
-          { title: <Link to="/">핈</Link> },
-          { title: '결제 및 청굠 관리' },
-        ]}
-      />
-      <Title level={2} style={{ marginTop: 16, color: '#007AFF' }}>
-        결제 및 청한 관리
-      </Title>
-      <Row gutter={[24, 24]}>
-        <Col xs={24} lg={24}>
-          <Card
-            title="청구서 목록"
-            bordered={false}
-            style={{ borderRadius: 12, marginBottom: 24 }}
+    <div style={{ padding: '0 0 40px 0' }}>
+      <Space direction="vertical" size={32} style={{ width: '100%' }}>
+        <div>
+          <Title
+            level={2}
+            style={{
+              margin: 0,
+              fontWeight: 700,
+              color: '#1a1a1a',
+            }}
           >
-            <InvoiceList />
-          </Card>
-        </Col>
-        <Col xs={24} lg={12}>
-          <Card
-            title="결제 수단 관리"
-            bordered={false}
-            style={{ borderRadius: 12, marginBottom: 24 }}
-          >
+            결제 및 청구 관리
+          </Title>
+          <Typography.Text type="secondary" style={{ fontSize: 15 }}>
+            결제 수단 등록, 청구서 조회 및 결제 상태를 한눈에 관리하세요.
+          </Typography.Text>
+        </div>
+
+        <PaymentStatusTracker />
+
+        <Row gutter={[24, 24]}>
+          <Col xs={24} lg={10}>
             <PaymentMethodForm />
-          </Card>
-        </Col>
-        <Col xs={24} lg={12}>
-          <Card
-            title="결제 상태 추적"
-            bordered={false}
-            style={{ borderRadius: 12, marginBottom: 24 }}
-          >
-            <PaymentStatusTracker />
-          </Card>
-        </Col>
-      </Row>
+          </Col>
+          <Col xs={24} lg={14}>
+            <InvoiceList />
+          </Col>
+        </Row>
+      </Space>
     </div>
   );
 }

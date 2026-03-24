@@ -1,184 +1,281 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Select, Space, message, Card, Table, Popconfirm, Typography } from 'antd';
-import { CreditCardOutlined, DeleteOutlined } from '@ant-design/icons';
-
-const { Title } = Typography;
+import {
+  Card,
+  Form,
+  Input,
+  Select,
+  Button,
+  Space,
+  Tag,
+  List,
+  Modal,
+  Typography,
+  Divider,
+  message,
+  Popconfirm,
+  Empty,
+} from 'antd';
+import {
+  CreditCardOutlined,
+  BankOutlined,
+  PlusOutlined,
+  DeleteOutlined,
+  CheckCircleFilled,
+  StarFilled,
+} from '@ant-design/icons';
 
 interface PaymentMethod {
   id: string;
-  cardNumberMasked: string;
-  cardHolder: string;
-  expiryMonth: string;
-  expiryYear: string;
-  cardType: string;
+  type: 'card' | 'bank';
+  label: string;
+  lastFour: string;
+  expiry?: string;
+  isDefault: boolean;
 }
 
-const cardTypeOptions = [
-  { label: '신용카드', value: 'credit' },
-  { label: '직불카드', value: 'debit' },
-  { label: '계좌이체', value: 'bank_transfer' },
+const initialMethods: PaymentMethod[] = [
+  {
+    id: '1',
+    type: 'card',
+    label: '삼성카드',
+    lastFour: '4242',
+    expiry: '12/27',
+    isDefault: true,
+  },
+  {
+    id: '2',
+    type: 'bank',
+    label: '국민은행',
+    lastFour: '7890',
+    isDefault: false,
+  },
 ];
 
-const cardTypeMap: Record<string, string> = {
-  credit: '신용카드',
-  debit: '직맄카드',
-  bank_transfer: '계좌이체',
-};
-
 export default function PaymentMethodForm() {
+  const [methods, setMethods] = useState<PaymentMethod[]>(initialMethods);
+  const [modalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const [methods, setMethods] = useState<PaymentMethod[]>([
-    {
-      id: 'pm_1',
-      cardNumberMasked: '**** **** **** 1234',
-      cardHolder: '홍길동',
-      expiryMonth: '12',
-      expiryYear: '2025',
-      cardType: 'credit',
-    },
-  ]);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleAdd = async (values: {
-    cardNumber: string;
-    cardHolder: string;
-    expiryMonth: string;
-    expiryYear: string;
-    cardType: string;
-  }) => {
-    setLoading(true);
-    try {
-      await new Promise((res) => setTimeout(res, 1000));
-      const maskedNumber = '**** **** **** ' + values.cardNumber.slice(-4);
-      setMethods((prev) => [
-        ...prev,
-        {
-          id: `pm_${Date.now()}`,
-          cardNumberMasked: maskedNumber,
-          cardHolder: values.cardHolder,
-          expiryMonth: values.expiryMonth,
-          expiryYear: values.expiryYear,
-          cardType: values.cardType,
-        },
-      ]);
-      message.success('결제 수단이 등록되었습니다.');
-      form.resetFields();
-    } catch {
-      message.error('결제 수단 등롞에 실패했습니다.');
-    } finally {
-      setLoading(false);
-    }
+  const handleAdd = () => {
+    form.validateFields().then((values) => {
+      setSubmitting(true);
+      setTimeout(() => {
+        const newMethod: PaymentMethod = {
+          id: Date.now().toString(),
+          type: values.type,
+          label: values.label,
+          lastFour: values.number.slice(-4),
+          expiry: values.type === 'card' ? values.expiry : undefined,
+          isDefault: methods.length === 0,
+        };
+        setMethods((prev) => [...prev, newMethod]);
+        setSubmitting(false);
+        setModalOpen(false);
+        form.resetFields();
+        message.success('결제 수단이 등록되었습니다.');
+      }, 800);
+    });
   };
 
-  const handleRemove = (id: string) => {
-    setMethods((prev) => prev.filter((m) => m.id !== id));
+  const handleDelete = (id: string) => {
+    const target = methods.find((m) => m.id === id);
+    const remaining = methods.filter((m) => m.id !== id);
+    if (target?.isDefault && remaining.length > 0) {
+      remaining[0].isDefault = true;
+    }
+    setMethods(remaining);
     message.success('결제 수단이 삭제되었습니다.');
   };
 
-  const columns = [
-    {
-      title: '카드 소유자',
-      dataIndex: 'cardHolder' as const,
-      key: 'cardHolder',
-    },
-    {
-      title: '카드 번호',
-      dataIndex: 'cardNumberMasked' as const,
-      key: 'cardNumberMasked',
-    },
-    {
-      title: '카드 유형',
-      dataIndex: 'cardType' as const,
-      key: 'cardType',
-      render: (cardType: string) => cardTypeMap[cardType] || cardType,
-    },
-    {
-      title: '유효기간',
-      dataIndex: 'expiryMonth' as const,
-      key: 'expiry',
-      render: (_: string, record: PaymentMethod) => `${record.expiryMonth}/${record.expiryYear}`,
-    },
-    {
-      title: '작위',
-      key: 'action',
-      render: (_: unknown, record: PaymentMethod) => (
-        <Popconfirm
-          title="삭제 확인"
-          description="이 결제 수단을 삭제하시겠습니까?"
-          onConfirm={() => handleRemove(record.id)}
-          okText="삭제"
-          cancelText="취소"
-        >
-          <Button type="text" danger icon={<DeleteOutlined />} />
-        </Popconfirm>
-      ),
-    },
-  ];
+  const handleSetDefault = (id: string) => {
+    setMethods((prev) =>
+      prev.map((m) => ({ ...m, isDefault: m.id === id }))
+    );
+    message.success('기본 결제 수단이 변경되었습니다.');
+  };
 
   return (
-    <div>
-      <Title level={4} style={{ color: '#007AFF' }}>결제 수단 관리</Title>
-      <Card style={{ marginBottom: 24, borderRadius: 12 }}>
-        <Table
-          columns={columns}
-          dataSource={methods}
-          rowKey="id"
-          pagination={false}
-          bordered
-        />
+    <>
+      <Card
+        title="결제 수단 관리"
+        bordered={false}
+        style={{ borderRadius: 12, backgroundColor: '#FFFFFF', height: '100%' }}
+        headStyle={{ fontWeight: 'bold', color: '#007AFF' }}
+        extra={
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => setModalOpen(true)}
+            style={{ backgroundColor: '#007AFF', borderColor: '#007AFF', borderRadius: 8 }}
+          >
+            추가
+          </Button>
+        }
+      >
+        {methods.length === 0 ? (
+          <Empty description="등록된 결제 수단이 없습니다." />
+        ) : (
+          <List
+            dataSource={methods}
+            renderItem={(item) => (
+              <List.Item
+                style={{
+                  padding: '16px 0',
+                  borderBottom: '1px solid #F2F2F7',
+                }}
+                actions={[
+                  !item.isDefault && (
+                    <Button
+                      key="default"
+                      size="small"
+                      type="text"
+                      style={{ color: '#007AFF', fontSize: 13 }}
+                      onClick={() => handleSetDefault(item.id)}
+                    >
+                      기본으로 설정
+                    </Button>
+                  ),
+                  <Popconfirm
+                    key="delete"
+                    title="이 결제 수단을 삭제하시겠습니까?"
+                    onConfirm={() => handleDelete(item.id)}
+                    okText="삭제"
+                    cancelText="취소"
+                    okButtonProps={{ danger: true }}
+                  >
+                    <Button
+                      size="small"
+                      type="text"
+                      danger
+                      icon={<DeleteOutlined />}
+                    />
+                  </Popconfirm>,
+                ].filter(Boolean)}
+              >
+                <List.Item.Meta
+                  avatar={
+                    <div
+                      style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 10,
+                        background: item.type === 'card' ? '#EBF5FF' : '#FFF7E6',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {item.type === 'card' ? (
+                        <CreditCardOutlined style={{ fontSize: 20, color: '#007AFF' }} />
+                      ) : (
+                        <BankOutlined style={{ fontSize: 20, color: '#FF9500' }} />
+                      )}
+                    </div>
+                  }
+                  title={
+                    <Space size={8}>
+                      <Typography.Text strong style={{ fontSize: 15 }}>
+                        {item.label}
+                      </Typography.Text>
+                      {item.isDefault && (
+                        <Tag
+                          icon={<StarFilled />}
+                          color="#007AFF"
+                          style={{ borderRadius: 6, fontSize: 11 }}
+                        >
+                          기본
+                        </Tag>
+                      )}
+                    </Space>
+                  }
+                  description={
+                    <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+                      •••• {item.lastFour}
+                      {item.expiry ? ` · 유효기간 ${item.expiry}` : ''}
+                    </Typography.Text>
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        )}
       </Card>
-      <Card title="새 결제 수단 등록" style={{ borderRadius: 12 }}>
-        <Form form={form} layout="vertical" onFinish={handleAdd}>
+
+      <Modal
+        title="결제 수단 등록"
+        open={modalOpen}
+        onCancel={() => {
+          setModalOpen(false);
+          form.resetFields();
+        }}
+        onOk={handleAdd}
+        confirmLoading={submitting}
+        okText="등록"
+        cancelText="취소"
+        okButtonProps={{
+          style: { backgroundColor: '#007AFF', borderColor: '#007AFF', borderRadius: 8 },
+        }}
+        cancelButtonProps={{ style: { borderRadius: 8 } }}
+        styles={{ body: { paddingTop: 16 } }}
+      >
+        <Form form={form} layout="vertical" initialValues={{ type: 'card' }}>
           <Form.Item
-            label="겸제 유형"
-            name="cardType"
-            rules={[{ required: true, message: '결제 유형을 선택해주세요.' }]}
+            name="type"
+            label="결제 유형"
+            rules={[{ required: true, message: '결제 유형을 선택하세요.' }]}
           >
-            <Select options={cardTypeOptions} placeholder="겸제 유형 선택" />
+            <Select
+              options={[
+                { value: 'card', label: '신용/체크카드' },
+                { value: 'bank', label: '계좌이체' },
+              ]}
+              style={{ borderRadius: 8 }}
+            />
           </Form.Item>
           <Form.Item
-            label="카드 소유자"
-            name="cardHolder"
-            rules={[{ required: true, message: '카드 소유자를 입력해주세요.' }]}
+            name="label"
+            label="카드사/은행명"
+            rules={[{ required: true, message: '카드사 또는 은행명을 입력하세요.' }]}
           >
-            <Input placeholder="강쁕 홍길동" />
+            <Input placeholder="예: 삼성카드, 국민은행" style={{ borderRadius: 8 }} />
           </Form.Item>
           <Form.Item
-            label="계좌 / 카드 번호"
-            name="cardNumber"
-            rules={[{ required: true, message: '계좌 또는 카드 번호를 입력해주세요.' }]}
+            name="number"
+            label="카드번호/계좌번호"
+            rules={[
+              { required: true, message: '번호를 입력하세요.' },
+              { min: 4, message: '최소 4자리를 입력하세요.' },
+            ]}
           >
-            <Input placeholder="1234567890123456" />
+            <Input placeholder="번호 입력" maxLength={20} style={{ borderRadius: 8 }} />
           </Form.Item>
-          <Space>
-            <Form.Item
-              label="만료 월"
-              name="expiryMonth"
-              rules={[{ required: true, message: '만렌 월!' }]}
-            >
-              <Input placeholder="12" />
-            </Form.Item>
-            <Form.Item
-              label="만렌 년"
-              name="expiryYear"
-              rules={[{ required: true, message: '만료 년!' }]}
-            >
-              <Input placeholder="2025" />
-            </Form.Item>
-          </Space>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-              icon={<CreditCardOutlined />}
-              style={{ borderRadius: 8, backgroundColor: '#007AFF', borderColor: '#007AFF' }}
-            >
-              결제 수단 등록
-            </Button>
+          <Form.Item
+            noStyle
+            shouldUpdate={(prevValues, currentValues) =>
+              prevValues.type !== currentValues.type
+            }
+          >
+            {({ getFieldValue }) =>
+              getFieldValue('type') === 'card' ? (
+                <Form.Item
+                  name="expiry"
+                  label="유효기간"
+                  rules={[
+                    { required: true, message: '유효기간을 입력하세요.' },
+                    {
+                      pattern: /^(0[1-9]|1[0-2])\/\d{2}$/,
+                      message: 'MM/YY 형식으로 입력하세요.',
+                    },
+                  ]}
+                >
+                  <Input placeholder="MM/YY" maxLength={5} style={{ borderRadius: 8 }} />
+                </Form.Item>
+              ) : null
+            }
           </Form.Item>
         </Form>
-      </Card>
-    </div>
+      </Modal>
+    </>
   );
 }
