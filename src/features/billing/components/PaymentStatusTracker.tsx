@@ -61,8 +61,8 @@ export default function PaymentStatusTracker() {
           key={item.id}
         >
           <List.Item.Meta
-            title={<Typography.Text strong>{`청핬서 번호: ${item.invoiceNumber}`}</Typography.Text>}
-            description={`최종 업데이툰: ${new Date(item.lastUpdated).toLocaleString('ko-KR')}`}
+            title={<Typography.Text strong>{`청粬서 번호: ${item.invoiceNumber}`}</Typography.Text>}
+            description={`최종 업데이트: ${new Date(item.lastUpdated).toLocaleString('ko-KR')}`}
           />
           <Space size="large" align="center">
             <Tooltip

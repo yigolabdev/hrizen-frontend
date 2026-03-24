@@ -33,16 +33,16 @@ interface MenuItemDef {
 const menuItems: MenuItemDef[] = [
   { key: '/', label: '뜘딩', icon: <HomeOutlined />, path: '/' },
   { key: '/admin/dashboard', label: '관리자 대시보드', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: '르티 테난툸 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: '/admin/tenants', label: '메티 테난툸 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
   { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
-  { key: '/attendance', label: '근텀 관리', icon: <ScheduleOutlined />, path: '/attendance' },
+  { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
   { key: '/payroll', label: '급여 정산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
-  { key: '/performance', label: '성과 및 폈가 관리', icon: <TrophyOutlined />, path: '/performance' },
-  { key: '/ess', label: '직원 셀퀄 ฤ비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
+  { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
+  { key: '/ess', label: '직원 셀텊 -비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
   { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: '/api-management', label: '오픈 API 관리', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: '구�) 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: '/billing', label: '결제 및 청한 관리', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: '/api-management', label: '오플 API 관리', icon: <ApiOutlined />, path: '/api-management' },
+  { key: '/subscription', label: '구똰 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/billing', label: '결제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
   { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
 
@@ -88,9 +88,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
             padding: '0 16px',
           }}
         >
-          <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
-            {collapsed ? 'HR' : 'HRiZen'}
-          </Title>
+          {!collapsed && (
+            <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
+              HRiZen
+            </Title>
+          )}
         </div>
         <Menu
           mode="inline"
@@ -120,13 +122,17 @@ export default function AppLayout({ children }: AppLayoutProps) {
             onClick={() => setCollapsed(!collapsed)}
             style={{ fontSize: 16, width: 64, height: 64 }}
           />
+          <Title level={4} style={{ margin: 0, marginLeft: 8 }}>
+            HRiZen
+          </Title>
         </Header>
         <Content
           style={{
-            margin: 0,
-            padding: 0,
-            minHeight: 'calc(100vh - 64px)',
-            background: token.colorBgLayout,
+            margin: 24,
+            padding: 24,
+            minHeight: 280,
+            background: token.colorBgContainer,
+            borderRadius: token.borderRadiusLG,
           }}
         >
           {children}

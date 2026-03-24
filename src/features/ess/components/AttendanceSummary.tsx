@@ -5,7 +5,7 @@ const { Title, Text } = Typography;
 
 type AttendanceStatus = {
   date: string;
-  status: '출근' | '지각' | '결근' | '외출' | '조퀴';
+  status: '출근' | '지각' | '결근' | '외출' | '조푌';
   checkIn?: string;
   checkOut?: string;
 };
@@ -25,7 +25,6 @@ export default function AttendanceSummary() {
 
   useEffect(() => {
     setLoading(true);
-    // Mock api
     setTimeout(() => {
       const mockData: AttendanceSummaryData = {
         month: '2024-06',
@@ -36,7 +35,7 @@ export default function AttendanceSummary() {
         attendanceStatuses: [
           { date: '2024-06-01', status: '출근', checkIn: '08:55', checkOut: '18:05' },
           { date: '2024-06-02', status: '출근', checkIn: '09:10', checkOut: '18:00' },
-          { date: '2024-06-03', status: '조턴', checkIn: '08:50', checkOut: '16:00' },
+          { date: '2024-06-03', status: '조퇀', checkIn: '08:50', checkOut: '16:00' },
           { date: '2024-06-04', status: '결근' },
         ],
       };
@@ -51,7 +50,7 @@ export default function AttendanceSummary() {
 
   return (
     <Card
-      title={<Title level={4} style={{ margin: 0, color: '#007AFF' }}>근텀 현핍  {data.month})</Title>}
+      title={<Title level={4} style={{ margin: 0, color: '#007AFF' }}>稿態 現況 ({data.month})</Title>}
       bordered={false}
       style={{ borderRadius: 12 }}
     >
@@ -63,10 +62,10 @@ export default function AttendanceSummary() {
           <Statistic title="출근일" value={data.daysAttended} valueStyle={{ color: '#007AFF' }} />
         </Col>
         <Col xs={12} sm={6}>
-          <Statistic title="지각일" value={data.daysLate} valueStyle={{ color: '#FF9500' }} />
+          <Statistic title="지겉篼" value={data.daysLate} valueStyle={{ color: '#FF9500' }} />
         </Col>
         <Col xs={12} sm={6}>
-          <Statistic title="겱淼일" value={data.daysAbsent} valueStyle={{ color: '#FF3B30' }} />
+          <Statistic title="결근일" value={data.daysAbsent} valueStyle={{ color: '#FF3B30' }} />
         </Col>
       </Row>
       <div style={{ marginTop: 24, maxHeight: 200, overflowY: 'auto' }}>
@@ -81,9 +80,9 @@ export default function AttendanceSummary() {
             <Text
               style={{
                 color:
-                  status === '결ʷ�'
+                  status === '결근'
                     ? '#FF3B30'
-                    : status === '지각'
+                    : status === '지걨'
                     ? '#FF9500'
                     : '#007AFF',
               }}

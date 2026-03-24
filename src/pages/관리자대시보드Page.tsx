@@ -1,6 +1,5 @@
 import React from 'react';
-import { Typography, Row, Col, Breadcrumb } from 'antd';
-import { Link } from 'react-router-dom';
+import { Typography, Row, Col, Card } from 'antd';
 import SummaryStatsCard from '@/features/adminDashboard/components/SummaryStatsCard';
 import AttendanceChart from '@/features/adminDashboard/components/AttendanceChart';
 import PayrollOverview from '@/features/adminDashboard/components/PayrollOverview';
@@ -9,18 +8,10 @@ import RetentionRiskHeatmap from '@/features/adminDashboard/components/Retention
 
 const { Title } = Typography;
 
-export default function 관리자대시보드Page() {
+export default function AdminDashboardPage() {
   return (
     <div style={{ padding: 24 }}>
-      <Breadcrumb
-        items={[
-          { title: <Link to="/">홈</Link> },
-          { title: '관리자 대시보드' },
-        ]}
-      />
-      <Title level={2} style={{ marginTop: 16, color: '#007AFF' }}>
-        관리자 대시보드
-      </Title>
+      <Title level={2} style={{ color: '#007AFF' }}>관리자 대시보드</Title>
       <Row gutter={[24, 24]}>
         <Col xs={24} lg={12}>
           <SummaryStatsCard />
