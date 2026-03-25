@@ -48,10 +48,10 @@ const menuItems: MenuItemDef[] = [
 ];
 
 export default function AppLayout() {
+  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const screens = useBreakpoint();
-  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -61,20 +61,14 @@ export default function AppLayout() {
       <Sider
         collapsible
         collapsed={collapsed}
-        onCollapse={setCollapsed}
+        onCollapse={(val) => setCollapsed(val)}
         breakpoint="lg"
-        style={{ background: colorBgContainer }}
-        trigger={null}
+        style={{
+          background: colorBgContainer,
+          borderRight: '1px solid #f0f0f0',
+        }}
       >
-        <div
-          style={{
-            height: 64,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0 16px',
-          }}
-        >
+        <div style={{ padding: '16px', textAlign: 'center' }}>
           <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
             {collapsed ? 'HR' : 'HR Platform'}
           </Title>
@@ -88,7 +82,7 @@ export default function AppLayout() {
             label: item.label,
             onClick: () => navigate(item.path),
           }))}
-          style={{ borderInlineEnd: 'none' }}
+          style={{ borderRight: 'none' }}
         />
       </Sider>
       <Layout>
@@ -98,23 +92,23 @@ export default function AppLayout() {
             background: colorBgContainer,
             display: 'flex',
             alignItems: 'center',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+            borderBottom: '1px solid #f0f0f0',
           }}
         >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: 16 }}
+            style={{ fontSize: 16, width: 48, height: 48 }}
           />
         </Header>
         <Content
           style={{
-            margin: 24,
-            padding: 24,
-            background: '#f5f5f5',
-            minHeight: 280,
+            margin: '24px',
+            padding: '24px',
+            background: '#f5f5f7',
             borderRadius: 12,
+            minHeight: 280,
           }}
         >
           <Outlet />

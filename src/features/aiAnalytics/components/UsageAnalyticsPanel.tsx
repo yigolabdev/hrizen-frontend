@@ -17,7 +17,7 @@ import {
   Tooltip,
 } from 'recharts';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 interface ModelUsage {
   name: string;
@@ -40,11 +40,11 @@ interface InsightItem {
 }
 
 const aiInsights: InsightItem[] = [
-  { id: '1', text: '개발팀 이직위험이 전월 대비 12% 즞가했습니다. 1:1 면담을 권입합니다.', type: 'warning' },
-  { id: '2', text: '전사 근태 준수율이 93%로 목표(90%)을 달성했습니다.', type: 'positive' },
-  { id: '3', text: '영업팀 시간외 수당이 예산 대비 23% 초과할 것으로 예측됩니다.', type: 'warning' },
-  { id: '4', text: '신읅 직원 온보듩 완료율이 95%로 양호합니다.', type: 'positive' },
-  { id: '5', text: '다음 분기 인즜비 총밌은 약 5.3억으로 예측됩니다.', type: 'neutral' },
+  { id: '1', text: '개발팀 이직위험이 전월 대비 12% 증가했습니다. 1팑 면츴을 권장�]�니다.', type: 'warning' },
+  { id: '2', text: '전사 근태 준수유이 93%로 목표(90%)를 달성했습니다.', type: 'positive' },
+  { id: '3', text: '영업팀 시간왈 수당이 예쀐 대비 23% 초과할 것으로 예측됩니다.', type: 'warning' },
+  { id: '4', text: '신입 직원 온보딩 완료율이 95%로 양호입니다.', type: 'positive' },
+  { id: '5', text: '다음 분기 인건비 찝액은 약 5.6앵으로 예측됩니다.', type: 'neutral' },
 ];
 
 const insightTypeConfig: Record<string, { color: string; tagColor: string }> = {
@@ -62,75 +62,82 @@ export default function UsageAnalyticsPanel() {
       style={{ borderRadius: 12, backgroundColor: '#FFFFFF', height: '100%' }}
       title={
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontWeight: 700, color: '#007AFF', fontSize: 18 }}>
-            <RobotOutlined />
-          </span>
-          <span style={{ fontWeight: 700 }}>AI 용 분석</span>
+          <RobotOutlined style={{ color: '#007AFF', fontSize: 18 }} />
+          <span style={{ fontWeight: 700 }}>AI 분석 현황</span>
         </div>
       }
     >
-      <Row gutter={[16, 16]}>
-        <Col xs={12} sm={6}>
+      <Row gutter={16} style={{ marginBottom: 24 }}>
+        <Col span={6}>
           <Statistic
-            title="총 예측수"
-            value={totalPredictions}
-            suffix="회"
-            prefix={<ThunderboltOutlined />}
-            valueStyle={{ color: '#007AFF' }}
+            title="� 예측회수"
+            value={totalPredictions.toLocaleString()}
+            prefix={<ThunderboltOutlined style={{ color: '#FF9500' }} />}
           />
         </Col>
-        <Col xs={12} sm={6}>
-          <Statistic
-            title="정확도"
-            value={92.5}
-            suffix="%"
-            prefix={<SafetyCertificateOutlined />}
-            valueStyle={{ color: '#34C759' }}
-          />
+        <Col span={6}>
+          <Statistic title="정확도" value="92.3%" prefix={<SafetyCertificateOutlined style={{ color: '#34C759' }} />} />
+        </Col>
+        <Col span={6}>
+          <Statistic title="활용 모덶𰟞�" value="5" />
+        </Col>
+        <Col span={6}>
+          <Statistic title="이상 탐지" value="12" prefix={<EyeOutlined style={{ color: '#FF3B30' }} />} />
         </Col>
       </Row>
 
-      <Divider />
+      <Divider style={{ margin: '16px 0' }} />
 
-      <Text strong style={{ marginBottom: 8 }}>모눦 사용량</Text>
-      <div style={{ height: 200 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={modelUsageData}
-              cx="50%"
-              cy="50%"
-              innerRadius={45}
-              outerRadius={70}
-              paddingAngle={2}
-              dataKey="value"
-            >
-              {modelUsageData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-
-      <Divider />
-
-      <Text strong style={{ marginBottom: 8 }}>AI 인사이트</Text>
-      <List
-        size="small"
-        dataSource={aiInsights}
-        renderItem={(item) => (
-          <List.Item key={item.id}>
-            <Space>
-              <Tag color={insightTypeConfig[item.type].tagColor}>
-                {item.type === 'positive' ? '긍정' : item.type === 'warning' ? '주의' : '정보'}
-              </Tag>
-              <Text style={{ fontSize: 13 }}>{item.text}</Text>
-            </Space>
-          </List.Item>
-        )}
-      />
+      <Row gutter={24}>
+        <Col xs={24} md={12}>
+          <div style={{ textAlign: 'center' }}>
+            <Text strong style={{ marginBottom: 8, display: 'block' }}>모델별 사용믎</Text>
+            <div style={{ width: '100%', height: 200 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={modelUsageData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={75}
+                    dataKey="value"
+                    label={({ name, percent }: { name: string; percent: number }) =>
+                      `${name} ${ (percent * 100).toFixed(0)}%`
+                    }
+                  >
+                    {modelUsageData.map((entry, index) => (
+                      <Cell key={index} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </Col>
+        <Col xs={24} md={12}>
+          <Text strong style={{ marginBottom: 8, display: 'block' }}>AI 인사이트</Text>
+          <List
+            size="small"
+            dataSource={aiInsights}
+            renderItem={(item) => (
+              <List.Item key={item.id} style={{ padding: '8px 0' }}>
+                <Space>
+                  <div
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: '50%',
+                      backgroundColor: insightTypeConfig[item.type].color,
+                    }}
+                  />
+                  <Text style={{ fontSize: 13 }}>{item.text}</Text>
+                </Space>
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
     </Card>
   );
 }

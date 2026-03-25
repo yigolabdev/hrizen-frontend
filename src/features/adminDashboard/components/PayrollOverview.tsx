@@ -3,8 +3,6 @@ import { Card, Typography, Space, Progress, Divider } from 'antd';
 import { DollarCircleOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
-const { Text } = Typography;
-
 interface PayrollItem {
   name: string;
   value: number;
@@ -14,7 +12,7 @@ interface PayrollItem {
 const payrollData: PayrollItem[] = [
   { name: '기본급', value: 3200, color: '#007AFF' },
   { name: '수당', value: 680, color: '#34C759' },
-  { name: '상여금', value: 520, color: '#FF9500' },
+  { name: '삁여금', value: 520, color: '#FF9500' },
   { name: '공제', value: 420, color: '#FF3B30' },
 ];
 
@@ -60,7 +58,7 @@ export default function PayrollOverview() {
       aria-label="급여 개요"
     >
       <div style={{ marginBottom: 20 }}>
-        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>파헬 개애</span>
+        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>급여 개요</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -72,12 +70,12 @@ export default function PayrollOverview() {
                 cx="50%"
                 cy="50%"
                 innerRadius={55}
-                outerRadius={80}
+                outerRadius={85}
                 paddingAngle={2}
                 dataKey="value"
               >
                 {payrollData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                  <Cell key={index} fill={entry.color} />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
@@ -95,7 +93,7 @@ export default function PayrollOverview() {
             <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a' }}>
               {totalPayroll.toLocaleString()}
             </div>
-            <div style={{ fontSize: 12, color: '#8E8E93' }}>만원</div>
+            <div style={{ fontSize: 12, color: '#8E8E93' }}>��원</div>
           </div>
         </div>
 
@@ -103,28 +101,12 @@ export default function PayrollOverview() {
 
         <Space direction="vertical" size={8} style={{ width: '100%' }}>
           {payrollData.map((item) => (
-            <div
-              key={item.name}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
+            <div key={item.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Space>
-                <div
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: '50%',
-                    backgroundColor: item.color,
-                  }}
-                />
-                <Text style={{ fontSize: 13 }}>{item.name}</Text>
+                <div style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: item.color }} />
+                <span style={{ fontSize: 13, color: '#666' }}>{item.name}</span>
               </Space>
-              <Text strong style={{ fontSize: 13 }}>
-                {item.value.toLocaleString()}파월
-              </Text>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>{item.value.toLocaleString()}원</span>
             </div>
           ))}
         </Space>

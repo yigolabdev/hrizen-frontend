@@ -9,8 +9,6 @@ import {
   ArrowDownOutlined,
 } from '@ant-design/icons';
 
-const { Text } = Typography;
-
 interface StatItem {
   key: string;
   title: string;
@@ -49,7 +47,7 @@ const stats: StatItem[] = [
   },
   {
     key: 'payroll',
-    title: '이번 달 급여촃액',
+    title: '이번 달 급여 총액',
     value: 4820000000,
     icon: <PayCircleOutlined />,
     color: '#FF9500',
@@ -72,10 +70,10 @@ const stats: StatItem[] = [
 
 function formatKRW(value: number): string {
   if (value >= 100000000) {
-    return `${(value / 100000000).toFixed(1)}억�`;
+    return `${(value / 100000000).toFixed(1)}억원`;
   }
   if (value >= 10000) {
-    return `${(value / 10000).toFixed(0)}만�`;
+    return `${(value / 10000).toFixed(0)}마원`;
   }
   return value.toLocaleString();
 }
@@ -95,12 +93,12 @@ export default function SummaryStatsCard() {
             }}
             bodyStyle={{ padding: '20px' }}
           >
-            <Space direction="vertical" size={12} style={{ width: '100%' }}>
+            <Space direction="vertical" size={8} style={{ width: '100%' }}>
               <div
                 style={{
                   width: 40,
                   height: 40,
-                  borderRadius: 12,
+                  borderRadius: 10,
                   backgroundColor: stat.bgColor,
                   display: 'flex',
                   alignItems: 'center',
@@ -111,27 +109,18 @@ export default function SummaryStatsCard() {
               >
                 {stat.icon}
               </div>
-              <div>
-                <Text type="secondary" style={{ fontSize: 12 }}>{stat.title}</Text>
-                <div style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a' }}>
-                  {stat.key === 'payroll' ? formatKRW(stat.value) : stat.value}
-                  {stat.suffix && <span style={{ fontSize: 14, marginLeft: 2 }}>{stat.suffix}</span>}
-                </div>
+              <div style={{ fontSize: 13, color: '#8E8E93' }}>{stat.title}</div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: '#1a1a1a' }}>
+                {stat.key === 'payroll' ? formatKRW(stat.value) : stat.value}
+                {stat.suffix && <span style={{ fontSize: 14, fontWeight: 400 }}>{stat.suffix}</span>}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <div style={{ fontSize: 12 }}>
                 {stat.trend === 'up' ? (
-                  <ArrowUpOutlined style={{ color: '#34C759', fontSize: 12 }} />
+                  <span style={{ color: '#34C759' }}><ArrowUpOutlined /> {stat.trendValue}</span>
                 ) : (
-                  <ArrowDownOutlined style={{ color: '#FF3B30', fontSize: 12 }} />
+                  <span style={{ color: '#FF3B30' }}><ArrowDownOutlined /> {stat.trendValue}</span>
                 )}
-                <Text
-                  style={{
-                    fontSize: 11,
-                    color: stat.trend === 'up' ? '#34C759' : '#FF3B30',
-                  }}
-                >
-                  {stat.trendValue} 전월 대비
-                </Text>
+                <span style={{ color: '#8E8E93', marginLeft: 4 }}>전월 대비</span>
               </div>
             </Space>
           </Card>
