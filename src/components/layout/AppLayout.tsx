@@ -32,76 +32,56 @@ interface MenuItemDef {
 }
 
 const menuItems: MenuItemDef[] = [
-  { key: '/', label: '렬딩', icon: <HomeOutlined />, path: '/' },
+  { key: '/', label: '랜딩', icon: <HomeOutlined />, path: '/' },
   { key: '/admin/dashboard', label: '관리자 대시보드', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: '멀티 테남트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: '/admin/tenants', label: '멀티 테넌트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
   { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
   { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: '/payroll', label: '급여 정킰 관리', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: '/payroll', label: '급여 정산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
   { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
-  { key: '/ess', label: '직� 셀프 서비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
+  { key: '/ess', label: '직원 셀프 서비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
   { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: '/api-management', label: '오픐 API 관리', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: '구럡 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: '/billing', label: '결제 및 청굠 관리', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: '/api-management', label: '오픈 API 관리', icon: <ApiOutlined />, path: '/api-management' },
+  { key: '/subscription', label: '구독 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/billing', label: '결제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
   { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
 
-interface AppLayoutProps {
-  children: React.ReactNode;
-}
-
-export default function AppLayout({ children }: AppLayoutProps) {
-  const { sidebarCollapsed, toggleSidebar, setSidebarCollapsed } = useAppStore();
+export default function AppLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { token } = theme.useToken();
   const screens = useBreakpoint();
+  const [collapsed, setCollapsed] = useState(false);
 
-  const isMobile = !screens.md;
-
-  const handleMenuClick = (e: { key: string }) => {
-    const item = menuItems.find((m) => m.key === e.key);
-    if (item) {
-      navigate(item.path);
-    }
+  const handleMenuClick = (path: string) => {
+    navigate(path);
   };
+
+  const selectedKey = menuItems.find(item => item.path === location.pathname)?.key || '/';
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
-        collapsible
-        collapsed={sidebarCollapsed}
-        onCollapse={(val) => setSidebarCollapsed(val)}
-        breakpoint="md"
-        collapsedWidth={isMobile ? 0 : 80}
-        style={{
-          background: token.colorBgContainer,
-          borderRight: `1px solid ${token.colorBorder}`,
+        breakpoint="lg"
+        collapsedWidth={0}
+        onBreakpoint={(broken) => {
+          setCollapsed(broken);
         }}
+        collapsed={collapsed}
+        theme="light"
       >
-        <div
-          style={{
-            height: 64,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderBottom: `1px solid ${token.colorBorder}`,
-          }}
-        >
-          <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
-            {sidebarCollapsed ? 'H' : 'HRiZen'}
-          </Title>
+        <div style={{ padding: '16px', textAlign: 'center' }}>
+          <Title level={3}>HRM</Title>
         </div>
         <Menu
           mode="inline"
-          selectedKeys={[location.pathname]}
-          onClick={handleMenuClick}
-          style={{ borderRight: 'none' }}
+          selectedKeys={[selectedKey]}
           items={menuItems.map((item) => ({
             key: item.key,
             icon: item.icon,
             label: item.label,
+            onClick: () => handleMenuClick(item.path),
           }))}
         />
       </Sider>
@@ -109,26 +89,23 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <Header
           style={{
             background: token.colorBgContainer,
-            padding: '0 16px',
             display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            borderBottom: `1px solid ${token.colorBorder}`,
+            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
           }}
         >
           <Button
             type="text"
-            icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={toggleSidebar}
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
           />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <span>사용자</span>
+          </div>
         </Header>
-        <Content
-          style={{
-            padding: 24,
-            minHeight: 280,
-            background: token.colorBgLayout,
-          }}
-        >
-          {children}
+        <Content style={{ margin: '16px' }}>
+          {/* Outlet will be rendered here */}
         </Content>
       </Layout>
     </Layout>
