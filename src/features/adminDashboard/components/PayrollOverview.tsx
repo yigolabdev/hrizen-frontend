@@ -3,6 +3,8 @@ import { Card, Typography, Space, Progress, Divider } from 'antd';
 import { DollarCircleOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
+const { Text } = Typography;
+
 interface PayrollItem {
   name: string;
   value: number;
@@ -12,7 +14,7 @@ interface PayrollItem {
 const payrollData: PayrollItem[] = [
   { name: '기본급', value: 3200, color: '#007AFF' },
   { name: '수당', value: 680, color: '#34C759' },
-  { name: '삁여금', value: 520, color: '#FF9500' },
+  { name: '상여금', value: 520, color: '#FF9500' },
   { name: '공제', value: 420, color: '#FF3B30' },
 ];
 
@@ -69,13 +71,13 @@ export default function PayrollOverview() {
                 data={payrollData}
                 cx="50%"
                 cy="50%"
-                innerRadius={55}
+                innerRadius={60}
                 outerRadius={85}
                 paddingAngle={2}
                 dataKey="value"
               >
                 {payrollData.map((entry, index) => (
-                  <Cell key={index} fill={entry.color} />
+                  <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
@@ -90,25 +92,41 @@ export default function PayrollOverview() {
               textAlign: 'center',
             }}
           >
+            <div style={{ fontSize: 11, color: '#8e8e93' }}>촜 합계</div>
             <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a' }}>
-              {totalPayroll.toLocaleString()}
+              {totalPayroll.toLocaleString()}만원
             </div>
-            <div style={{ fontSize: 12, color: '#8E8E93' }}>��원</div>
           </div>
         </div>
 
         <Divider style={{ margin: '16px 0' }} />
 
-        <Space direction="vertical" size={8} style={{ width: '100%' }}>
+        <Space direction="vertical" style={{ width: '100%' }} size={8}>
           {payrollData.map((item) => (
-            <div key={item.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Space>
-                <div style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: item.color }} />
-                <span style={{ fontSize: 13, color: '#666' }}>{item.name}</span>
-              </Space>
-              <span style={{ fontSize: 13, fontWeight: 600 }}>{item.value.toLocaleString()}원</span>
+            <div
+              key={item.name}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: '50%',
+                    backgroundColor: item.color,
+                  }}
+                />
+                <Text style={{ fontSize: 13 }}>{item.name}</Text>
+              </div>
+              <Text strong style={{ fontSize: 13 }}>
+                {item.value.toLocaleString()}만원
+              </Text>
             </div>
-          ))}
+          )))}
         </Space>
       </div>
     </Card>

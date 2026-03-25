@@ -1,12 +1,8 @@
 import React from 'react';
-import { Card, Statistic, Row, Col, Progress, Typography, Space, Divider, Tooltip as AntTooltip, List, Tag } from 'antd';
+import { Card, Statistic, Row, Col, Progress, Typography, Space, Divider, List, Tag } from 'antd';
 import {
   RobotOutlined,
   ThunderboltOutlined,
-  EyeOutlined,
-  SafetyCertificateOutlined,
-  InfoCircleOutlined,
-  RiseOutlined,
   CheckCircleOutlined,
 } from '@ant-design/icons';
 import {
@@ -17,7 +13,7 @@ import {
   Tooltip,
 } from 'recharts';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface ModelUsage {
   name: string;
@@ -40,104 +36,24 @@ interface InsightItem {
 }
 
 const aiInsights: InsightItem[] = [
-  { id: '1', text: '개발팀 이직위험이 전월 대비 12% 증가했습니다. 1팑 면츴을 권장�]�니다.', type: 'warning' },
-  { id: '2', text: '전사 근태 준수유이 93%로 목표(90%)를 달성했습니다.', type: 'positive' },
-  { id: '3', text: '영업팀 시간왈 수당이 예쀐 대비 23% 초과할 것으로 예측됩니다.', type: 'warning' },
-  { id: '4', text: '신입 직원 온보딩 완료율이 95%로 양호입니다.', type: 'positive' },
-  { id: '5', text: '다음 분기 인건비 찝액은 약 5.6앵으로 예측됩니다.', type: 'neutral' },
-];
+  { id: '1', text: '개발팀 이직 위험이 전월 대비 12% 증가했습니다. 1:1 면담을 권장합니다.', type: 'warning' },
+  { id: '2', text: '전사 근턜 준수율이 93%로 목표(90%)을 달성했습니다.', type: 'positive' },
+  { id: '3', text: '영엄팀 시간울 수당이 예산 대비 23% 초과할 것으로 예측됩니다.', type: 'warning' },
+  { id: '4', text: '신입직웸 온보듩 완료 율이 95$로 양호합니다.', type: 'positive' },
+  { id: '5', text: '다띭 분기인건비 총은 약 5.6&�;&o:�g;&";.(z�*z��:����\N�	ۙ]]�[	�K�N��ۜ�[��Y�\P�ۙ�YΈ�X�ܙ��[�����܎���[���Y���܎���[��O�H��]]�N����܎�	�����NI�Y���܎�	�ܙY[��K��\��[�Έ���܎�	�ё�ML	�Y���܎�	�ܘ[��I�K��]]�[����܎�	��NNL��Y���܎�	�Y�][	�K�N�^ܝY�][�[��[ۈ\�Y�P[�[]X��[�[
 
-const insightTypeConfig: Record<string, { color: string; tagColor: string }> = {
-  positive: { color: '#34C759', tagColor: 'green' },
-  warning: { color: '#FF9500', tagColor: 'orange' },
-  neutral: { color: '#8E8E93', tagColor: 'default' },
-};
+H�ۜ��[�YX�[ۜ�H[�[\�Y�Q]K��YX�J
+�[K
+HO��[H
+���[YK
+N��]\��
+��\���ܙ\�Y^٘[�_B��[O^���ܙ\��Y]\ΈL��X��ܛ�[���܎�	�ё������ZY��	�L	I�_B�]O^�X�O���؛��][�Y�[O^����܎�	���Q���_Hς��[��[O^���۝�ZY���_O�Rz��;!#H;f!;fjO��[�����X�O��B�������]\�^�M�H�[O^��X\��[����N�M�_O�����[�^�O���]\�X]OH�&";.(H;f�;"&���[YO^��[�YX�[ۜ�B��Y��^H�f����Y�^^�[�\����][�YϟB�ς���������[�^�O���]\�X�]OH��:�n;(%{fez����[YO^�L���H�Y��^H�H�ς���������[�^�O���]\�X�]OH�'m{ �H;`�;%�:�m;"&��[YO^�L�H�Y�^^��X���\��S�][�YϟHς������ԛ�ς��]�Y\��[O^��X\��[��	�L�	�_Hς������]\�^�M�O�����^̍HY^�L�O��^��ۙ��[O^���۝�^�N�L�X\��[����N�\�^N�	؛����_O�f.;&�H:�:��:��;c��^��]��[O^���Y�	�L	I�ZY���_O���\�ۜ�]�P�۝Z[�\��YH�L	H�ZY�H�L	H���YP�\���YB�]O^�[�[\�Y�Q]_B��H�L	H���OH�L	H��[��\��Y]\�^�B��]\��Y]\�^��B�Y[��[��O^̟B�]R�^OH��[YH�����[�[\�Y�Q]K�X\
 
-export default function UsageAnalyticsPanel() {
-  const totalPredictions = modelUsageData.reduce((sum, d) => sum + d.value, 0);
-
-  return (
-    <Card
-      bordered={false}
-      style={{ borderRadius: 12, backgroundColor: '#FFFFFF', height: '100%' }}
-      title={
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <RobotOutlined style={{ color: '#007AFF', fontSize: 18 }} />
-          <span style={{ fontWeight: 700 }}>AI 분석 현황</span>
-        </div>
-      }
-    >
-      <Row gutter={16} style={{ marginBottom: 24 }}>
-        <Col span={6}>
-          <Statistic
-            title="� 예측회수"
-            value={totalPredictions.toLocaleString()}
-            prefix={<ThunderboltOutlined style={{ color: '#FF9500' }} />}
-          />
-        </Col>
-        <Col span={6}>
-          <Statistic title="정확도" value="92.3%" prefix={<SafetyCertificateOutlined style={{ color: '#34C759' }} />} />
-        </Col>
-        <Col span={6}>
-          <Statistic title="활용 모덶𰟞�" value="5" />
-        </Col>
-        <Col span={6}>
-          <Statistic title="이상 탐지" value="12" prefix={<EyeOutlined style={{ color: '#FF3B30' }} />} />
-        </Col>
-      </Row>
-
-      <Divider style={{ margin: '16px 0' }} />
-
-      <Row gutter={24}>
-        <Col xs={24} md={12}>
-          <div style={{ textAlign: 'center' }}>
-            <Text strong style={{ marginBottom: 8, display: 'block' }}>모델별 사용믎</Text>
-            <div style={{ width: '100%', height: 200 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={modelUsageData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={75}
-                    dataKey="value"
-                    label={({ name, percent }: { name: string; percent: number }) =>
-                      `${name} ${ (percent * 100).toFixed(0)}%`
-                    }
-                  >
-                    {modelUsageData.map((entry, index) => (
-                      <Cell key={index} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </Col>
-        <Col xs={24} md={12}>
-          <Text strong style={{ marginBottom: 8, display: 'block' }}>AI 인사이트</Text>
-          <List
-            size="small"
-            dataSource={aiInsights}
-            renderItem={(item) => (
-              <List.Item key={item.id} style={{ padding: '8px 0' }}>
-                <Space>
-                  <div
-                    style={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: '50%',
-                      backgroundColor: insightTypeConfig[item.type].color,
-                    }}
-                  />
-                  <Text style={{ fontSize: 13 }}>{item.text}</Text>
-                </Space>
-              </List.Item>
-            )}
-          />
-        </Col>
-      </Row>
-    </Card>
-  );
-}
+[��K[�^
+HO�
+��[�^O^��[I�[�^XH�[^�[��K���ܟHς�
+J_B��YO����\ς��YP�\���ԙ\�ۜ�]�P�۝Z[�\����]�����������^̍HY^�L�O��^��ۙ��[O^���۝�^�N�L�X\��[����N�\�^N�	؛����_O�RH;'n; �;'m;b��^��\��]T��\��O^�ZR[��Y��B��^�OH��X[���[�\�][O^�
+][JHO�
+�\��][H�[O^��Y[�Έ	�	�_O���X�O��Y���܏^�[��Y�\P�ۙ�Y��][K�\WK�Y���ܟO���][K�\HOOH	���]]�I��	��/{(%I��][K�\HOOH	��\��[����	�(�;'f	��	�,.:��	�B��Yς�^�[O^���۝�^�N�L�_O��][K�^O�^����X�O���\��][O��
+J_B�ς������ԛ�ς���\���
+NB

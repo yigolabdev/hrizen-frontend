@@ -11,8 +11,8 @@ import {
 
 const { Text } = Typography;
 
-type SeverityLevel = '심각' | '경歠' | '주의' | '정보';
-type AnomalyCategory = '근텃' | '급여' | '성과' | '행동';
+type SeverityLevel = '심각' | '경고' | '주의' | '정보';
+type AnomalyCategory = '근턜' | '급여' | '성과' | '행동';
 type StatusType = '신규' | '확인중' | '해결됨';
 
 interface AnomalyItem {
@@ -31,8 +31,8 @@ interface AnomalyItem {
 const anomalyData: AnomalyItem[] = [
   {
     id: 'ANM-001',
-    title: '비정상 야근 패턴 감지',
-    description: '최근 2주간 일분 평균 근무시간이 12시간을 초과하며 주말 근무가 4회 이상 감지되었습니다.',
+    title: '비정상 야근 패턴 값지',
+    description: '최근 2주간 일볼 평균 근무시간이 12시간을 초과하며 주말 근무가 4회 이상 감지되었습니다.',
     severity: '심각',
     category: '근태',
     status: '신규',
@@ -43,8 +43,8 @@ const anomalyData: AnomalyItem[] = [
   },
   {
     id: 'ANM-002',
-    title: '급여 이삁 지깩 의칬',
-    description: '이번 m���  시간외 수당이 전월 대비 280% 증가하였습니다. 근태 기록�과 불일치합니다.',
+    title: '급여이상 지급 의심',
+    description: '이번 달 시간외 수당이 전월 대비 280%즙가하예습니다. 근턜 기록과 불일치합니다.',
     severity: '심각',
     category: '급여',
     status: '확인중',
@@ -55,10 +55,10 @@ const anomalyData: AnomalyItem[] = [
   },
   {
     id: 'ANM-003',
-    title: '지각 빈도 급증',
-    description: '최근 1개월 내 지각 횜수가 7회로, 이전 3개월 평균（1칌） 대비 크게 증가했습니다.',
+    title: '지각 빠도 급증',
+    description: '최귁 1개월 내 지각 횈수가 7회로, 이전 3개월 평균​(1횇)​ 대비 크게 증가했습니다.',
     severity: '경고',
-    category: '근텃',
+    category: '근태',
     status: '신규',
     detectedAt: '2024-01-14 08:00',
     affectedEmployee: '김민준',
@@ -67,89 +67,93 @@ const anomalyData: AnomalyItem[] = [
   },
   {
     id: 'ANM-004',
-    title: '성과 지폜 급격한 하락',
-    description: 'OKR 달성률이 전분기 92%에서 이번 분기 54%로 급격히 하락했습니다.',
-    severity: '경歠',
+    title: '성과 지표 급격한 하뜝',
+    description: 'OKR 달성유이 전븄기 92%에서 이번 분기 54%로 금격히 하락했습니다.',
+    severity: '경고',
     category: '성과',
     status: '확인중',
     detectedAt: '2024-01-13 16:45',
     affectedEmployee: '이서연',
-    department: '마케팅팀',
+    department: '마케팅',
     confidence: 85,
   },
 ];
 
-const severityConfig: Record<SeverityLevel, { color: string; tagColor: string }> = {
-  '시각': { color: '#FF3B30', tagColor: 'red' },
-  '경고': { color: '#FF9500', tagColor: 'orange' },
-  '주의': { color: '#007AFF', tagColor: 'blue' },
-  '정보': { color: '#8E8E93', tagColor: 'default' },
-};
+function getSeverityColor(severity: SeverityLevel): string {
+  switch (severity) {
+    case '심각':
+      return 'red';
+    case '경고':
+      return 'orange';
+    case '주의':
+      return 'gold';
+    case '정보':
+      return 'blue';
+    default:
+      return 'default';
+  }
+}
 
-const statusConfig: Record<StatusType, { icon: React.ReactNode; color: string }> = {
-  '신규': { icon: <ExclamationCircleOutlined />, color: '#FF3B30' },
-  '확인중': { icon: <ClockCircleOutlined />, color: '#FF9500' },
-  '해결됨': { icon: <CheckCircleOutlined />, color: '#34C759' },
-};
+function getStatusIcon(status: StatusType): React.ReactNode {
+  switch (status) {
+    case '신규':
+      return <ExclamationCircleOutlined style={{ color: '#FF3B30' }} />;
+    case '확인중':
+      return <ClockCircleOutlined style={{ color: '#FF9500' }} />;
+    case '해결됨':
+      return <CheckCircleOutlined style={{ color: '#34C759' }} />;
+    default:
+      return <InfoCircleOutlined />;
+  }
+}
 
 export default function AnomalyDetectionList() {
   const [filter, setFilter] = useState<string>('전체');
 
-  const filteredData = filter === '전체'
-    ? anomalyData
-    : anomalyData.filter((item) => item.severity === filter);
+  const filteredData = filter === '전체' ? anomalyData : anomalyData.filter((item) => item.category === filter);
 
   return (
     <Card
       bordered={false}
-      style={{ borderRadius: 12, backgroundColor: '#FFFFFF' }}
+      style={{ borderRadius: 12, backgroundColor: '#FFFFFF', height: '100%' }}
       title={
         <Space>
-          <WarningOutlined style={{ color: '#FF3B30' }} />
-          <span style={{ fontWeight: 700 }}>이때 감지</span>
+          <WarningOutlined style={{ color: '#FF9500' }} />
+          <span style={{ fontWeight: 700 }}>이상 탐지 목록</span>
         </Space>
       }
       extra={
         <Segmented
-          size="small"
-          options={['전체', '심각', '경고', '주의', '정보']}
           value={filter}
-          onChange={(val) => setFilter(val as string)}
+          options={['좈체', '근태', '급여', '성과', '행동']}
+          onChange={(value) => setFilter(value as string)}
+          size="small"
         />
       }
     >
-      {filteredData.length === 0 ? (
-        <Empty description="감지된 이상 항목이 없습니다" />
-      ) : (
-        <List
-          dataSource={filteredData}
-          renderItem={(item) => (
-            <List.Item key={item.id}>
-              <div style={{ width: '100%' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <Space>
-                    <Tag color={severityConfig[item.severity].tagColor}>{item.severity}</Tag>
-                    <Text strong>{item.title}</Text>
-                  </Space>
-                  <Text type="secondary" style={{ fontSize: 12 }}>{item.detectedAt}</Text>
-                </div>
-                <Text type="secondary" style={{ fontSize: 13 }}>{item.description}</Text>
-                <div style={{ marginTop: 8 }}>
-                  <Space size={4}>
-                    <Tag>{item.category}</Tag>
-                    <Tag>{item.department}</Tag>
-                    <Tag>{item.affectedEmployee}</Tag>
-                    <Tag icon={statusConfig[item.status].icon} color={statusConfig[item.status].color}>
-                      {item.status}
-                    </Tag>
-                    <Text type="secondary" style={{ fontSize: 11 }}>신뢛독: {item.confidence}%</Text>
-                  </Space>
-                </div>
+      <List
+        dataSource={filteredData}
+        renderItem={(item) => (
+          <List.Item>
+            <div style={{ width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                <Space>
+                  {getStatusIcon(item.status)}
+                  <Text strong style={{ fontSize: 14 }}>{item.title}</Text>
+                  <Tag color={getSeverityColor(item.severity)}>{item.severity}</Tag>
+                </Space>
+                <Text type="secondary" style={{ fontSize: 11 }}>{item.detectedAt}</Text>
               </div>
-            </List.Item>
-          )}
-        />
-      )}
+              <Text type="secondary" style={{ fontSize: 12 }}>{item.description}</Text>
+              <div style={{ marginTop: 4 }}>
+                <Tag>{item.department}</Tag>
+                <Tag>{item.affectedEmployee}</Tag>
+                <Tag color="blue">신뢰돎  {item.confidence}%</Tag>
+              </div>
+            </div>
+          </List.Item>
+        )}
+      />
     </Card>
   );
 }

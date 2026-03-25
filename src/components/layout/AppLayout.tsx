@@ -51,38 +51,54 @@ export default function AppLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const screens = useBreakpoint();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const screens = useBreakpoint();
+
+  const handleMenuClick = (e: { key: string }) => {
+    const item = menuItems.find((m) => m.key === e.key);
+    if (item) {
+      navigate(item.path);
+    }
+  };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
         collapsible
         collapsed={collapsed}
-        onCollapse={(val) => setCollapsed(val)}
+        onCollapse={setCollapsed}
         breakpoint="lg"
+        collapsedWidth={screens.md ? 80 : 0}
         style={{
           background: colorBgContainer,
           borderRight: '1px solid #f0f0f0',
         }}
       >
-        <div style={{ padding: '16px', textAlign: 'center' }}>
-          <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
+        <div
+          style={{
+            height: 64,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0 16px',
+          }}
+        >
+          <Title level={4} style={{ margin: 0, fontSize: collapsed ? 14 : 18 }}>
             {collapsed ? 'HR' : 'HR Platform'}
           </Title>
         </div>
         <Menu
           mode="inline"
           selectedKeys={[location.pathname]}
+          onClick={handleMenuClick}
+          style={{ borderRight: 'none' }}
           items={menuItems.map((item) => ({
             key: item.key,
             icon: item.icon,
             label: item.label,
-            onClick: () => navigate(item.path),
           }))}
-          style={{ borderRight: 'none' }}
         />
       </Sider>
       <Layout>
@@ -99,16 +115,14 @@ export default function AppLayout() {
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: 16, width: 48, height: 48 }}
           />
         </Header>
         <Content
           style={{
-            margin: '24px',
-            padding: '24px',
-            background: '#f5f5f7',
-            borderRadius: 12,
-            minHeight: 280,
+            margin: 16,
+            padding: 24,
+            background: '#f5f5f5',
+            minHeight: 'calc(100vh - 64px - 32px)',
           }}
         >
           <Outlet />
