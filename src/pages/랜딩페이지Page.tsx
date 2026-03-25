@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Space } from 'antd';
 import HeroSection from '@/features/landing/components/HeroSection';
 import FeatureHighlightSection from '@/features/landing/components/FeatureHighlightSection';
 import PricingOverview from '@/features/landing/components/PricingOverview';
@@ -9,13 +9,13 @@ import LandingFooter from '@/features/landing/components/LandingFooter';
 
 export default function LandingPage() {
   return (
-    <Layout style={{ background: '#ffffff' }}>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <HeroSection />
       <FeatureHighlightSection />
       <PricingOverview />
       <CustomerTestimonials />
       <CallToActionButtons />
       <LandingFooter />
-    </Layout>
+    </Space>
   );
 }
