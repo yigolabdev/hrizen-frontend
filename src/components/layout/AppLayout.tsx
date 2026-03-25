@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Layout, theme, Typography, Grid, Menu, Button } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import {
   DashboardOutlined,
   SettingOutlined,
@@ -52,47 +52,56 @@ export default function AppLayout() {
   const location = useLocation();
   const { token } = theme.useToken();
   const screens = useBreakpoint();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(!screens.lg);
+  const isDarkMode = useAppStore((state) => state.isDarkMode);
 
   const handleMenuClick = (path: string) => {
     navigate(path);
   };
 
-  const selectedKey = menuItems.find(item => item.path === location.pathname)?.key || '/';
-
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
-        breakpoint="lg"
-        collapsedWidth={0}
-        onBreakpoint={(broken) => {
-          setCollapsed(broken);
-        }}
+        collapsible
         collapsed={collapsed}
-        theme="light"
+        onCollapse={setCollapsed}
+        width={256}
+        theme={isDarkMode ? 'dark' : 'light'}
+        style={{
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          zIndex: 100,
+        }}
       >
         <div style={{ padding: '16px', textAlign: 'center' }}>
-          <Title level={3}>HRM</Title>
+          <Title level={4} style={{ margin: 0 }}>
+            HR System
+          </Title>
         </div>
         <Menu
+          theme={isDarkMode ? 'dark' : 'light'}
           mode="inline"
-          selectedKeys={[selectedKey]}
+          selectedKeys={[location.pathname]}
           items={menuItems.map((item) => ({
             key: item.key,
-            icon: item.icon,
             label: item.label,
+            icon: item.icon,
             onClick: () => handleMenuClick(item.path),
           }))}
         />
       </Sider>
-      <Layout>
+
+      <Layout style={{ marginLeft: collapsed ? 80 : 256 }}>
         <Header
           style={{
             background: token.colorBgContainer,
+            padding: '0 24px',
+            boxShadow: '0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02)',
             display: 'flex',
-            justifyContent: 'space-between',
             alignItems: 'center',
-            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+            justifyContent: 'space-between',
           }}
         >
           <Button
@@ -100,12 +109,21 @@ export default function AppLayout() {
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
           />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span>사용자</span>
+          <div>
+            {/* Header content */}
           </div>
         </Header>
-        <Content style={{ margin: '16px' }}>
-          {/* Outlet will be rendered here */}
+
+        <Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            background: token.colorBgContainer,
+            borderRadius: 8,
+            minHeight: 'calc(100vh - 112px)',
+          }}
+        >
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
