@@ -32,18 +32,18 @@ interface MenuItemDef {
 }
 
 const menuItems: MenuItemDef[] = [
-  { key: '/', label: '랑딩', icon: <HomeOutlined />, path: '/' },
+  { key: '/', label: '렬딩', icon: <HomeOutlined />, path: '/' },
   { key: '/admin/dashboard', label: '관리자 대시보드', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: '멀티 테넜트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: '/admin/tenants', label: '멀티 테낄트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
   { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
   { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: '/payroll', label: '급여 젔산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: '/payroll', label: '급여 정산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
   { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
   { key: '/ess', label: '직� 셀프 서비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
   { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: '/api-management', label: '오픈 API 관리', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: '구럡 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: '/billing', label: '결제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: '/api-management', label: '오픐 API 관리', icon: <ApiOutlined />, path: '/api-management' },
+  { key: '/subscription', label: '구독 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/billing', label: '결제 및 청굠 관리', icon: <CreditCardOutlined />, path: '/billing' },
   { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
 
@@ -97,19 +97,19 @@ export default function AppLayout({ children }: AppLayoutProps) {
           mode="inline"
           selectedKeys={[location.pathname]}
           onClick={handleMenuClick}
+          style={{ borderInlineEnd: 'none' }}
           items={menuItems.map((item) => ({
             key: item.key,
             icon: item.icon,
             label: item.label,
           }))}
-          style={{ borderRight: 'none' }}
         />
       </Sider>
       <Layout>
         <Header
           style={{
-            padding: '0 24px',
             background: token.colorBgContainer,
+            padding: '0 16px',
             display: 'flex',
             alignItems: 'center',
             borderBottom: `1px solid ${token.colorBorder}`,
@@ -119,16 +119,16 @@ export default function AppLayout({ children }: AppLayoutProps) {
             type="text"
             icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={toggleSidebar}
-            style={{ fontSize: 16, width: 64, height: 64 }}
+            style={{ fontSize: 16 }}
           />
         </Header>
         <Content
           style={{
-            margin: 24,
+            margin: 16,
             padding: 24,
             background: token.colorBgContainer,
             borderRadius: token.borderRadiusLG,
-            minHeight: 280,
+            minHeight: 'calc(100vh - 128px)',
           }}
         >
           {children}

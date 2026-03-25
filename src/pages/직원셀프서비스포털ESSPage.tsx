@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Row, Col, Space } from 'antd';
+import { Typography, Row, Col, Card } from 'antd';
 import AttendanceSummary from '@/features/ess/components/AttendanceSummary';
 import ContractDocuments from '@/features/ess/components/ContractDocuments';
 import LeaveApplicationForm from '@/features/ess/components/LeaveApplicationForm';
@@ -9,26 +9,30 @@ const { Title } = Typography;
 
 export default function ESSPage() {
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Title level={3} style={{ color: '#007AFF' }}>
-        직� 셀프 서비스 포턌(ESSI)
-      </Title>
+    <div>
+      <Title level={2} style={{ marginBottom: 24 }}>직� 셀프 서비스 (ESS)</Title>
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={12}>
-          <AttendanceSummary />
+          <Card style={{ marginBottom: 16, borderRadius: 12 }}>
+            <AttendanceSummary />
+          </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <PayslipViewer />
+          <Card style={{ marginBottom: 16, borderRadius: 12 }}>
+            <PayslipViewer />
+          </Card>
+        </Col>
+        <Col xs={24} lg={12}>
+          <Card style={{ marginBottom: 16, borderRadius: 12 }}>
+            <LeaveApplicationForm />
+          </Card>
+        </Col>
+        <Col xs={24} lg={12}>
+          <Card style={{ marginBottom: 16, borderRadius: 12 }}>
+            <ContractDocuments />
+          </Card>
         </Col>
       </Row>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={12}>
-          <LeaveApplicationForm />
-        </Col>
-        <Col xs={24} lg={12}>
-          <ContractDocuments />
-        </Col>
-      </Row>
-    </Space>
+    </div>
   );
 }

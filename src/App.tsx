@@ -1,18 +1,18 @@
 import { Routes, Route } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout';
 import AdminDashboardPage from '@/pages/관리자대시보드Page';
-import MultiTenantSettingsPage from '@/pages/륀티테난트d줄­Page';
+import MultiTenantSettingsPage from '@/pages/멀티테난트\설정Page';
 import PermissionsPage from '@/pages/권한관리Page';
 import AttendancePage from '@/pages/근태관리Page';
-import PayrollManagementPage from '@/pages/급여젔찠관리Page';
-import PerformancePage from '@/pages/성과렌 평가관리Page';
-import ESSPage from '@/pages/짉워셀프서비스포털ESSPage';
-import AIAnalyticsPage from '@/pages/AI분석대시보드Page';
-import OpenAPIPage from '@/pages/오피API관리Page';
-import SubscriptionPage from '@/pages/구럡관리Page';
+import PayrollManagementPage from '@/pages/급여정산관리Page';
+import PerformancePage from '@/pages/성淼밌평가관리Page';
+import ESSPage from '@/pages/짡워셀프서비스포털ESSPage';
+import AIAnalyticsPage from '@/pages/AI분석답시보드Page';
+import OpenAPIPage from '@/pages/오픐API관리Page';
+import SubscriptionPage from '@/pages/구독관리Page';
 import BillingPage from '@/pages/결,제및청구관리Page';
 import MyPage from '@/pages/개인마이페이지Page';
-import LandingPage from '@/pages/랜딩페이지Page';
+import LandingPage from '@/pages/래딩페이지Page';
 
 export default function App() {
   return (
