@@ -10,7 +10,7 @@ import ESSPage from '@/pages/직원셀프서비스포털ESSPage';
 import AIAnalyticsPage from '@/pages/AI분석대시보드Page';
 import OpenAPIPage from '@/pages/오픈API관리Page';
 import SubscriptionPage from '@/pages/구독관리Page';
-import BillingPage from '@/pages/결제및,청포관리Page';
+import BillingPage from '@/pages/결제및청구관리Page';
 import MyPage from '@/pages/개인마이페이지Page';
 import LandingPage from '@/pages/랜딩페이지Page';
 

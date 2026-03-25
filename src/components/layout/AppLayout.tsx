@@ -47,72 +47,92 @@ const menuItems: MenuItemDef[] = [
   { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
 
-export default function AppLayout() {
+const AppLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
-  const screens = useBreakpoint();
   const { token } = theme.useToken();
-  const appStore = useAppStore();
+  const screens = useBreakpoint();
+  const [collapsed, setCollapsed] = useState(false);
+  const isDarkMode = useAppStore((state) => state.isDarkMode);
 
   const handleMenuClick = (path: string) => {
     navigate(path);
   };
 
-  const isMobile = !screens.md;
+  const currentMenuItem = menuItems.find((item) => item.path === location.pathname);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        width={280}
-        style={{
-          background: token.colorBgContainer,
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-        }}
-        hidden={isMobile && collapsed}
-      >
-        <div style={{ padding: '24px 16px', textAlign: 'center', marginBottom: '16px' }}>
-          <Title level={3} style={{ margin: 0, color: token.colorPrimary }}>HR System</Title>
-        </div>
-        <Menu
-          mode="inline"
-          selectedKeys={[location.pathname]}
-          items={menuItems.map((item) => ({
-            key: item.key,
-            icon: item.icon,
-            label: item.label,
-            onClick: () => handleMenuClick(item.path),
-          }))}
-        />
-      </Sider>
+      {screens.md !== false && (
+        <Sider
+          theme={isDarkMode ? 'dark' : 'light'}
+          collapsed={collapsed}
+          collapsible
+          trigger={null}
+          width={256}
+          style={{
+            position: 'sticky',
+            top: 0,
+            left: 0,
+            height: '100vh',
+            overflow: 'auto',
+          }}
+        >
+          <div style={{ padding: '16px', textAlign: 'center' }}>
+            <Title level={3} style={{ margin: 0, color: token.colorPrimary }}>HR AI</Title>
+          </div>
+          <Menu
+            theme={isDarkMode ? 'dark' : 'light'}
+            mode="inline"
+            selectedKeys={[location.pathname]}
+            items={menuItems.map((item) => ({
+              key: item.key,
+              label: item.label,
+              icon: item.icon,
+              onClick: () => handleMenuClick(item.path),
+            }))}
+          />
+        </Sider>
+      )}
       <Layout>
         <Header
           style={{
             background: token.colorBgContainer,
             padding: '0 24px',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'space-between',
+            alignItems: 'center',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+            position: 'sticky',
+            top: 0,
+            zIndex: 100,
           }}
         >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: '16px', width: 64, height: 64 }}
-          />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span>{appStore.userInfo?.name || 'User'}</span>
+          {screens.md === false && (
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+            />
+          )}
+          <div style={{ marginLeft: 'auto' }}>
+            <span style={{ color: token.colorTextSecondary }}>{currentMenuItem?.label || 'HR AI'}</span>
           </div>
         </Header>
-        <Content style={{ padding: '24px', background: '#f5f5f5', overflow: 'auto' }}>
+        <Content
+          style={{
+            margin: '24px',
+            padding: '24px',
+            background: token.colorBgLayout,
+            borderRadius: token.borderRadius,
+            minHeight: 'calc(100vh - 200px)',
+          }}
+        >
           <Outlet />
         </Content>
       </Layout>
     </Layout>
   );
-}
+};
+
+export default AppLayout;
