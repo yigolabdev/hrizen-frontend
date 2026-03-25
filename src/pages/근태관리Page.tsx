@@ -9,22 +9,18 @@ const { Title } = Typography;
 
 export default function AttendancePage() {
   return (
-    <div style={{ padding: 24 }}>
-      <Title level={3} style={{ color: '#007AFF', marginBottom: 24 }}>
-        근태 관리
-      </Title>
-      <Space direction="vertical" size={24} style={{ width: '100%' }}>
-        <AIAnomalyAlert />
-        <Row gutter={[16, 16]}>
-          <Col xs={24} lg={16}>
-            <AttendanceCalendar />
-          </Col>
-          <Col xs={24} lg={8}>
-            <OvertimeSummary />
-          </Col>
-        </Row>
-        <LeaveRequestList />
-      </Space>
-    </div>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Title level={3} style={{ color: '#007AFF' }}>근태 관리</Title>
+      <AIAnomalyAlert />
+      <OvertimeSummary />
+      <Row gutter={[16, 16]}>
+        <Col xs={24} lg={14}>
+          <AttendanceCalendar />
+        </Col>
+        <Col xs={24} lg={10}>
+          <LeaveRequestList />
+        </Col>
+      </Row>
+    </Space>
   );
 }

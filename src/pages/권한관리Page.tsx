@@ -8,15 +8,17 @@ const { Title } = Typography;
 
 export default function PermissionsPage() {
   return (
-    <div style={{ padding: 24 }}>
-      <Title level={3} style={{ color: '#007AFF', marginBottom: 24 }}>
-        권한 관리
-      </Title>
-      <Space direction="vertical" size={24} style={{ width: '100%' }}>
-        <UserSearchFilter />
-        <RoleAssignmentTable />
-        <PermissionMatrix />
-      </Space>
-    </div>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Title level={3} style={{ color: '#007AFF' }}>권한 관리</Title>
+      <UserSearchFilter />
+      <Row gutter={[16, 16]}>
+        <Col xs={24} lg={14}>
+          <RoleAssignmentTable />
+        </Col>
+        <Col xs={24} lg={10}>
+          <PermissionMatrix />
+        </Col>
+      </Row>
+    </Space>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Row, Col } from 'antd';
+import { Typography, Row, Col, Space } from 'antd';
 import TenantListTable from '@/features/multiTenant/components/TenantListTable';
 import TenantSettingsForm from '@/features/multiTenant/components/TenantSettingsForm';
 import LanguageCurrencySelector from '@/features/multiTenant/components/LanguageCurrencySelector';
@@ -9,24 +9,20 @@ const { Title } = Typography;
 
 export default function MultiTenantSettingsPage() {
   return (
-    <div style={{ padding: 24 }}>
-      <Title level={2} style={{ color: '#007AFF', marginBottom: 24 }}>
-        멀티 테넌트 설정
-      </Title>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Title level={3} style={{ color: '#007AFF' }}>멀티 테넌트 설정</Title>
+      <SubscriptionStatusCard />
       <Row gutter={[16, 16]}>
-        <Col xs={24} lg={12}>
-          <TenantSettingsForm />
-        </Col>
-        <Col xs={24} lg={12}>
-          <SubscriptionStatusCard />
-        </Col>
-        <Col xs={24} lg={12}>
-          <LanguageCurrencySelector />
-        </Col>
-        <Col xs={24} lg={12}>
+        <Col xs={24} lg={16}>
           <TenantListTable />
         </Col>
+        <Col xs={24} lg={8}>
+          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <TenantSettingsForm />
+            <LanguageCurrencySelector />
+          </Space>
+        </Col>
       </Row>
-    </div>
+    </Space>
   );
 }

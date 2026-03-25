@@ -4,97 +4,52 @@ interface RequestOptions extends RequestInit {
   params?: Record<string, string>;
 }
 
-async function handleResponse<T>(response: Response): Promise<T> {
-  if (!response.ok) {
-    const errorBody = await response.text().catch(() => '');
-    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
-    try {
-      const parsed = JSON.parse(errorBody);
-      if (parsed.message) errorMessage = parsed.message;
-    } catch {
-      // not JSON
-    }
-    throw new Error(errorMessage);
-  }
-  const text = await response.text();
-  if (!text) return undefined as unknown as T;
-  return JSON.parse(text) as T;
-}
+async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+  const { params, ...fetchOptions } = options;
 
-function buildUrl(path: string, params?: Record<string, string>): string {
-  const url = new URL(`${BASE_URL}${path}`, window.location.origin);
+  let url = `${BASE_URL}${endpoint}`;
   if (params) {
-    Object.entries(params).forEach(([key, value]) => {
-      url.searchParams.append(key, value);
-    });
+    const searchParams = new URLSearchParams(params);
+    url += `?${searchParams.toString()}`;
   }
-  return url.toString();
-}
 
-function getAuthHeaders(): Record<string, string> {
-  const token = localStorage.getItem('auth_token');
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
+    ...(fetchOptions.headers as Record<string, string> || {}),
   };
+
+  // Inject auth token if available
+  const token = localStorage.getItem('auth_token');
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
-  return headers;
+
+  const response = await fetch(url, {
+    ...fetchOptions,
+    headers,
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.json().catch(() => null);
+    throw new Error(errorBody?.message || `API Error: ${response.status}`);
+  }
+
+  return response.json() as Promise<T>;
 }
 
 export const apiClient = {
-  async get<T>(path: string, options?: RequestOptions): Promise<T> {
-    const { params, ...fetchOptions } = options || {};
-    const response = await fetch(buildUrl(path, params), {
-      method: 'GET',
-      headers: getAuthHeaders(),
-      ...fetchOptions,
-    });
-    return handleResponse<T>(response);
-  },
+  get: <T>(endpoint: string, params?: Record<string, string>) =>
+    request<T>(endpoint, { method: 'GET', params }),
 
-  async post<T>(path: string, data?: unknown, options?: RequestOptions): Promise<T> {
-    const { params, ...fetchOptions } = options || {};
-    const response = await fetch(buildUrl(path, params), {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      body: data ? JSON.stringify(data) : undefined,
-      ...fetchOptions,
-    });
-    return handleResponse<T>(response);
-  },
+  post: <T>(endpoint: string, data?: unknown) =>
+    request<T>(endpoint, { method: 'POST', body: JSON.stringify(data) }),
 
-  async put<T>(path: string, data?: unknown, options?: RequestOptions): Promise<T> {
-    const { params, ...fetchOptions } = options || {};
-    const response = await fetch(buildUrl(path, params), {
-      method: 'PUT',
-      headers: getAuthHeaders(),
-      body: data ? JSON.stringify(data) : undefined,
-      ...fetchOptions,
-    });
-    return handleResponse<T>(response);
-  },
+  put: <T>(endpoint: string, data?: unknown) =>
+    request<T>(endpoint, { method: 'PUT', body: JSON.stringify(data) }),
 
-  async patch<T>(path: string, data?: unknown, options?: RequestOptions): Promise<T> {
-    const { params, ...fetchOptions } = options || {};
-    const response = await fetch(buildUrl(path, params), {
-      method: 'PATCH',
-      headers: getAuthHeaders(),
-      body: data ? JSON.stringify(data) : undefined,
-      ...fetchOptions,
-    });
-    return handleResponse<T>(response);
-  },
+  patch: <T>(endpoint: string, data?: unknown) =>
+    request<T>(endpoint, { method: 'PATCH', body: JSON.stringify(data) }),
 
-  async delete<T>(path: string, options?: RequestOptions): Promise<T> {
-    const { params, ...fetchOptions } = options || {};
-    const response = await fetch(buildUrl(path, params), {
-      method: 'DELETE',
-      headers: getAuthHeaders(),
-      ...fetchOptions,
-    });
-    return handleResponse<T>(response);
-  },
+  delete: <T>(endpoint: string) =>
+    request<T>(endpoint, { method: 'DELETE' }),
 };
-
-export default apiClient;

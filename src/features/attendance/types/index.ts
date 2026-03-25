@@ -20,29 +20,29 @@ export interface LeaveRequest {
   days: number;
   reason: string;
   status: 'pending' | 'approved' | 'rejected';
-}
-
-export interface DepartmentOvertime {
-  department: string;
-  avgHours: number;
-  employeeCount: number;
+  requestedAt: string;
 }
 
 export interface OvertimeStats {
   totalEmployees: number;
   avgOvertimeHours: number;
-  maxOvertimeEmployee: string;
   maxOvertimeHours: number;
-  departmentStats: DepartmentOvertime[];
+  overLimitCount: number;
+  departmentStats: {
+    department: string;
+    avgHours: number;
+    employeeCount: number;
+  }[];
 }
 
 export interface AnomalyItem {
   id: string;
-  employeeId: string;
-  employeeName: string;
   type: 'frequent_late' | 'unusual_overtime' | 'pattern_change' | 'consecutive_absence';
   severity: 'high' | 'medium' | 'low';
+  employeeId: string;
+  employeeName: string;
+  department: string;
   description: string;
   detectedAt: string;
-  affectedDates: string[];
+  confidence: number;
 }

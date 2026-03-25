@@ -16,35 +16,145 @@ const mockAttendanceRecords: AttendanceRecord[] = [
   { id: '6', employeeId: 'E001', employeeName: '김민수', date: '2025-01-14', clockIn: '08:58', clockOut: '18:10', status: 'normal', overtimeMinutes: 10 },
   { id: '7', employeeId: 'E002', employeeName: '이지읨<', date: '2025-01-14', clockIn: '09:20', clockOut: '18:00', status: 'late', overtimeMinutes: 0 },
   { id: '8', employeeId: 'E003', employeeName: '박준형', date: '2025-01-14', clockIn: '08:45', clockOut: '22:00', status: 'normal', overtimeMinutes: 240 },
-  { id: '9', employeeId: 'E006', employeeName: '한소희	�]N�	̌�KLKLM	�����[��	��L	������]�	�N�	��]\Έ	ۛܛX[	�ݙ\�[YSZ[�]\ΈK��Y�	�L	�[\�YYRY�	�L��[\�YYS�[YN�	�'):��;f!	�]N�	̌�KLKLM	�����[���[�����]��[�]\Έ	�X��[�	�ݙ\�[YSZ[�]\ΈK�N��ۜ�[���X]�T�\]Y\�ΈX]�T�\]Y\��HH�Y�	�I�[\�YYRY�	�L	�[\�YYS�[YN�	�-g;"&;)�	�\\�Y[��	�'n; �;c 	�X]�U\N�	�%�;,*	��\�]N�	̌�KLKLL��[�]N�	̌�KLKLM	�^\Έ��X\�ێ�	��';'n; �;'(	��]\Έ	�\�ݙY	�K��Y�	���[\�YYRY�	�LI�[\�YYS�[YN�	�(%{`�;&�	�\\�Y[��	�& {%�;c 	�X]�U\N�	��&;,*
-;&);(!
-I��\�]N�	̌�KLKLMI�[�]N�	̌�KLKLMI�^\Έ�K�X\�ێ�	���{&�:�&��.	��]\Έ	�[�[���K��Y�	���[\�YYRY�	�L	�[\�YYS�[YN�	��%{&":�	�\\�Y[��	��%;'�;'n;c 	�X]�U\N�	��az� 	��\�]N�	̌�KLKLM��[�]N�	̌�KLKLM��^\Έ��X\�ێ�	��":�$;.f:��	��]\Έ	�[�[���K��Y�	�	�[\�YYRY�	�LI�[\�YYS�[YN�	��`:��;"&	�\\�Y[��	��':�';c 	�X]�U\N�	�%�;,*	��\�]N�	̌�KLKL�	�[�]N�	̌�KLKL���^\Έ��X\�ێ�	�� ;(l{%�;e�I��]\Έ	�[�[���K�N��ۜ�[���ݙ\�[YT�]Έݙ\�[YT�]�H�[[\�YY\Έ��]��ݙ\�[YR�\�ΈL��K�X^ݙ\�[YQ[\�YYN�	��%{) ;f%I��X^ݙ\�[YR�\�Έ��\\�Y[��]Έ�\\�Y[��	��':�';c 	�]���\�ΈN[\�YYP��[��MHK��\\�Y[��	�& {%�{c 	�]���\�ΈL�[\�YYP��[��LK��\\�Y[��	��%;'�;'n;c 	�]���\�Έ[\�YYP��[��K��\\�Y[��	�'n; �;c 	�]���\�ΈK[\�YYP��[���K��\\�Y[��	�'�:�-;c 	�]���\�Έ�[\�YYP��[��HK�K�N��ۜ�[���[��X[Y\Έ[��X[R][V�HHY�	�LI��[\�YYRY�	�L���[\�YYS�[YN�	�'m;)�;'j	��\N�	ٜ�\]Y[��]I���]�\�]N�	�YY][I��\�ܚ\[ێ�	�-g:��{(�;'o:�!;)�:� H{f�;'m; �H:�$;)�	��]X�Y]�	̌�KLKLMN��	��Y��X�Y]\Έ�̌�KLKLL	�	̌�KLKLLI�	̌�KLKLL��	̌�KLKLL��	̌�KLKLM	�K�K�Y�	�L���[\�YYRY�	�L���[\�YYS�[YN�	��%{) ;f%I��\N�	�[�\�X[�ݙ\�[YI���]�\�]N�	�Y�	��\�ܚ\[ێ�	�(��;"�:�!;-":��:��:�-:�$;)�H:�m:�%z�,;) ;'"��';'!;e�	��]X�Y]�	̌�KLKLM����	��Y��X�Y]\Έ�̌�KLKLL��	̌�KLKLM	�K�K�Y�	�L���[\�YYRY�	�L���[\�YYS�[YN�	�'):��;f!	��\N�	��ۜ�X�]]�W�X��[��I���]�\�]N�	�Y�	��\�ܚ\[ێ�	̻'o;%�;!�H:��:��H;%�:�z�!;%�'c	��]X�Y]�	̌�KLKLML��	��Y��X�Y]\Έ�̌�KLKLL��	̌�KLKLM	�K�K�N���KKHTH�[��[ۜ��][����[�X��KKB��^ܝ\�[���[��[ۈ�]�][�[��T�X�ܙ�
-N���Z\�O][�[��T�X�ܙ�O�Y�
-T�W�S���H]�Z][^JL
-N�]\��ˋ��[���][�[��T�X�ܙ�NB��H�]\��]�Z]\P�Y[���]][�[��T�X�ܙ�O�	��][�[��KܙX�ܙ��NH�]��ۜ��K��\��	�TH;f.;-�;"�;c*[���:�l;'m;a,; �;&�I�N]�Z][^J�
-N�]\��ˋ��[���][�[��T�X�ܙ�NB�B��^ܝ\�[���[��[ۈ�]�X]�T�\]Y\��
-N���Z\�OX]�T�\]Y\��O�Y�
-T�W�S���H]�Z][^J
-N�]\��ˋ��[���X]�T�\]Y\��NB��H�]\��]�Z]\P�Y[���]X]�T�\]Y\��O�	��][�[��K�X]�K\�\]Y\���NH�]��ۜ��K��\��	�TH;f.;-�;"�;c*[���:�l;'m;a,; �;&�I�N]�Z][^J�
-N�]\��ˋ��[���X]�T�\]Y\��NB�B��^ܝ\�[���[��[ۈ\]SX]�T�]\��Y���[����]\Έ	�\�ݙY	�	ܙZ�X�Y	N���Z\�OX]�T�\]Y\��Y�
-T�W�S���H]�Z][^JL
-N�ۜ���[�H[���X]�T�\]Y\�˙�[�
+  { id: '9', employeeId: 'E006', employeeName: '한섌�v�', date: '2025-01-14', clockIn: '09:05', clockOut: '18:30', status: 'normal', overtimeMinutes: 30 },
+];
 
-�HO���YOOHY
-NY�
-Y��[�
-H����]�\��܊	�X]�H�\]Y\�����[�	�N�]\��������[��]\�NB��H�]\��]�Z]\P�Y[��]�X]�T�\]Y\���][�[��K�X]�K\�\]Y\����YX��]\�JNH�]��ۜ��K��\��	�TH;f.;-�;"�;c*[���;,�:�	�N]�Z][^J�
-N�ۜ���[�H[���X]�T�\]Y\�˙�[�
+const mockLeaveRequests: LeaveRequest[] = [
+  {
+    id: 'LR001',
+    employeeId: 'E001',
+    employeeName: '김민수',
+    department: '개발팀',
+    leaveType: '연차',
+    startDate: '2025-01-20',
+    endDate: '2025-01-21',
+    days: 2,
+    reason: '개인 사유로 인핉 신청',
+    status: 'pending',
+    requestedAt: '2025-01-15T09:00:00Z',
+  },
+  {
+    id: 'LR002',
+    employeeId: 'E002',
+    employeeName: '이지은',
+    department: '마케팅',
+    leaveType: '빘가',
+    startDate: '2025-01-16',
+    endDate: '2025-01-17',
+    days: 2,
+    reason: '병원 치료, 진단서 첨부',
+    status: 'approved',
+    requestedAt: '2025-01-14T14:30:00Z',
+  },
+  {
+    id: 'LR003',
+    employeeId: 'E005',
+    employeeName: '정태웰',
+    department: '영엄팀',
+    leaveType: '반차(오전)',
+    startDate: '2025-01-22',
+    endDate: '2025-01-22',
+    days: 0.5,
+    reason: '개인 용무',
+    status: 'pending',
+    requestedAt: '2025-01-15T11:00:00Z',
+  },
+];
 
-�HO���YOOHY
-NY�
-Y��[�
-H����]�\��܊	�X]�H�\]Y\�����[�	�N�]\��������[��]\�NB�B��^ܝ\�[���[��[ۈ�]�ݙ\�[YT�]�
-N���Z\�Oݙ\�[YT�]ψY�
-T�W�S���H]�Z][^J�
-N�]\������[���ݙ\�[YT�]�NB��H�]\��]�Z]\P�Y[���]ݙ\�[YT�]ϊ	��][�[��K�ݙ\�[YK\�]��NH�]��ۜ��K��\��	�TH;f.;-�;"�;c*[���:�l;'m;a,; �;&�I�N]�Z][^J�
-N�]\������[���ݙ\�[YT�]�NB�B��^ܝ\�[���[��[ۈ�]�[��X[Y\�
-N���Z\�O[��X[R][V�O�Y�
-T�W�S���H]�Z][^J�
-N�]\��ˋ��[���[��X[Y\�NB��H�]\��]�Z]\P�Y[���][��X[R][V�O�	��][�[��K�[��X[Y\��NH�]��ۜ��K��\��	�TH;f.;-�;"�;c*[���:�l;'m;a,; �;&�I�N]�Z][^J�
-N�]\��ˋ��[���[��X[Y\�NB�B
+const mockOvertimeStats: OvertimeStats = {
+  totalEmployees: 1248,
+  avgOvertimeHours: 12.5,
+  maxOvertimeHours: 45,
+  overLimitCount: 23,
+  departmentStats: [
+    { department: '개발팀', avgHours: 18.2, employeeCount: 42 },
+    { department: '영엄팀', avgHours: 14.5, employeeCount: 35 },
+    { department: '마케팅', avgHours: 9.8, employeeCount: 28 },
+    { department: '인사팀', avgHours: 6.2, employeeCount: 15 },
+    { department: '재무팀', avgHours: 7.1, employeeCount: 18 },
+    { department: '디자인팀', avgHours: 11.3, employeeCount: 20 },
+  ],
+};
+
+const mockAnomalies: AnomalyItem[] = [
+  {
+    id: 'ANM-001',
+    type: 'unusual_overtime',
+    severity: 'high',
+    employeeId: 'E003',
+    employeeName: '박준형',
+    department: '개발팀',
+    description: '최근 2주읈 �C근 시간이 22시를 초과',
+    detectedAt: '2025-01-14T18:00:00Z',
+    confidence: 0.92,
+  },
+  {
+    id: 'ANM-002',
+    type: 'frequent_late',
+    severity: 'medium',
+    employeeId: 'E002',
+    employeeName: '이지은',
+    department: '마케팅',
+    description: '최근 1개원 내 지각 회수가 4회로 증가',
+    detectedAt: '2025-01-13T09:30:00Z',
+    confidence: 0.85,
+  },
+  {
+    id: 'ANM-003',
+    type: 'pattern_change',
+    severity: 'low',
+    employeeId: 'E005',
+    employeeName: '젔태우',
+    department: '영업팀',
+    description: '최근 조퇴 패턴이 감지 출근에서 지걨> 조퇴로 변경',
+    detectedAt: '2025-01-12T12:00:00Z',
+    confidence: 0.73,
+  },
+];
+
+// --- API functions ---
+
+export async function fetchAttendanceRecords(): Promise<AttendanceRecord[]> {
+  if (USE_MOCK) {
+    await delay(500);
+    return mockAttendanceRecords;
+  }
+  return apiClient.get<AttendanceRecord[]>('/attendance/records');
+}
+
+export async function fetchLeaveRequests(): Promise<LeaveRequest[]> {
+  if (USE_MOCK) {
+    await delay(400);
+    return mockLeaveRequests;
+  }
+  return apiClient.get<LeaveRequest[]>('/attendance/leave-requests');
+}
+
+export async function updateLeaveStatus(
+  id: string,
+  status: 'approved' | 'rejected'
+): Promise<LeaveRequest> {
+  if (USE_MOCK) {
+    await delay(300);
+    const request = mockLeaveRequests.find((r) => r.id === id);
+    if (!request) throw new Error('Leave request not found');
+    return { ...request, status };
+  }
+  return apiClient.patch<LeaveRequest>(`/attendance/leave-requests/${id}`, { status });
+}
+
+export async function fetchOvertimeStats(): Promise<OvertimeStats> {
+  if (USE_MOCK) {
+    await delay(600);
+    return mockOvertimeStats;
+  }
+  return apiClient.get<OvertimeStats>('/attendance/overtime-stats');
+}
+
+export async function fetchAnomalies(): Promise<AnomalyItem[]> {
+  if (USE_MOCK) {
+    await delay(700);
+    return mockAnomalies;
+  }
+  return apiClient.get<AnomalyItem[]>('/attendance/anomalies');
+}

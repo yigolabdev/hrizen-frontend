@@ -10,6 +10,7 @@ interface UserInfo {
 
 interface NotificationItem {
   id: string;
+  title: string;
   message: string;
   type: 'info' | 'warning' | 'error' | 'success';
   read: boolean;
@@ -17,91 +18,73 @@ interface NotificationItem {
 }
 
 interface AppState {
-  // UI State
+  // UI state
   sidebarCollapsed: boolean;
   toggleSidebar: () => void;
-  setSidebarCollapsed: (collapsed: boolean) => void;
+  setSidebarCollapsed: (val: boolean) => void;
 
-  // Auth / User
-  user: UserInfo | null;
+  // Auth / User state
+  currentUser: UserInfo | null;
   isAuthenticated: boolean;
-  isLoadingAuth: boolean;
-  setUser: (user: UserInfo | null) => void;
-  login: (email: string, password: string) => Promise<void>;
+  setCurrentUser: (user: UserInfo | null) => void;
   logout: () => void;
+
+  // Tenant state
+  currentTenantId: string | null;
+  setCurrentTenantId: (id: string | null) => void;
 
   // Notifications
   notifications: NotificationItem[];
-  unreadCount: number;
-  addNotification: (notification: Omit<NotificationItem, 'id' | 'read' | 'createdAt'>) => void;
+  addNotification: (item: Omit<NotificationItem, 'id' | 'read' | 'createdAt'>) => void;
   markNotificationRead: (id: string) => void;
   clearNotifications: () => void;
 
-  // Global Loading
+  // Global loading
   globalLoading: boolean;
-  setGlobalLoading: (loading: boolean) => void;
-
-  // Tenant
-  currentTenantId: string | null;
-  setCurrentTenantId: (tenantId: string | null) => void;
+  setGlobalLoading: (val: boolean) => void;
 }
 
-export const useAppStore = create<AppState>((set, get) => ({
-  // UI State
+export const useAppStore = create<AppState>((set) => ({
+  // UI state
   sidebarCollapsed: false,
-  toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
-  setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
+  toggleSidebar: () => set((s) => ({ sidebarCollapsed: !s.sidebarCollapsed })),
+  setSidebarCollapsed: (val) => set({ sidebarCollapsed: val }),
 
-  // Auth / User
-  user: null,
+  // Auth / User state
+  currentUser: null,
   isAuthenticated: false,
-  isLoadingAuth: false,
-  setUser: (user) => set({ user, isAuthenticated: !!user }),
-  login: async (email: string, _password: string) => {
-    set({ isLoadingAuth: true });
-    try {
-      // TODO: Replace with actual API call
-      await new Promise((r) => setTimeout(r, 800));
-      const mockUser: UserInfo = {
-        id: 'U001',
-        name: '관리자',
-        email,
-        role: 'admin',
-        tenantId: 'T001',
-      };
-      set({ user: mockUser, isAuthenticated: true, currentTenantId: mockUser.tenantId });
-    } finally {
-      set({ isLoadingAuth: false });
-    }
-  },
-  logout: () => set({ user: null, isAuthenticated: false, currentTenantId: null }),
+  setCurrentUser: (user) =>
+    set({ currentUser: user, isAuthenticated: user !== null }),
+  logout: () =>
+    set({ currentUser: null, isAuthenticated: false, currentTenantId: null }),
+
+  // Tenant state
+  currentTenantId: null,
+  setCurrentTenantId: (id) => set({ currentTenantId: id }),
 
   // Notifications
   notifications: [],
-  unreadCount: 0,
-  addNotification: (notification) =>
-    set((state) => {
-      const newItem: NotificationItem = {
-        ...notification,
-        id: `notif-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-        read: false,
-        createdAt: new Date().toISOString(),
-      };
-      const updated = [newItem, ...state.notifications].slice(0, 50);
-      return { notifications: updated, unreadCount: updated.filter((n) => !n.read).length };
-    }),
+  addNotification: (item) =>
+    set((s) => ({
+      notifications: [
+        {
+          ...item,
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          read: false,
+          createdAt: new Date().toISOString(),
+        },
+        ...s.notifications,
+      ],
+    })),
   markNotificationRead: (id) =>
-    set((state) => {
-      const updated = state.notifications.map((n) => (n.id === id ? { ...n, read: true } : n));
-      return { notifications: updated, unreadCount: updated.filter((n) => !n.read).length };
-    }),
-  clearNotifications: () => set({ notifications: [], unreadCount: 0 }),
+    set((s) => ({
+      notifications: s.notifications.map((n) =>
+        n.id === id ? { ...n, read: true } : n
+      ),
+    })),
+  clearNotifications: () => set({ notifications: [] }),
 
-  // Global Loading
+  // Global loading
   globalLoading: false,
-  setGlobalLoading: (loading) => set({ globalLoading: loading }),
-
-  // Tenant
-  currentTenantId: null,
-  setCurrentTenantId: (tenantId) => set({ currentTenantId: tenantId }),
+  setGlobalLoading: (val) => set({ globalLoading: val }),
 }));
