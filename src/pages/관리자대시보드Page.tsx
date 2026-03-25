@@ -10,25 +10,29 @@ const { Title } = Typography;
 
 export default function AdminDashboardPage() {
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Title level={3} 스타일={{ color: '#007AFF' }}>관리자 대시보드</Title>
-      <SummaryStatsCard />
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={14}>
-          <AttendanceChart />
-        </Col>
-        <Col xs={24} lg={10}>
-          <PayrollOverview />
-        </Col>
-      </Row>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={12}>
-          <RecentActivitiesFeed />
-        </Col>
-        <Col xs={24} lg={12}>
-          <RetentionRiskHeatmap />
-        </Col>
-      </Row>
-    </Space>
+    <div style={{ padding: 24 }}>
+      <Title level={3} style={{ color: '#007AFF', marginBottom: 24 }}>
+        관리자 대시보드
+      </Title>
+      <Space direction="vertical" size={24} style={{ width: '100%' }}>
+        <SummaryStatsCard />
+        <Row gutter={[16, 16]}>
+          <Col xs={24} lg={14}>
+            <AttendanceChart />
+          </Col>
+          <Col xs={24} lg={10}>
+            <PayrollOverview />
+          </Col>
+        </Row>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} lg={12}>
+            <RetentionRiskHeatmap />
+          </Col>
+          <Col xs={24} lg={12}>
+            <RecentActivitiesFeed />
+          </Col>
+        </Row>
+      </Space>
+    </div>
   );
 }

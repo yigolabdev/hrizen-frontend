@@ -33,16 +33,16 @@ interface MenuItemDef {
 
 const menuItems: MenuItemDef[] = [
   { key: '/', label: '랜딩', icon: <HomeOutlined />, path: '/' },
-  { key: '/admin/dashboard', label: '관리자 대시보냜', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: '멀티 테넌트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: '/admin/dashboard', label: '관리자 대시보드', icon: <DashboardOutlined />, path: '/admin/dashboard' },
+  { key: '/admin/tenants', label: '멀티 테날트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
   { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
-  { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: '/payroll', label: '급여 정햠 관리', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: '/attendance', label: '걼태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
+  { key: '/payroll', label: '급여 정할 관리', icon: <PayCircleOutlined />, path: '/payroll' },
   { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
   { key: '/ess', label: '직� 셀프 서비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
   { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: '/api-management', label: '오프 API 관리', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: '구독 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/api-management', label: '오픐 API 관리', icon: <ApiOutlined />, path: '/api-management' },
+  { key: '/subscription', label: '구럅 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
   { key: '/billing', label: '결제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
   { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
@@ -94,11 +94,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
             style={{
               margin: 0,
               color: '#007AFF',
-              fontSize: sidebarCollapsed ? 14 : 20,
               whiteSpace: 'nowrap',
+              overflow: 'hidden',
             }}
           >
-            {sidebarCollapsed ? 'HR' : 'HRiZen'}
+            {sidebarCollapsed ? 'H' : 'HRiZen'}
           </Title>
         </div>
         <Menu
@@ -117,10 +117,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <Header
           style={{
             background: token.colorBgContainer,
-            padding: '0 16px',
+            padding: '0 24px',
             display: 'flex',
             alignItems: 'center',
             borderBottom: `1px solid ${token.colorBorder}`,
+            gap: 12,
           }}
         >
           <Button
@@ -129,14 +130,14 @@ export default function AppLayout({ children }: AppLayoutProps) {
             onClick={toggleSidebar}
             style={{ fontSize: 16 }}
           />
+          <Title level={5} style={{ margin: 0, flex: 1 }}>
+            {menuItems.find((i) => i.key === location.pathname)?.label || 'HRiZen'}
+          </Title>
         </Header>
         <Content
           style={{
-            margin: 16,
-            padding: 24,
-            background: token.colorBgContainer,
-            borderRadius: token.borderRadiusLG,
-            minHeight: 280,
+            margin: 24,
+            minHeight: 'calc(100vh - 64px - 48px)',
           }}
         >
           {children}

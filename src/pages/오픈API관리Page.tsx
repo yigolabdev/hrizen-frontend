@@ -8,13 +8,17 @@ const { Title } = Typography;
 
 export default function OpenAPIPage() {
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Title level={3} style={{ color: '#007AFF' }}>오픈 API 관리</Title>
-      <APIKeyGenerator />
-      <Divider />
-      <IntegrationSettingsForm />
-      <Divider />
-      <UsageStatisticsChart />
-    </Space>
+    <div style={{ padding: 24 }}>
+      <Title level={3} style={{ color: '#007AFF', marginBottom: 24 }}>
+        오픐 API 관리
+      </Title>
+      <Space direction="vertical" size={24} style={{ width: '100%' }}>
+        <APIKeyGenerator />
+        <Divider />
+        <UsageStatisticsChart />
+        <Divider />
+        <IntegrationSettingsForm />
+      </Space>
+    </div>
   );
 }
