@@ -33,30 +33,28 @@ interface MenuItemDef {
 
 const menuItems: MenuItemDef[] = [
   { key: '/', label: 'Home', icon: <HomeOutlined />, path: '/' },
-  { key: 'admin/dashboard', label: 'Admin Dashboard', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: 'admin/tenants', label: 'Multi-Tenant', icon: <SettingOutlined />, path: '/admin/tenants' },
-  { key: 'admin/permissions', label: 'Permissions', icon: <TeamOutlined />, path: '/admin/permissions' },
-  { key: 'attendance', label: 'Attendance', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: 'payroll', label: 'Payroll', icon: <PayCircleOutlined />, path: '/payroll' },
-  { key: 'performance', label: 'Performance', icon: <TrophyOutlined />, path: '/performance' },
-  { key: 'ess', label: 'ESS', icon: <CustomerServiceOutlined />, path: '/ess' },
-  { key: 'analytics/ai-dashboard', label: 'AI Analytics', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: 'api-management', label: 'API Management', icon: <ApiOutlined />, path: '/api-management' },
-  { key: 'subscription', label: 'Subscription', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: 'billing', label: 'Billing', icon: <CreditCardOutlined />, path: '/billing' },
-  { key: 'my-page', label: 'My Page', icon: <UserOutlined />, path: '/my-page' },
+  { key: '/admin/dashboard', label: 'Admin Dashboard', icon: <DashboardOutlined />, path: '/admin/dashboard' },
+  { key: '/admin/tenants', label: 'Multi-Tenant', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: '/admin/permissions', label: 'Permissions', icon: <TeamOutlined />, path: '/admin/permissions' },
+  { key: '/attendance', label: 'Attendance', icon: <ScheduleOutlined />, path: '/attendance' },
+  { key: '/payroll', label: 'Payroll', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: '/performance', label: 'Performance', icon: <TrophyOutlined />, path: '/performance' },
+  { key: '/ess', label: 'ESS', icon: <CustomerServiceOutlined />, path: '/ess' },
+  { key: '/analytics/ai-dashboard', label: 'AI Analytics', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
+  { key: '/api-management', label: 'API Management', icon: <ApiOutlined />, path: '/api-management' },
+  { key: '/subscription', label: 'Subscription', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/billing', label: 'Billing', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: '/my-page', label: 'My Page', icon: <UserOutlined />, path: '/my-page' },
 ];
 
 export default function AppLayout() {
-  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const screens = useBreakpoint();
+  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  const selectedKey = location.pathname === '/' ? '/' : location.pathname.slice(1);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -65,10 +63,8 @@ export default function AppLayout() {
         collapsed={collapsed}
         onCollapse={setCollapsed}
         breakpoint="lg"
-        style={{
-          background: colorBgContainer,
-          borderRight: '1px solid #f0f0f0',
-        }}
+        style={{ background: colorBgContainer }}
+        trigger={null}
       >
         <div
           style={{
@@ -85,14 +81,14 @@ export default function AppLayout() {
         </div>
         <Menu
           mode="inline"
-          selectedKeys={[selectedKey]}
+          selectedKeys={[location.pathname]}
           items={menuItems.map((item) => ({
             key: item.key,
             icon: item.icon,
             label: item.label,
             onClick: () => navigate(item.path),
           }))}
-          style={{ borderRight: 'none' }}
+          style={{ borderInlineEnd: 'none' }}
         />
       </Sider>
       <Layout>
@@ -102,23 +98,23 @@ export default function AppLayout() {
             background: colorBgContainer,
             display: 'flex',
             alignItems: 'center',
-            borderBottom: '1px solid #f0f0f0',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
           }}
         >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: 16, width: 48, height: 48 }}
+            style={{ fontSize: 16 }}
           />
         </Header>
         <Content
           style={{
-            margin: 16,
+            margin: 24,
             padding: 24,
             background: '#f5f5f5',
-            borderRadius: 8,
-            minHeight: 'calc(100vh - 112px)',
+            minHeight: 280,
+            borderRadius: 12,
           }}
         >
           <Outlet />

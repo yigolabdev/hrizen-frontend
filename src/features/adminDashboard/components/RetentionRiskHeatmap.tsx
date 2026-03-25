@@ -15,11 +15,11 @@ interface Department {
 
 const departments: Department[] = [
   { name: '개발팀', riskLevel: 'high', riskScore: 78, atRiskCount: 8, totalCount: 42, topReasons: ['연봉 불만족', '성장 기회 부족'] },
-  { name: '마케팅', riskLevel: 'medium', riskScore: 52, atRiskCount: 4, totalCount: 28, topReasons: ['워라밸', '업무 과중'] },
-  { name: '영업팀', riskLevel: 'high', riskScore: 71, atRiskCount: 6, totalCount: 35, topReasons: ['성과 압박', '조직 문화'] },
+  { name: '마케팄팀', riskLevel: 'medium', riskScore: 52, atRiskCount: 4, totalCount: 28, topReasons: ['옌라밨', '업무 과중'] },
+  { name: '영업팀', riskLevel: 'high', riskScore: 71, atRiskCount: 6, totalCount: 35, topReasons: ['성과 압박', '조직미화'] },
   { name: '인사팀', riskLevel: 'low', riskScore: 25, atRiskCount: 1, totalCount: 15, topReasons: ['안정적'] },
   { name: '재무팀', riskLevel: 'low', riskScore: 30, atRiskCount: 1, totalCount: 18, topReasons: ['안정적'] },
-  { name: '디자인팀', riskLevel: 'medium', riskScore: 48, atRiskCount: 3, totalCount: 20, topReasons: ['커리어 전환', '업묘 범위'] },
+  { name: '디자인팀', riskLevel: 'medium', riskScore: 48, atRiskCount: 3, totalCount: 20, topReasons: ['커리어 전환', '업무 범위'] },
   { name: 'QA팀', riskLevel: 'low', riskScore: 22, atRiskCount: 0, totalCount: 12, topReasons: ['안정적'] },
   { name: '경영지원팀', riskLevel: 'medium', riskScore: 45, atRiskCount: 2, totalCount: 14, topReasons: ['보상 불만족'] },
 ];
@@ -49,11 +49,11 @@ function getRiskBg(level: Department['riskLevel']): string {
 function getRiskLabel(level: Department['riskLevel']): string {
   switch (level) {
     case 'high':
-      return '높음';
+      return '필험';
     case 'medium':
-      return '보통';
+      return '주의';
     case 'low':
-      return '놮음';
+      return '안전';
   }
 }
 
@@ -70,9 +70,11 @@ export default function RetentionRiskHeatmap() {
       bodyStyle={{ padding: '24px' }}
     >
       <div style={{ marginBottom: 20 }}>
-        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>이퇍 위험 히트맵</span>
+        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>
+          <WarningOutlined style={{ marginRight: 8 }} />
+          이직 위험 호트맕
+        </span>
       </div>
-
       <div
         style={{
           display: 'grid',
@@ -85,38 +87,54 @@ export default function RetentionRiskHeatmap() {
             key={dept.name}
             title={
               <div>
-                <div>위험 인원: {dept.atRiskCount}명 / {dept.totalCount}명</div>
-                <div>케이 원인': {dept.topReasons.join(', ')}</div>
+                <div>취험 위험: {dept.riskScore}점</div>
+                <div>위험 인원: {dept.atRiskCount}/{dept.totalCount}거</div>
+                {dept.topReasons.length > 0 && (
+                  <div>파인 원인 : {dept.topReasons.join(', ')}</div>
+                )}
               </div>
             }
           >
             <div
               style={{
-                background: getRiskBg(dept.riskLevel),
+                backgroundColor: getRiskBg(dept.riskLevel),
                 border: `1px solid ${getRiskColor(dept.riskLevel)}20`,
                 borderRadius: 12,
-                padding: 16,
-                textAlign: 'center',
+                padding: '14px',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
               }}
             >
-              <div style={{ fontWeight: 600, fontSize: 14, color: '#1a1a1a', marginBottom: 8 }}>
-                {dept.name}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <Text strong style={{ fontSize: 13 }}>{dept.name}</Text>
+                <Tag color={getRiskColor(dept.riskLevel)} style={{ borderRadius: 12, fontSize: 11 }}>
+                  {getRiskLabel(dept.riskLevel)}
+                </Tag>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <UserOutlined style={{ fontSize: 12, color: '#8E8E93' }} />
+                <Text type="secondary" style={{ fontSize: 12 }}>
+                  {dept.atRiskCount}/{dept.totalCount}팍
+                </Text>
               </div>
               <div
                 style={{
-                  fontSize: 24,
-                  fontWeight: 700,
-                  color: getRiskColor(dept.riskLevel),
-                  marginBottom: 4,
+                  marginTop: 8,
+                  height: 4,
+                  backgroundColor: 'rgba(0,0,0,0.06)',
+                  borderRadius: 2,
+                  overflow: 'hidden',
                 }}
               >
-                {dept.riskScore}%
+                <div
+                  style={{
+                    width: `${dept.riskScore}%`,
+                    height: '100%',
+                    backgroundColor: getRiskColor(dept.riskLevel),
+                    borderRadius: 2,
+                  }}
+                />
               </div>
-              <Tag color={getRiskColor(dept.riskLevel)} style={{ borderRadius: 8 }}>
-                {getRiskLabel(dept.riskLevel)}
-              </Tag>
             </div>
           </Tooltip>
         ))}

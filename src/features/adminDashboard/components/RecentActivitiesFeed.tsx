@@ -28,8 +28,8 @@ const activities: Activity[] = [
   {
     id: '1',
     type: 'alert',
-    title: '이텍 위험 알림',
-    description: '개발팀 김서준 님의 이직 위험도가 85%로 상승-��숕니다.',
+    title: '이직 위험 알림',
+    description: '개발팀 김서준 님의 이직 위험도가 85%로 상승했습니다.',
     time: '5분 전',
     status: 'error',
   },
@@ -46,14 +46,14 @@ const activities: Activity[] = [
     type: 'onboarding',
     title: '신규 입사자 등록',
     description: '마케팅팀 이하은 님이 입사 등록되었습니다.',
-    time: '2시간 전',
+    time: '2짯간 전',
     status: 'info',
   },
   {
     id: '4',
     type: 'leave',
-    title: '연차 승호 요청',
-    description: '영업팀 박준서 님의 연차 신청(7/22~7/23) 대기 중입니다.',
+    title: '연차 승인 요청',
+    description: '영업팀 박준서 님의 연차 신청(7/22~7/23)이 대기 중입니다.',
     time: '3시간 전',
     status: 'warning',
   },
@@ -80,6 +80,8 @@ function getIcon(type: ActivityType): React.ReactNode {
       return <FileTextOutlined style={iconStyle} />;
     case 'alert':
       return <ExclamationCircleOutlined style={iconStyle} />;
+    default:
+      return <ClockCircleOutlined style={iconStyle} />;
   }
 }
 
@@ -89,10 +91,11 @@ function getStatusColor(status: Activity['status']): string {
       return '#34C759';
     case 'warning':
       return '#FF9500';
-    case 'info':
-      return '#007AFF';
     case 'error':
       return '#FF3B30';
+    case 'info':
+    default:
+      return '#007AFF';
   }
 }
 
@@ -109,14 +112,14 @@ export default function RecentActivitiesFeed() {
       bodyStyle={{ padding: '24px' }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>최근 활동</span>
+        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>파근 활동</span>
         <Button type="link" size="small" icon={<RightOutlined />}>
           전체 보기
         </Button>
       </div>
-
       <Timeline
         items={activities.map((activity) => ({
+          key: activity.id,
           color: getStatusColor(activity.status),
           dot: getIcon(activity.type),
           children: (

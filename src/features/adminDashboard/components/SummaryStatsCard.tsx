@@ -49,9 +49,8 @@ const stats: StatItem[] = [
   },
   {
     key: 'payroll',
-    title: '이번 달 급여액',
-    value: 4820,
-    suffix: '만�',
+    title: '이번 달 급여촃액',
+    value: 4820000000,
     icon: <PayCircleOutlined />,
     color: '#FF9500',
     bgColor: 'rgba(255, 149, 0, 0.08)',
@@ -60,7 +59,7 @@ const stats: StatItem[] = [
   },
   {
     key: 'risk',
-    title: '이퇍 위험 인원',
+    title: '이직 위험 인원',
     value: 23,
     suffix: '명',
     icon: <WarningOutlined />,
@@ -70,6 +69,16 @@ const stats: StatItem[] = [
     trendValue: '2.4%',
   },
 ];
+
+function formatKRW(value: number): string {
+  if (value >= 100000000) {
+    return `${(value / 100000000).toFixed(1)}억�`;
+  }
+  if (value >= 10000) {
+    return `${(value / 10000).toFixed(0)}만�`;
+  }
+  return value.toLocaleString();
+}
 
 export default function SummaryStatsCard() {
   return (
@@ -86,18 +95,18 @@ export default function SummaryStatsCard() {
             }}
             bodyStyle={{ padding: '20px' }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Space direction="vertical" size={12} style={{ width: '100%' }}>
               <div
                 style={{
-                  width: 44,
-                  height: 44,
+                  width: 40,
+                  height: 40,
                   borderRadius: 12,
                   backgroundColor: stat.bgColor,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: stat.color,
-                  fontSize: 20,
+                  fontSize: 18,
                 }}
               >
                 {stat.icon}
@@ -105,25 +114,26 @@ export default function SummaryStatsCard() {
               <div>
                 <Text type="secondary" style={{ fontSize: 12 }}>{stat.title}</Text>
                 <div style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a' }}>
-                  {stat.value.toLocaleString()}{stat.suffix || ''}
+                  {stat.key === 'payroll' ? formatKRW(stat.value) : stat.value}
+                  {stat.suffix && <span style={{ fontSize: 14, marginLeft: 2 }}>{stat.suffix}</span>}
                 </div>
-                <Space size={4}>
-                  {stat.trend === 'up' ? (
-                    <ArrowUpOutlined style={{ color: '#34C759', fontSize: 11 }} />
-                  ) : (
-                    <ArrowDownOutlined style={{ color: '#FF3B30', fontSize: 11 }} />
-                  )}
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      color: stat.trend === 'up' ? '#34C759' : '#FF3B30',
-                    }}
-                  >
-                    {stat.trendValue}
-                  </Text>
-                </Space>
               </div>
-            </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                {stat.trend === 'up' ? (
+                  <ArrowUpOutlined style={{ color: '#34C759', fontSize: 12 }} />
+                ) : (
+                  <ArrowDownOutlined style={{ color: '#FF3B30', fontSize: 12 }} />
+                )}
+                <Text
+                  style={{
+                    fontSize: 11,
+                    color: stat.trend === 'up' ? '#34C759' : '#FF3B30',
+                  }}
+                >
+                  {stat.trendValue} 전월 대비
+                </Text>
+              </div>
+            </Space>
           </Card>
         </Col>
       ))}

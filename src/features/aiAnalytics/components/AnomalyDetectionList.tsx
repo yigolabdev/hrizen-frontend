@@ -12,8 +12,8 @@ import {
 const { Text } = Typography;
 
 type SeverityLevel = '심각' | '경고' | '주의' | '정보';
-type AnomalyCategory = '근텀' | '급여' | '성과' | '행동';
-type StatusType = '신규' | '확인중' | '해결됨';
+type AnomalyCategory = '근텃' | '급여' | '성과' | '행동';
+type StatusType = '신규' | '확인중' | '해결˨';
 
 interface AnomalyItem {
   id: string;
@@ -32,24 +32,135 @@ const anomalyData: AnomalyItem[] = [
   {
     id: 'ANM-001',
     title: '비정상 야근 패턴 감지',
-    description: '최근 2주간 일일 평�z���x^ȹΫN��B.ȹΫN��B�H��;��Y����;κy�{λ�N�N٨���N�8�	�x�	��x�ȫ^�����B�r��6WfW&�G��~ȺΫr��6FVv�'��~�{��Xr��7FGW3�~Ⱥ�y�r��FWFV7FVDC�s##B��R��3"r��ffV7FVDV����VS�~�Yθ�N��Br��FW'F�V�C�~�IN���ێ��r��6��f�FV�6S��B��������C�t���"r��F�F�S�~����z���N�8�x����َȺ�r��FW67&�F���~��N�(����ȹΫNɘ�ȉ�������NɹB����B#�R�iޫ�Y�Ɉȫ^�����B��{��9����ޫ;��h����˙��Z������B�r��6WfW&�G��~ȺΫr��6FVv�'��~����z�r��7FGW3�~ٙ^�ێ�Ir��FWFV7FVDC�s##B��BC�Rr��ffV7FVDV����VS�~ȹ�ȪN�Y�r��FW'F�V�C�~Ɉ�x^��r��6��f�FV�6S�����������C�t���2r��F�F�S�~�x������B����i�r��FW67&�F���~�YΫ{��	�ɹB�+B�x��ˬ숤가 7회움, 이전 3개월 평폘(1회) 대비 크게 즞가했습니다.',
-    severity: '경고',
-    category: '근텀',
+    description: '최근 2주간 일일 평균근무시간이 12시간을 초과하며 주말 근무가 4회 이상 감지되었습니다.',
+    severity: '심각',
+    category: '근텃',
     status: '신규',
+    detectedAt: '2024-01-15 09:32',
+    affectedEmployee: '한도윤',
+    department: '디자인팀',
+    confidence: 94,
+  },
+  {
+    id: 'ANM-002',
+    title: '급여 이상 지급 의심',
+    description: '이번 달 시간왈 수당이 전월 대비 280% 증가하였습니다. 근텀 기록과 불일치합니다.',
+    severity: '심각',
+    category: '급여',
+    status: '확인중',
+    detectedAt: '2024-01-14 14:15',
+    affectedEmployee: '시스템',
+    department: '영엄팀',
+    confidence: 88,
+  },
+  {
+    id: 'ANM-003',
+    title: '지각 빈도 급증',
+    description: '최근 1개월 내 지각 횁수가 7회로, 이전 3개월 평균(1회) 대비 크게 증가했습니다.',
+    severity: '경고',
+    category: '근태',
+    status: '신개',
     detectedAt: '2024-01-14 08:00',
-    affectedEmployee: '김민준',
+    affectedEmployee: '김민줐',
     department: '개발팀',
     confidence: 91,
   },
   {
     id: 'ANM-004',
-    title: '성과 지푨 급격한 하띍',
-    description: 'OKR 달성률이 전분기 92%에서 이번 분기 54%로 급격히 하락�k{"�z��:������]�\�]N�	���z��	���]Y�ܞN�	�!,z��	���]\Έ	�fe{'n;)$I��]X�Y]�	̌�LKLL�M��I��Y��X�Y[\�YYN�	�'m;!';%�	��\\�Y[��	���;/ ;c!I���ۙ�Y[��N�K�K�N��ۜ��]�\�]P�ۙ�YΈ�X�ܙ�]�\�]S]�[���܎���[���Y���܎���[��O�H	�"�:� IΈ���܎�	�ё�Ќ�	�Y���܎�	ܙY	�K�	���z��	Έ���܎�	�ё�ML	�Y���܎�	�ܘ[��I�K�	�(�;'f	Έ���܎�	�ё���	�Y���܎�	���	�K�	�(%z��	Έ���܎�	���Q���Y���܎�	؛YI�K�N��ۜ��]\��ۙ�YΈ�X�ܙ�]\�\K�X�ێ��XX���XX���N���܎���[��O�H	�"�:��	Έ�X�ێ�^�[X][ې�\��S�][�Yϋ��܎�	�ё�Ќ�	�K�	�fe{'n;)$IΈ�X�ێ������\��S�][�Yϋ��܎�	�ё�ML	�K�	�em:��:�*	Έ�X�ێ��X���\��S�][�Yϋ��܎�	�����NI�K�N�^ܝY�][�[��[ۈ[��X[Q]X�[ۓ\�
+    title: '성과 지표 겊穩'하락',
+    description: 'OKR 달성률이 전분기 92%에서 이번 분기 54%로 금격히 하맽했습니다.',
+    severity: '경고',
+    category: '성과',
+    status: '확인중',
+    detectedAt: '2024-01-13 16:45',
+    affectedEmployee: '이서연',
+    department: '마케팅팀',
+    confidence: 85,
+  },
+];
 
-H�ۜ�ٚ[\��]�[\�HH\�T�]O��[�ϊ	�(!;,�	�N��ۜ��[\�Y]HH�[\�OOH	�(!;,�	�[��X[Q]B��[��X[Q]K��[\�
-][JHO�][K��]�\�]HOOH�[\�N��]\��
-��\���ܙ\�Y^٘[�_B��[O^���ܙ\��Y]\ΈL��X��ܛ�[���܎�	�ё������ZY��	�L	I�_B�]O^]��[O^��\�^N�	ٛ^	��\�Y�P�۝[��	��X�KX�]�Y[��[Yے][\Έ	��[�\��_O���X�O���\��[���][�Y�[O^����܎�	�ё�ML	�_Hς��[��[O^���۝�ZY���_O�'m; �H:�$;)�;ekz�O��[�����X�O���Y�Y[�Y��^�OH��X[���[ۜ�^���(!;,�	�	�"�:� I�	���z��	�	�(�;'f	�	�(%z��	�_B��[YO^ٚ[\�B�ې�[��O^��[
-HO��]�[\��[\���[��_B�ς��]���B���\��]T��\��O^ٚ[\�Y]_B��[�\�][O^�][JHO�
-�\��][H�^O^�][K�YO��]��[O^���Y�	�L	I�_O��]��[O^��\�^N�	ٛ^	��\�Y�P�۝[��	��X�KX�]�Y[��[Yے][\Έ	��[�\��X\��[����N�_O���X�O��Y���܏^��]�\�]P�ۙ�Y��][K��]�\�]WK�Y���ܟO��][K��]�\�]_O�Yς�^��ۙϞ�][K�]_O�^����X�O���X�O��Y���܏^��]\��ۙ�Y��][K��]\�K���ܟHX�ۏ^��]\��ۙ�Y��][K��]\�K�X�۟O���][K��]\�B��Yς�^\OH��X�ۙ\�H��[O^���۝�^�N�LH_O��][K�]X�Y]O�^����X�O���]���^\OH��X�ۙ\�H��[O^���۝�^�N�L�_O��][K�\�ܚ\[۟O�^��]��[O^��X\��[���_O��^\OH��X�ۙ\�H��[O^���۝�^�N�LH_O���][K�\\�Y[�HH�][K�Y��X�Y[\�YY_H;"�:�:����][K��ۙ�Y[��_IB��^���]����]����\��][O��
-_B�ς���\���
-NB
+function getSeverityColor(severity: SeverityLevel): string {
+  switch (severity) {
+    case '심각':
+      return 'red';
+    case '경고':
+      return 'orange';
+    case '주의':
+      return 'gold';
+    case '정보':
+      return 'blue';
+    default:
+      return 'default';
+  }
+}
+
+function getStatusIcon(status: StatusType): React.ReactNode {
+  switch (status) {
+    case '신규':
+      return <ExclamationCircleOutlined style={{ color: '#FF3B30' }} />;
+    case '확인중':
+      return <ClockCircleOutlined style={{ color: '#FF9500' }} />;
+    case '해결˨':
+      return <CheckCircleOutlined style={{ color: '#34C759' }} />;
+    default:
+      return <InfoCircleOutlined />;
+  }
+}
+
+export default function AnomalyDetectionList() {
+  const [filter, setFilter] = useState<string>('전체');
+
+  const filteredData = filter === '전체'
+    ? anomalyData
+    : anomalyData.filter((item) => item.severity === filter);
+
+  return (
+    <Card
+      bordered={false}
+      style={{ borderRadius: 12, height: '100%' }}
+      title={
+        <Space>
+          <WarningOutlined style={{ color: '#FF3B30' }} />
+          <span style={{ fontWeight: 700 }}>이상 감지 목록</span>
+        </Space>
+      }
+      extra={
+        <Segmented
+          size="small"
+          options={['전체', '심각', '경고', '주의', '정보']}
+          value={filter}
+          onChange={(val) => setFilter(val as string)}
+        />
+      }
+    >
+      {filteredData.length === 0 ? (
+        <Empty description="해당 조건의 이상 데이터가 없습니다." />
+      ) : (
+        <List
+          dataSource={filteredData}
+          renderItem={(item) => (
+            <List.Item key={item.id}>
+              <div style={{ width: '100%' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <Space>
+                    {getStatusIcon(item.status)}
+                    <Text strong>{item.title}</Text>
+                    <Tag color={getSeverityColor(item.severity)}>{item.severity}</Tag>
+                    <Tag>{item.category}</Tag>
+                  </Space>
+                  <Text type="secondary" style={{ fontSize: 12 }}>{item.detectedAt}</Text>
+                </div>
+                <Text type="secondary" style={{ fontSize: 13 }}>{item.description}</Text>
+                <div style={{ marginTop: 4 }}>
+                  <Text type="secondary" style={{ fontSize: 11 }}>
+                    {item.affectedEmployee} • {item.department} • 신몬돎  {item.confidence}%
+                  </Text>
+                </div>
+              </div>
+            </List.Item>
+          )}
+        />
+      )}
+    </Card>
+  );
+}

@@ -60,7 +60,7 @@ export default function PayrollOverview() {
       aria-label="급여 개요"
     >
       <div style={{ marginBottom: 20 }}>
-        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>급여 개요</span>
+        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>파헬 개애</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -73,8 +73,8 @@ export default function PayrollOverview() {
                 cy="50%"
                 innerRadius={55}
                 outerRadius={80}
+                paddingAngle={2}
                 dataKey="value"
-                stroke="none"
               >
                 {payrollData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
@@ -93,13 +93,15 @@ export default function PayrollOverview() {
             }}
           >
             <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a' }}>
-              {totalPayroll.toLocaleString()}개
+              {totalPayroll.toLocaleString()}
             </div>
-            <div style={{ fontSize: 11, color: '#8E8E93' }}>총 급여액�د
+            <div style={{ fontSize: 12, color: '#8E8E93' }}>만원</div>
           </div>
         </div>
 
-        <div style={{ marginTop: 16, width: '100%' }}>
+        <Divider style={{ margin: '16px 0' }} />
+
+        <Space direction="vertical" size={8} style={{ width: '100%' }}>
           {payrollData.map((item) => (
             <div
               key={item.name}
@@ -107,10 +109,9 @@ export default function PayrollOverview() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '6px 0',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Space>
                 <div
                   style={{
                     width: 10,
@@ -119,14 +120,14 @@ export default function PayrollOverview() {
                     backgroundColor: item.color,
                   }}
                 />
-                <Text style={{ fontSize: 13, color: '#666666' }}>{item.name}</Text>
-              </div>
-              <Text style={{ fontWeight: 600, fontSize: 13 }}>
-                {item.value.toLocaleString()}만�
+                <Text style={{ fontSize: 13 }}>{item.name}</Text>
+              </Space>
+              <Text strong style={{ fontSize: 13 }}>
+                {item.value.toLocaleString()}파월
               </Text>
             </div>
           ))}
-        </div>
+        </Space>
       </div>
     </Card>
   );
