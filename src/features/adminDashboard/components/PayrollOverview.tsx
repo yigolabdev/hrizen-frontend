@@ -69,11 +69,11 @@ export default function PayrollOverview() {
                 data={payrollData}
                 cx="50%"
                 cy="50%"
-                innerRadius={65}
-                outerRadius={90}
-                paddingAngle={3}
+                innerRadius={60}
+                outerRadius={100}
+                fill="#8884d8"
+                paddingAngle={2}
                 dataKey="value"
-                stroke="none"
               >
                 {payrollData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
@@ -91,68 +91,39 @@ export default function PayrollOverview() {
               textAlign: 'center',
             }}
           >
-            <Typography.Text type="secondary" style={{ fontSize: 11, display: 'block' }}>
-              이번 달 총액
-            </Typography.Text>
-            <Typography.Title level={5} style={{ margin: 0, fontWeight: 700 }}>
+            <div style={{ fontSize: 24, fontWeight: 700, color: '#1a1a1a' }}>
               {totalPayroll.toLocaleString()}
-              <span style={{ fontSize: 12, fontWeight: 400 }}>만원</span>
-            </Typography.Title>
+            </div>
+            <div style={{ fontSize: 12, color: '#999', marginTop: 4 }}>만원</div>
           </div>
         </div>
       </div>
 
-      <Divider style={{ margin: '16px 0' }} />
+      <Divider />
 
-      <Space direction="vertical" size={12} style={{ width: '100%' }}>
-        {payrollData.map((item) => {
-          const pct = Math.round((item.value / totalPayroll) * 100);
-          return (
-            <div key={item.name}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: 4,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div
-                    style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      backgroundColor: item.color,
-                    }}
-                  />
-                  <Typography.Text style={{ fontSize: 13 }}>{item.name}</Typography.Text>
-                </div>
-                <Typography.Text style={{ fontSize: 13, fontWeight: 600 }}>
-                  {item.value.toLocaleString()}만원
-                </Typography.Text>
-              </div>
-              <Progress
-                percent={pct}
-                showInfo={false}
-                strokeColor={item.color}
-                trailColor="#F2F2F7"
-                size="small"
-                style={{ margin: 0 }}
-              />
+      <Space direction="vertical" style={{ width: '100%' }} size="large">
+        {payrollData.map((item) => (
+          <div key={item.name}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: 8,
+              }}
+            >
+              <span style={{ fontSize: 12, color: '#666' }}>{item.name}</span>
+              <span style={{ fontWeight: 600, color: '#1a1a1a' }}>
+                {item.value.toLocaleString()}만원
+              </span>
             </div>
-          );
-        })}
+            <Progress
+              percent={(item.value / totalPayroll) * 100}
+              strokeColor={item.color}
+              showInfo={false}
+            />
+          </div>
+        ))}
       </Space>
-
-      <Divider style={{ margin: '16px 0 12px' }} />
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <ArrowUpOutlined style={{ color: '#34C759', fontSize: 12 }} />
-        <Typography.Text style={{ fontSize: 12, color: '#34C759', fontWeight: 600 }}>
-          전월 대비 5.1% 증가
-        </Typography.Text>
-      </div>
     </Card>
   );
 }

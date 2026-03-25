@@ -70,15 +70,15 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
     <div
       style={{
         background: '#FFFFFF',
+        borderRadius: 8,
+        padding: '8px 12px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
         border: 'none',
-        borderRadius: 12,
-        padding: '12px 16px',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
       }}
     >
-      <p style={{ margin: 0, fontWeight: 600, fontSize: 13, color: '#1a1a1a' }}>{label}</p>
+      <p style={{ margin: 0, fontWeight: 600, fontSize: 12 }}>{label}</p>
       {payload.map((entry, idx) => (
-        <p key={idx} style={{ margin: '4px 0 0', fontSize: 12, color: entry.color }}>
+        <p key={idx} style={{ margin: '2px 0', fontSize: 11, color: entry.color }}>
           {entry.name}: {entry.value}%
         </p>
       ))}
@@ -88,6 +88,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 
 export default function AttendanceChart() {
   const [period, setPeriod] = useState<Period>('월간');
+  const data = dataMap[period];
 
   return (
     <Card
@@ -99,107 +100,28 @@ export default function AttendanceChart() {
         height: '100%',
       }}
       bodyStyle={{ padding: '24px' }}
-      aria-label="근태 추세 차트"
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 20,
-          flexWrap: 'wrap',
-          gap: 12,
-        }}
-      >
-        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>근태 추세</span>
+      <div style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>근태 현황</span>
         <Segmented
           options={['주간', '월간', '분기']}
           value={period}
-          onChange={(val) => setPeriod(val as Period)}
-          style={{ borderRadius: 8 }}
+          onChange={(value) => setPeriod(value as Period)}
+          style={{ backgroundColor: '#f5f5f5' }}
         />
       </div>
-      <ResponsiveContainer width="100%" height={320}>
-        <ComposedChart data={dataMap[period]} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
-          <defs>
-            <linearGradient id="attendanceGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#007AFF" stopOpacity={0.15} />
-              <stop offset="100%" stopColor="#007AFF" stopOpacity={0.01} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#F2F2F7" vertical={false} />
-          <XAxis
-            dataKey="label"
-            axisLine={false}
-            tickLine={false}
-            tick={{ fontSize: 12, fill: '#8E8E93' }}
-          />
-          <YAxis
-            domain={[0, 100]}
-            axisLine={false}
-            tickLine={false}
-            tick={{ fontSize: 12, fill: '#8E8E93' }}
-            unit="%"
-          />
+
+      <ResponsiveContainer width="100%" height={300}>
+        <ComposedChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#e8e8e8" />
+          <XAxis dataKey="label" stroke="#999" />
+          <YAxis stroke="#999" />
           <Tooltip content={<CustomTooltip />} />
-          <Area
-            type="monotone"
-            dataKey="attendance"
-            fill="url(#attendanceGradient)"
-            stroke="none"
-            name="출근율"
-          />
-          <Bar
-            dataKey="attendance"
-            fill="#007AFF"
-            radius={[6, 6, 0, 0]}
-            barSize={period === '주간' ? 40 : period === '분기' ? 48 : 24}
-            name="출근율"
-          />
-          <Line
-            type="monotone"
-            dataKey="late"
-            stroke="#FF9500"
-            strokeWidth={2}
-            dot={{ r: 4, fill: '#FF9500' }}
-            name="지각률"
-          />
-          <Line
-            type="monotone"
-            dataKey="absent"
-            stroke="#FF3B30"
-            strokeWidth={2}
-            dot={{ r: 4, fill: '#FF3B30' }}
-            name="결근률"
-          />
+          <Bar dataKey="attendance" fill="#34C759" name="출석" />
+          <Bar dataKey="late" fill="#FF9500" name="지각" />
+          <Bar dataKey="absent" fill="#FF3B30" name="결석" />
         </ComposedChart>
       </ResponsiveContainer>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: 24,
-          marginTop: 12,
-        }}
-      >
-        {[
-          { label: '출근율', color: '#007AFF' },
-          { label: '지각률', color: '#FF9500' },
-          { label: '결근률', color: '#FF3B30' },
-        ].map((item) => (
-          <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                backgroundColor: item.color,
-              }}
-            />
-            <span style={{ fontSize: 12, color: '#8E8E93' }}>{item.label}</span>
-          </div>
-        ))}
-      </div>
     </Card>
   );
 }

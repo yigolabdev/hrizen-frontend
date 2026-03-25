@@ -91,65 +91,61 @@ export default function SummaryStatsCard() {
               boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
               height: '100%',
             }}
-            bodyStyle={{ padding: '20px 24px' }}
-            aria-label={`${stat.title} 통계`}
+            bodyStyle={{ padding: '20px' }}
           >
-            <Space direction="vertical" size={12} style={{ width: '100%' }}>
+            <Space direction="vertical" size={16} style={{ width: '100%' }}>
               <div
                 style={{
                   display: 'flex',
-                  alignItems: 'center',
                   justifyContent: 'space-between',
+                  alignItems: 'flex-start',
                 }}
               >
+                <span style={{ fontSize: 12, color: '#666' }}>{stat.title}</span>
                 <div
                   style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
-                    backgroundColor: stat.bgColor,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: 20,
+                    width: '40px',
+                    height: '40px',
+                    backgroundColor: stat.bgColor,
+                    borderRadius: '8px',
                     color: stat.color,
+                    fontSize: '20px',
                   }}
                 >
                   {stat.icon}
                 </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 4,
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: stat.trend === 'up' ? '#34C759' : '#FF3B30',
-                  }}
-                >
-                  {stat.trend === 'up' ? (
-                    <ArrowUpOutlined style={{ fontSize: 10 }} />
-                  ) : (
-                    <ArrowDownOutlined style={{ fontSize: 10 }} />
-                  )}
-                  {stat.trendValue}
-                </div>
               </div>
+
               <div>
-                <Typography.Text
-                  type="secondary"
-                  style={{ fontSize: 13, display: 'block', marginBottom: 4 }}
-                >
-                  {stat.title}
-                </Typography.Text>
-                <Typography.Title
-                  level={4}
-                  style={{ margin: 0, fontWeight: 700, color: '#1a1a1a' }}
-                >
-                  {stat.key === 'payroll'
-                    ? formatKRW(stat.value)
-                    : `${stat.value.toLocaleString()}${stat.suffix || ''}`}
-                </Typography.Title>
+                <Statistic
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  formatter={(value) => {
+                    if (stat.key === 'payroll') {
+                      return formatKRW(value);
+                    }
+                    if (stat.suffix === '%') {
+                      return value.toFixed(1);
+                    }
+                    return value.toLocaleString();
+                  }}
+                  valueStyle={{ color: stat.color, fontSize: '24px', fontWeight: 700 }}
+                />
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '12px',
+                  color: stat.trend === 'up' ? '#FF3B30' : '#34C759',
+                }}
+              >
+                {stat.trend === 'up' ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                <span style={{ marginLeft: '4px' }}>{stat.trendValue}</span>
               </div>
             </Space>
           </Card>

@@ -100,13 +100,14 @@ function getIcon(type: ActivityType): React.ReactNode {
 function getStatusColor(status: Activity['status']): string {
   switch (status) {
     case 'success':
-      return '#34C759';
+      return 'green';
     case 'warning':
-      return '#FF9500';
+      return 'orange';
     case 'error':
-      return '#FF3B30';
+      return 'red';
     case 'info':
-      return '#007AFF';
+    default:
+      return 'blue';
   }
 }
 
@@ -121,68 +122,39 @@ export default function RecentActivitiesFeed() {
         height: '100%',
       }}
       bodyStyle={{ padding: '24px' }}
-      aria-label="최근 활동 피드"
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 20,
-        }}
-      >
+      <div style={{ marginBottom: 20 }}>
         <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>최근 활동</span>
-        <Button type="link" size="small" style={{ color: '#007AFF', padding: 0, fontSize: 13 }}>
-          전체 보기 <RightOutlined style={{ fontSize: 10 }} />
-        </Button>
       </div>
 
-      <div style={{ maxHeight: 420, overflowY: 'auto', paddingRight: 4 }}>
-        <Timeline
-          items={activities.map((activity) => ({
-            key: activity.id,
-            color: getStatusColor(activity.status),
-            dot: (
-              <div
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 10,
-                  backgroundColor: `${getStatusColor(activity.status)}14`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: getStatusColor(activity.status),
-                }}
-              >
-                {getIcon(activity.type)}
+      <Timeline
+        items={activities.map((activity) => ({
+          dot: (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {getIcon(activity.type)}
+            </div>
+          ),
+          children: (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontWeight: 600, fontSize: 13, color: '#1a1a1a' }}>
+                  {activity.title}
+                </span>
+                <Tag color={getStatusColor(activity.status)} style={{ margin: 0 }}>
+                  {activity.status}
+                </Tag>
               </div>
-            ),
-            children: (
-              <div style={{ paddingBottom: 4 }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    marginBottom: 4,
-                    flexWrap: 'wrap',
-                  }}
-                >
-                  <Typography.Text style={{ fontWeight: 600, fontSize: 13, color: '#1a1a1a' }}>
-                    {activity.title}
-                  </Typography.Text>
-                  <Typography.Text style={{ fontSize: 11, color: '#C7C7CC' }}>
-                    {activity.time}
-                  </Typography.Text>
-                </div>
-                <Typography.Text style={{ fontSize: 12, color: '#8E8E93', lineHeight: '18px' }}>
-                  {activity.description}
-                </Typography.Text>
-              </div>
-            ),
-          }))}
-        />
+              <span style={{ fontSize: 12, color: '#666' }}>{activity.description}</span>
+              <span style={{ fontSize: 11, color: '#999' }}>{activity.time}</span>
+            </Space>
+          ),
+        }))}
+      />
+
+      <div style={{ marginTop: 20, textAlign: 'center' }}>
+        <Button type="text" icon={<RightOutlined />}>
+          모든 활동 보기
+        </Button>
       </div>
     </Card>
   );
