@@ -1,45 +1,34 @@
 import React from 'react';
-import { Typography, Row, Col, Grid } from 'antd';
+import { Typography, Row, Col, Card } from 'antd';
+import AnomalyDetectionList from '@/features/aiAnalytics/components/AnomalyDetectionList';
 import CostAnalysisChart from '@/features/aiAnalytics/components/CostAnalysisChart';
 import TurnoverRiskGraph from '@/features/aiAnalytics/components/TurnoverRiskGraph';
-import AnomalyDetectionList from '@/features/aiAnalytics/components/AnomalyDetectionList';
 import UsageAnalyticsPanel from '@/features/aiAnalytics/components/UsageAnalyticsPanel';
 
-const { Title, Text } = Typography;
-const { useBreakpoint } = Grid;
+const { Title } = Typography;
 
-export default function AIAnalyticsPage() {
-  const screens = useBreakpoint();
-
+export default function AI분석대시보드Page() {
   return (
-    <div style={{ padding: screens.md ? 32 : 16 }}>
-      <div style={{ marginBottom: 32 }}>
-        <Title
-          level={3}
-          style={{ margin: 0, color: '#1A1A1A', fontWeight: 700 }}
-        >
-          AI 분석 대시보드
-        </Title>
-        <Text style={{ color: '#8E8E93', fontSize: 14, marginTop: 4, display: 'block' }}>
-          인력 비용, 이직 위험도, 근태 이상 징후 등 AI 기반 분석 결과를 한눈에 확인하세요.
-        </Text>
-      </div>
-
-      <Row gutter={[24, 24]}>
-        <Col xs={24} xl={12}>
-          <CostAnalysisChart />
+    <div style={{ padding: 24 }}>
+      <Title level={2} style={{ color: '#007AFF', marginBottom: 24 }}>
+        AI 분섍 대시보드
+      </Title>
+      <Row gutter={[16, 16]}>
+        <Col xs={24} lg={12}>
+          <Card bordered={false} style={{ borderRadius: 12, marginBottom: 16 }}>
+            <UsageAnalyticsPanel />
+          </Card>
+          <Card bordered={false} style={{ borderRadius: 12, marginBottom: 16 }}>
+            <CostAnalysisChart />
+          </Card>
         </Col>
-        <Col xs={24} xl={12}>
-          <TurnoverRiskGraph />
-        </Col>
-      </Row>
-
-      <Row gutter={[24, 24]} style={{ marginTop: 24 }}>
-        <Col xs={24} lg={14}>
-          <AnomalyDetectionList />
-        </Col>
-        <Col xs={24} lg={10}>
-          <UsageAnalyticsPanel />
+        <Col xs={24} lg={12}>
+          <Card bordered={false} style={{ borderRadius: 12, marginBottom: 16 }}>
+            <TurnoverRiskGraph />
+          </Card>
+          <Card bordered={false} style={{ borderRadius: 12, marginBottom: 16 }}>
+            <AnomalyDetectionList />
+          </Card>
         </Col>
       </Row>
     </div>

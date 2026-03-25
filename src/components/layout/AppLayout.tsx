@@ -18,6 +18,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
+import { useAppStore } from '@/stores/appStore';
 
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
@@ -31,18 +32,18 @@ interface MenuItemDef {
 }
 
 const menuItems: MenuItemDef[] = [
-  { key: '/', label: '뜘딩', icon: <HomeOutlined />, path: '/' },
+  { key: '/', label: '랜딩', icon: <HomeOutlined />, path: '/' },
   { key: '/admin/dashboard', label: '관리자 대시보드', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: '메티 테난툸 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: '/admin/tenants', label: '멀티 테넠트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
   { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
   { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: '/payroll', label: '급여 정산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: '/payroll', label: '급여 젔산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
   { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
-  { key: '/ess', label: '직원 셀텊 -비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
+  { key: '/ess', label: '직원 셀프 서비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
   { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: '/api-management', label: '오플 API 관리', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: '구똰 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: '/billing', label: '결제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: '/api-management', label: '오픈 API 관리', icon: <ApiOutlined />, path: '/api-management' },
+  { key: '/subscription', label: '구독 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: '/billing', label: '결제 및 청굠 관리', icon: <CreditCardOutlined />, path: '/billing' },
   { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
 
@@ -51,7 +52,7 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
-  const [collapsed, setCollapsed] = useState(false);
+  const { sidebarCollapsed, toggleSidebar, setSidebarCollapsed } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
   const { token } = theme.useToken();
@@ -70,8 +71,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
         collapsible
-        collapsed={collapsed}
-        onCollapse={(val) => setCollapsed(val)}
+        collapsed={sidebarCollapsed}
+        onCollapse={(val) => setSidebarCollapsed(val)}
         breakpoint="md"
         collapsedWidth={isMobile ? 0 : 80}
         style={{
@@ -88,22 +89,20 @@ export default function AppLayout({ children }: AppLayoutProps) {
             padding: '0 16px',
           }}
         >
-          {!collapsed && (
-            <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
-              HRiZen
-            </Title>
-          )}
+          <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
+            {sidebarCollapsed ? 'H' : 'HRiZen'}
+          </Title>
         </div>
         <Menu
           mode="inline"
           selectedKeys={[location.pathname]}
-          onClick={handleMenuClick}
-          style={{ borderRight: 0 }}
           items={menuItems.map((item) => ({
             key: item.key,
             icon: item.icon,
             label: item.label,
           }))}
+          onClick={handleMenuClick}
+          style={{ border: 'none' }}
         />
       </Sider>
       <Layout>
@@ -118,21 +117,15 @@ export default function AppLayout({ children }: AppLayoutProps) {
         >
           <Button
             type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: 16, width: 64, height: 64 }}
+            icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={toggleSidebar}
+            style={{ fontSize: 16 }}
           />
-          <Title level={4} style={{ margin: 0, marginLeft: 8 }}>
-            HRiZen
-          </Title>
         </Header>
         <Content
           style={{
-            margin: 24,
-            padding: 24,
-            minHeight: 280,
-            background: token.colorBgContainer,
-            borderRadius: token.borderRadiusLG,
+            background: token.colorBgLayout,
+            minHeight: 'calc(100vh - 64px)',
           }}
         >
           {children}

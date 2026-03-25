@@ -1,69 +1,36 @@
-import { Row, Col, Card, Typography, Tabs } from 'antd';
-import { ClockCircleOutlined, FileTextOutlined, FormOutlined, FolderOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Typography, Row, Col, Card } from 'antd';
 import AttendanceSummary from '@/features/ess/components/AttendanceSummary';
+import ContractDocuments from '@/features/ess/components/ContractDocuments';
 import LeaveApplicationForm from '@/features/ess/components/LeaveApplicationForm';
 import PayslipViewer from '@/features/ess/components/PayslipViewer';
-import ContractDocuments from '@/features/ess/components/ContractDocuments';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 export default function ESSPage() {
   return (
     <div style={{ padding: 24 }}>
-      <div style={{ marginBottom: 32 }}>
-        <Title level={2} style={{ color: '#1a1a1a', margin: 0 }}>
-          직원 셀프 서비스 포털 (ESS)
-        </Title>
-        <Paragraph type="secondary" style={{ fontSize: 15, marginTop: 8 }}>
-          근태 현황, 휴가 신청, 급여 명세서, 계약 문서를 직접 확인하고 관리하세요.
-        </Paragraph>
-      </div>
-
-      <Tabs
-        defaultActiveKey="attendance"
-        items={[
-          {
-            key: 'attendance',
-            label: <span><ClockCircleOutlined /> 근태 현황</span>,
-            children: (
-              <Row gutter={[24, 24]}>
-                <Col span={24}>
-                  <Card bordered={false} style={{ borderRadius: 12 }}>
-                    <AttendanceSummary />
-                  </Card>
-                </Col>
-              </Row>
-            ),
-          },
-          {
-            key: 'leave',
-            label: <span><FormOutlined /> 휴가 신청</span>,
-            children: (
-              <Card bordered={false} style={{ borderRadius: 12 }}>
-                <LeaveApplicationForm />
-              </Card>
-            ),
-          },
-          {
-            key: 'payslip',
-            label: <span><FileTextOutlined /> 급여 명세서</span>,
-            children: (
-              <Card bordered={false} style={{ borderRadius: 12 }}>
-                <PayslipViewer />
-              </Card>
-            ),
-          },
-          {
-            key: 'contracts',
-            label: <span><FolderOutlined /> 계약 문서</span>,
-            children: (
-              <Card bordered={false} style={{ borderRadius: 12 }}>
-                <ContractDocuments />
-              </Card>
-            ),
-          },
-        ]}
-      />
+      <Title level={2} style={{ color: '#007AFF', marginBottom: 24 }}>
+        직원 셀프 서비스 포턌(ESSYi
+      </Title>
+      <Row gutter={[16, 16]}>
+        <Col xs={24} lg={12}>
+          <Card bordered={false} style={{ borderRadius: 12, marginBottom: 16 }}>
+            <AttendanceSummary />
+          </Card>
+          <Card bordered={false} style={{ borderRadius: 12, marginBottom: 16 }}>
+            <LeaveApplicationForm />
+          </Card>
+        </Col>
+        <Col xs={24} lg={12}>
+          <Card bordered={false} style={{ borderRadius: 12, marginBottom: 16 }}>
+            <PayslipViewer />
+          </Card>
+          <Card bordered={false} style={{ borderRadius: 12, marginBottom: 16 }}>
+            <ContractDocuments />
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 }

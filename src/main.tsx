@@ -2,15 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
-import koKR from 'antd/locale/ko_KR';
 import App from './App';
+import './styles/theme.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ConfigProvider locale={koKR}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#007AFF',
+            borderRadius: 8,
+          },
+        }}
+      >
         <App />
-      </BrowserRouter>
-    </ConfigProvider>
-  </React.StrictMode>,
+      </ConfigProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );

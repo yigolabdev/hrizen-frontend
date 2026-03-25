@@ -14,30 +14,33 @@ export interface LeaveRequest {
   employeeId: string;
   employeeName: string;
   department: string;
-  leaveType: '연차' | '반차(오전)' | '반차(오후)' | '병가' | '경조사' | '공가' | '특별휴가';
+  leaveType: string;
   startDate: string;
   endDate: string;
   days: number;
   reason: string;
   status: 'pending' | 'approved' | 'rejected';
-  requestedAt: string;
 }
 
 export interface OvertimeStats {
   totalEmployees: number;
   avgOvertimeHours: number;
+  maxOvertimeEmployee: string;
   maxOvertimeHours: number;
-  overLimitCount: number;
-  weeklyTrend: { week: string; hours: number }[];
+  departmentStats: {
+    department: string;
+    avgHours: number;
+    employeeCount: number;
+  }[];
 }
 
 export interface AnomalyItem {
   id: string;
   employeeId: string;
   employeeName: string;
-  department: string;
   type: 'frequent_late' | 'unusual_overtime' | 'pattern_change' | 'consecutive_absence';
   severity: 'high' | 'medium' | 'low';
   description: string;
   detectedAt: string;
+  recommendation: string;
 }
