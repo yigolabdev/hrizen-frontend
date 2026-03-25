@@ -47,20 +47,16 @@ const menuItems: MenuItemDef[] = [
   { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
 ];
 
-const AppLayout: React.FC = () => {
+export default function AppLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const screens = useBreakpoint();
   const [collapsed, setCollapsed] = useState(false);
+  const screens = useBreakpoint();
+  const { token } = theme.useToken();
   const appStore = useAppStore();
 
-  const { token } = theme.useToken();
-
-  const handleMenuClick = (key: string) => {
-    const item = menuItems.find((mi) => mi.key === key);
-    if (item) {
-      navigate(item.path);
-    }
+  const handleMenuClick = (path: string) => {
+    navigate(path);
   };
 
   const isMobile = !screens.md;
@@ -68,25 +64,18 @@ const AppLayout: React.FC = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
-        theme="light"
-        collapsed={isMobile ? true : collapsed}
-        onCollapse={setCollapsed}
-        width={240}
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        width={280}
         style={{
-          backgroundColor: '#FFFFFF',
-          borderRight: `1px solid ${token.colorBorder}`,
+          background: token.colorBgContainer,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
         }}
+        hidden={isMobile && collapsed}
       >
-        <div
-          style={{
-            padding: '16px',
-            textAlign: 'center',
-            borderBottom: `1px solid ${token.colorBorder}`,
-          }}
-        >
-          <Title level={4} style={{ margin: 0 }}>
-            {collapsed ? 'HR' : 'HR System'}
-          </Title>
+        <div style={{ padding: '24px 16px', textAlign: 'center', marginBottom: '16px' }}>
+          <Title level={3} style={{ margin: 0, color: token.colorPrimary }}>HR System</Title>
         </div>
         <Menu
           mode="inline"
@@ -95,38 +84,35 @@ const AppLayout: React.FC = () => {
             key: item.key,
             icon: item.icon,
             label: item.label,
-            onClick: () => handleMenuClick(item.key),
+            onClick: () => handleMenuClick(item.path),
           }))}
-          style={{ borderRight: 'none' }}
         />
       </Sider>
       <Layout>
         <Header
           style={{
-            background: '#FFFFFF',
-            borderBottom: `1px solid ${token.colorBorder}`,
+            background: token.colorBgContainer,
+            padding: '0 24px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
             display: 'flex',
-            justifyContent: 'space-between',
             alignItems: 'center',
-            paddingInline: 24,
+            justifyContent: 'space-between',
           }}
         >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: '16px' }}
+            style={{ fontSize: '16px', width: 64, height: 64 }}
           />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <Typography.Text>사용자</Typography.Text>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <span>{appStore.userInfo?.name || 'User'}</span>
           </div>
         </Header>
-        <Content style={{ padding: '24px' }}>
+        <Content style={{ padding: '24px', background: '#f5f5f5', overflow: 'auto' }}>
           <Outlet />
         </Content>
       </Layout>
     </Layout>
   );
-};
-
-export default AppLayout;
+}
