@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Row, Col } from 'antd';
+import { Typography, Row, Col, Space } from 'antd';
 import PlanSelector from '@/features/subscription/components/PlanSelector';
 import SubscriptionStatusCard from '@/features/subscription/components/SubscriptionStatusCard';
 import PaymentHistoryTable from '@/features/subscription/components/PaymentHistoryTable';
@@ -9,8 +9,8 @@ const { Title } = Typography;
 
 export default function SubscriptionPage() {
   return (
-    <div style={{ padding: 24 }}>
-      <Title level={2} style={{ color: '#007AFF', marginBottom: 24 }}>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Title level={3} style={{ color: '#007AFF' }}>
         구독 관리
       </Title>
       <Row gutter={[16, 16]}>
@@ -27,6 +27,6 @@ export default function SubscriptionPage() {
           <PaymentHistoryTable />
         </Col>
       </Row>
-    </div>
+    </Space>
   );
 }
