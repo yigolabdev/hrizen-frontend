@@ -1,15 +1,15 @@
 import React from 'react';
-import { Typography } from 'antd';
+import { Space } from 'antd';
 import HeroSection from '@/features/landing/components/HeroSection';
 import FeatureHighlightSection from '@/features/landing/components/FeatureHighlightSection';
-import CustomerTestimonials from '@/features/landing/components/CustomerTestimonials';
 import PricingOverview from '@/features/landing/components/PricingOverview';
+import CustomerTestimonials from '@/features/landing/components/CustomerTestimonials';
 import CallToActionButtons from '@/features/landing/components/CallToActionButtons';
 import LandingFooter from '@/features/landing/components/LandingFooter';
 
 export default function LandingPage() {
   return (
-    <div>
+    <div style={{ minHeight: '100vh' }}>
       <HeroSection />
       <FeatureHighlightSection />
       <PricingOverview />

@@ -13,7 +13,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           token: {
             colorPrimary: '#007AFF',
             borderRadius: 8,
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
           },
         }}
       >

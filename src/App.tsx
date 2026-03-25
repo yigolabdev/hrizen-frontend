@@ -1,37 +1,44 @@
 import { Routes, Route } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout';
-import LandingPage from '@/pages/뮑딩페이지Page';
-import AdminDashboardPage from '@/pages/가리자대시보듐Page';
-import MultiTenantSettingsPage from '@/pages/멀티테날트설정Page';
+import AdminDashboardPage from '@/pages/관리자대시보드Page';
+import MultiTenantSettingsPage from '@/pages/멀티테넌트설정Page';
 import PermissionsPage from '@/pages/권한관리Page';
-import AttendancePage from '@/pages/근태관리Page';
-import PayrollManagementPage from '@/pages/급여정산관리Page';
-import PerformancePage from '@/pages/성과및평가관리Page';
-import ESSPage from '@/pages/직원셀프서비스포�aESSPage';
-import AIAnalyticsPage from '@/pages/AI분석대시보듐Page';
-import OpenAPIPage from '@/pages/오픐API관리Page';
-import SubscriptionPage from '@/pages/구럏관리Page';
-import BillingPage from '@/pages/檰제및쳭구관리Page';
-import MyPage from '@/pages/개인오이페이지Page';
+import AttendancePage from '@/pages/근텀관리Page';
+import PayrollManagementPage from '@/pages/급여정햠관리Page';
+import PerformancePage from '@/pages/성과렏평가관릔Page';
+import ESSPage from '@/pages/직�ې셀프#��s비스포털ESSPage';
+import AIAnalyticsPage from '@/pages/AI분석딀시보드Page';
+import OpenAPIPage from '@/pages/오퍼API관릔Page';
+import SubscriptionPage from '@/pages/구독관릔Page';
+import BillingPage from '@/pages/결제및청�관릔Page';
+import MyPage from '@/pages/개인마이페이지Page';
+import LandingPage from '@/pages/랜딩페이지Page';
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route element={<AppLayout><AdminDashboardPage /></AppLayout>}}>
-        <Route path="/admin/dashboard" element={<AppLayout><AdminDashboardPage /></AppLayout>} />
-      </Route>
-      <Route path="/admin/tenants" element={<AppLayout><MultiTenantSettingsPage /></AppLayout>} />
-      <Route path="/admin/permissions" element={<AppLayout><PermissionsPage /></AppLayout>}} />
-      <Route path="/attendance" element={<AppLayout><AttendancePage /></AppLayout>} />
-      <Route path="/payroll" element={<AppLayout><PayrollManagementPage /></AppLayout>} />
-      <Route path="/performance" element={<AppLayout><PerformancePage /></AppLayout>} />
-      <Route path="/ess" element={<AppLayout><ESSPage /></AppLayout>} />
-      <Route path="/analytics/ai-dashboard" element={<AppLayout><AIAnalyticsPage /></AppLayout>}} />
-      <Route path="/api-management" element={<AppLayout><OpenAPIPage /></AppLayout>} />
-      <Route path="/subscription" element={<AppLayout><SubscriptionPage /></AppLayout>}} />
-      <Route path="/billing" element={<AppLayout><BillingPage /></AppLayout>} />
-      <Route path="/my-page" element={<AppLayout><MyPage /></AppLayout>} />
+      <Route
+        path="/*"
+        element={
+          <AppLayout>
+            <Routes>
+              <Route path="admin/dashboard" element={<AdminDashboardPage />} />
+              <Route path="admin/tenants" element={<MultiTenantSettingsPage />} />
+              <Route path="admin/permissions" element={<PermissionsPage />} />
+              <Route path="attendance" element={<AttendancePage />} />
+              <Route path="payroll" element={<PayrollManagementPage />} />
+              <Route path="performance" element={<PerformancePage />} />
+              <Route path="ess" element={<ESSPage />} />
+              <Route path="analytics/ai-dashboard" element={<AIAnalyticsPage />} />
+              <Route path="api-management" element={<OpenAPIPage />} />
+              <Route path="subscription" element={<SubscriptionPage />} />
+              <Route path="billing" element={<BillingPage />} />
+              <Route path="my-page" element={<MyPage />} />
+            </Routes>
+          </AppLayout>
+        }
+      />
     </Routes>
   );
 }
