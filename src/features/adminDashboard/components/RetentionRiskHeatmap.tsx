@@ -20,7 +20,7 @@ const departments: Department[] = [
     riskScore: 78,
     atRiskCount: 8,
     totalCount: 42,
-    topReasons: ['연봉 불만족', '성장 기회 부족�],
+    topReasons: ['연봉 불만족', '성장 기회 부족'],
   },
   {
     name: '마케팅',

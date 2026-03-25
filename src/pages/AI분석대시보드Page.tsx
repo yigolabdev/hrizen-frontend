@@ -4,7 +4,7 @@ import AnomalyDetectionList from '@/features/aiAnalytics/components/AnomalyDetec
 import CostAnalysisChart from '@/features/aiAnalytics/components/CostAnalysisChart';
 import TurnoverRiskGraph from '@/features/aiAnalytics/components/TurnoverRiskGraph';
 import UsageAnalyticsPanel from '@/features/aiAnalytics/components/UsageAnalyticsPanel';
-import styles from './AI분석렀시보드Page.module.css';
+import styles from './AI분석대시보드Page.module.css';
 
 const { Title } = Typography;
 

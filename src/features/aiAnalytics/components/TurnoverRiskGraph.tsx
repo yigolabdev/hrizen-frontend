@@ -140,7 +140,7 @@ export default function TurnoverRiskGraph() {
             <ZAxis type="number" dataKey="z" range={[60, 400]} />
             <Tooltip
               cursor={{ strokeDasharray: '3 3' }}
-              content=({ active, payload }: any) => {
+              content={({ active, payload }: any) => {
                 if (!active || !payload?.length) return null;
                 const d = payload[0].payload;
                 return (

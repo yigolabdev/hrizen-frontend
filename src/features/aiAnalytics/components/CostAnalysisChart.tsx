@@ -17,46 +17,46 @@ interface CostDataPoint {
   인건비: number;
   복리후생: number;
   교육비: number;
-  촃비용: number;
+  총비용: number;
 }
 
 const monthlyData: CostDataPoint[] = [
-  { month: '1월', 인건비: 48500, 복리후생): 8200, 교육비: 3100, 총계용;� 59800 },
-  { month: '2월', 인건비: 47800, 복리후생): 8100, 교육비: 2800, 총계용;� 58700 },
-  { month: '3월', 인건비: 49200, 복리후생): 8400, 교육비: 3500, 총계용;� 61100 },
-  { month: '4월', 인건비: 50100, 복리후생): 4600, 교육비: 4200, 총계용;� 62900 },
-  { month: '5월', 인건비: 49800, 복리후생): 4500, 교육비: 3800, 총계용;� 62100 },
-  { month: '6월', 인건비: 51200, 복리후생): 4900, 교육비: 4100, 총계용;� 64200 },
-  { month: '7월', 인건비: 52400, 복리후생): 5100, 교육비: 3600, 총계용;� 65100 },
-  { month: '8월', 인건비: 51800, 복리후생): 5000, 교육비: 3900, 총계용;� 64700 },
-  { month: '9월', 인건비: 53100, 복리후생): 5200, 교육비: 4300, 총계용;� 66600 },
-  { month: '10월', 인건비: 54200, 복리후생): 5400, 교육비: 4000, 촕귄용� 67600 },
-  { month: '11월', 인건비: 53800, 복리후생): 5300, 교육비: 4500, 총비용;� 67600 },
-  { month: '12월', 인건비: 55100, 복리후생): 5600, 교육비: 4800, 총계용;� 69500 },
+  { month: '1월', 인건비: 48500, 복리후생: 8200, 교육비: 3100, 총비용: 59800 },
+  { month: '2월', 인건비: 47800, 복리후생: 8100, 교육비: 2800, 총비용: 58700 },
+  { month: '3월', 인건비: 49200, 복리후생: 8400, 교육비: 3500, 총비용: 61100 },
+  { month: '4월', 인건비: 50100, 복리후생: 4600, 교육비: 4200, 총비용: 62900 },
+  { month: '5월', 인건비: 49800, 복리후생: 4500, 교육비: 3800, 총비용: 62100 },
+  { month: '6월', 인건비: 51200, 복리후생: 4900, 교육비: 4100, 총비용: 64200 },
+  { month: '7월', 인건비: 52400, 복리후생: 5100, 교육비: 3600, 총비용: 65100 },
+  { month: '8월', 인건비: 51800, 복리후생: 5000, 교육비: 3900, 총비용: 64700 },
+  { month: '9월', 인건비: 53100, 복리후생: 5200, 교육비: 4300, 총비용: 66600 },
+  { month: '10월', 인건비: 54200, 복리후생: 5400, 교육비: 4000, 총비용: 67600 },
+  { month: '11월', 인건비: 53800, 복리후생: 5300, 교육비: 4500, 총비용: 67600 },
+  { month: '12월', 인건비: 55100, 복리후생: 5600, 교육비: 4800, 총비용: 69500 },
 ];
 
 const quarterlyData: CostDataPoint[] = [
-  { month: 'Q1', 인건비: 145500, 복리후생): 24700, 교육비: 9400, 총계용;� 179600 },
-  { month: 'Q2', 인건비: 151100, 복리후생): 26000, 교육비: 12100, 촃비용;� 189200 },
-  { month: 'Q3', 인건비: 157300, 복리후생): 27300, 교육비: 11800, 총계용� 196400 },
-  { month: 'Q4', 인건비: 163100, 복리후생): 28300, 교육비: 13300, 총계용;� 204700 },
+  { month: 'Q1', 인건비: 145500, 복리후생: 24700, 교육비: 9400, 총비용: 179600 },
+  { month: 'Q2', 인건비: 151100, 복리후생: 26000, 교육비: 12100, 총비용: 189200 },
+  { month: 'Q3', 인건비: 157300, 복리후생: 27300, 교육비: 11800, 총비용: 196400 },
+  { month: 'Q4', 인건비: 163100, 복리후생: 28300, 교육비: 13300, 총비용: 204700 },
 ];
 
 type PeriodType = '월별' | '분기별';
 
 const formatCurrency = (value: number): string => {
   if (value >= 10000) {
-    return `${(value / 10000).toFixed(1)}익`;
+    return `${(value / 10000).toFixed(1)}억`;
   }
-  return `${value.toLocaleString()}마`;
+  return `${value.toLocaleString()}만`;
 };
 
 export default function CostAnalysisChart() {
   const [period, setPeriod] = useState<PeriodType>('월별');
-  const data = period === '월범' ? monthlyData : quarterlyData;
+  const data = period === '월별' ? monthlyData : quarterlyData;
 
-  const latestTotal = data[data.length - 1]?.촃비용 ?? 0;
-  const prevTotal = data[data.length - 2]?.총계용 ?? 0;
+  const latestTotal = data[data.length - 1]?.총비용 ?? 0;
+  const prevTotal = data[data.length - 2]?.총비용 ?? 0;
   const changePct = prevTotal > 0 ? (((latestTotal - prevTotal) / prevTotal) * 100).toFixed(1) : '0';
   const isUp = Number(changePct) >= 0;
 
@@ -64,7 +64,7 @@ export default function CostAnalysisChart() {
     <Card
       bordered={false}
       style={{ borderRadius: 12, backgroundColor: '#FFFFFF', height: '100%' }}
-      title={<span style={{ fontWeight: 700 }}>비용 분석 분석</span>}
+      title={<span style={{ fontWeight: 700 }}>비용 분석</span>}
       extra={
         <Segmented
           value={period}

@@ -13,7 +13,7 @@ import {
   Line,
 } from 'recharts';
 
-type Period = '주간' | '월간' | '월간';
+type Period = '주간' | '월간' | '연간';
 
 interface DataPoint {
   label: string;
@@ -55,7 +55,7 @@ const yearlyData: DataPoint[] = [
 const dataMap: Record<Period, DataPoint[]> = {
   '주간': weeklyData,
   '월간': monthlyData,
-  '월간': yearlyData,
+  '연간': yearlyData,
 };
 
 export default function AttendanceChart() {
@@ -84,7 +84,7 @@ export default function AttendanceChart() {
         <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>ꗼ태 현황</span>
         <Segmented
           value={period}
-          options={['주간', '월간', '월간']}
+          options={['주간', '월간', '연간']}
           onChange={(value) => setPeriod(value as Period)}
           size="small"
         />

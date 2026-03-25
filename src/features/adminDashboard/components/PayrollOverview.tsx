@@ -126,7 +126,7 @@ export default function PayrollOverview() {
                 {item.value.toLocaleString()}만원
               </Text>
             </div>
-          )))}
+          ))}
         </Space>
       </div>
     </Card>
