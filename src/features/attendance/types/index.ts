@@ -22,7 +22,7 @@ export interface LeaveRequest {
   status: 'pending' | 'approved' | 'rejected';
 }
 
-export interface DepartmentOvertimeStat {
+export interface DepartmentOvertime {
   department: string;
   avgHours: number;
   employeeCount: number;
@@ -33,13 +33,13 @@ export interface OvertimeStats {
   avgOvertimeHours: number;
   maxOvertimeEmployee: string;
   maxOvertimeHours: number;
-  departmentStats: DepartmentOvertimeStat[];
+  departmentStats: DepartmentOvertime[];
 }
 
 export interface AnomalyItem {
   id: string;
+  employeeId: string;
   employeeName: string;
-  department: string;
   type: 'frequent_late' | 'unusual_overtime' | 'pattern_change' | 'consecutive_absence';
   severity: 'high' | 'medium' | 'low';
   description: string;

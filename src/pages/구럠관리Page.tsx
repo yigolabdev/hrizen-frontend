@@ -1,2 +1,2 @@
-// This file appears to be a typo duplicate of 구폅관리Page.tsx. Re-export for safety.
-export { default } from '@/pages/구독激리Page';
+// Canonical re-export: 깨진 문자 파일은 정상 버전으로 리다이렉트
+export { default } from './구독관리Page';

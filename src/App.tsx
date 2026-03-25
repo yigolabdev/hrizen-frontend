@@ -1,18 +1,18 @@
 import { Routes, Route } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout';
 import AdminDashboardPage from '@/pages/관리자대시보드Page';
-import MultiTenantSettingsPage from '@/pages/멀티테난트설정Page';
+import MultiTenantSettingsPage from '@/pages/륀티테난트\설정Page';
 import PermissionsPage from '@/pages/권한관리Page';
-import AttendancePage from '@/pages/근턜관리Page';
-import PayrollManagementPage from '@/pages/금여정할관리Page';
-import PerformancePage from '@/pages/성과����돕관리Page';
-import ESSPage from '@/pages/직원셨행서비스포ESSPage';
-import AIAnalyticsPage from '@/pages/AI분석대시보냤Page';
-import OpenAPIPage from '@/pages/오픐API관리Page';
-import SubscriptionPage from '@/pages/구녅관리Page';
-import BillingPage from '@/pages/결제및청구관리Page';
-import MyPage from '@/pages/개인마이페이지Page';
-import LandingPage from '@/pages/렜딩페이지Page';
+import AttendancePage from '@/pages/근태관리Page';
+import PayrollManagementPage from '@/pages/급여정산관리Page';
+import PerformancePage from '@/pages/성과및평가관리Page';
+import ESSPage from '@/pages/짉�l셀프서비스포털ESSPage';
+import AIAnalyticsPage from '@/pages/AI분석닀시보닜Page';
+import OpenAPIPage from '@/pages/오픈API관리Page';
+import SubscriptionPage from '@/pages/구독관리Page';
+import BillingPage from '@/pages/결\��및윭구관리Page';
+import MyPage from '@/pages/개인슸이페이지Page';
+import LandingPage from '@/pages/랜딩페이지Page';
 
 export default function App() {
   return (
