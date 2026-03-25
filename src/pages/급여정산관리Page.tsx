@@ -1,32 +1,13 @@
 import React from 'react';
-import { Typography, Row, Col } from 'antd';
-import PayrollInputForm from '@/features/payroll/components/PayrollInputForm';
-import SalarySlipPreview from '@/features/payroll/components/SalarySlipPreview';
-import TaxComplianceStatus from '@/features/payroll/components/TaxComplianceStatus';
-import ElectronicContractIntegration from '@/features/payroll/components/ElectronicContractIntegration';
+import { Card, Typography } from 'antd';
 
 const { Title } = Typography;
 
 export default function PayrollManagementPage() {
   return (
-    <div>
-      <Title level={2} style={{ marginBottom: 24, color: '#007AFF' }}>
-        급여 정산 관리
-      </Title>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={12}>
-          <PayrollInputForm />
-        </Col>
-        <Col xs={24} lg={12}>
-          <SalarySlipPreview />
-        </Col>
-        <Col xs={24} lg={12}>
-          <TaxComplianceStatus />
-        </Col>
-        <Col xs={24} lg={12}>
-          <ElectronicContractIntegration />
-        </Col>
-      </Row>
-    </div>
+    <Card>
+      <Title level={2}>급여 정산 관리</Title>
+      <p>급여 정산 관리 페이지입니다.</p>
+    </Card>
   );
 }

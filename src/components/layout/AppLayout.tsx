@@ -48,84 +48,78 @@ const menuItems: MenuItemDef[] = [
 ];
 
 const AppLayout: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { token } = theme.useToken();
   const screens = useBreakpoint();
-  const [collapsed, setCollapsed] = useState(false);
-  const isDarkMode = useAppStore((state) => state.isDarkMode);
+  const { token } = theme.useToken();
+  const isDarkMode = false;
 
   const handleMenuClick = (path: string) => {
     navigate(path);
   };
 
-  const currentMenuItem = menuItems.find((item) => item.path === location.pathname);
+  const isMobile = !screens.md;
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      {screens.md !== false && (
-        <Sider
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        width={250}
+        style={{
+          background: isDarkMode ? '#001529' : '#FFFFFF',
+          borderRight: `1px solid ${token.colorBorder}`,
+          position: isMobile ? 'fixed' : 'relative',
+          height: '100vh',
+          zIndex: 999,
+        }}
+      >
+        <div style={{ padding: '16px', textAlign: 'center' }}>
+          <Title level={3} style={{ margin: 0, color: token.colorPrimary }}>
+            {!collapsed ? 'HRMS' : 'H'}
+          </Title>
+        </div>
+        <Menu
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          items={menuItems.map((item) => ({
+            key: item.key,
+            icon: item.icon,
+            label: item.label,
+            onClick: () => handleMenuClick(item.path),
+          }))}
           theme={isDarkMode ? 'dark' : 'light'}
-          collapsed={collapsed}
-          collapsible
-          trigger={null}
-          width={256}
-          style={{
-            position: 'sticky',
-            top: 0,
-            left: 0,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          <div style={{ padding: '16px', textAlign: 'center' }}>
-            <Title level={3} style={{ margin: 0, color: token.colorPrimary }}>HR AI</Title>
-          </div>
-          <Menu
-            theme={isDarkMode ? 'dark' : 'light'}
-            mode="inline"
-            selectedKeys={[location.pathname]}
-            items={menuItems.map((item) => ({
-              key: item.key,
-              label: item.label,
-              icon: item.icon,
-              onClick: () => handleMenuClick(item.path),
-            }))}
-          />
-        </Sider>
-      )}
+        />
+      </Sider>
       <Layout>
         <Header
           style={{
-            background: token.colorBgContainer,
-            padding: '0 24px',
+            background: isDarkMode ? '#001529' : '#FFFFFF',
+            borderBottom: `1px solid ${token.colorBorder}`,
+            padding: '0 16px',
             display: 'flex',
-            justifyContent: 'space-between',
             alignItems: 'center',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-            position: 'sticky',
-            top: 0,
-            zIndex: 100,
+            justifyContent: 'space-between',
+            height: 64,
           }}
         >
-          {screens.md === false && (
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-            />
-          )}
-          <div style={{ marginLeft: 'auto' }}>
-            <span style={{ color: token.colorTextSecondary }}>{currentMenuItem?.label || 'HR AI'}</span>
-          </div>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{ fontSize: '16px' }}
+          />
+          <div>User Menu</div>
         </Header>
         <Content
           style={{
-            margin: '24px',
-            padding: '24px',
-            background: token.colorBgLayout,
-            borderRadius: token.borderRadius,
-            minHeight: 'calc(100vh - 200px)',
+            margin: '16px',
+            padding: '16px',
+            background: token.colorBgContainer,
+            borderRadius: '8px',
+            minHeight: 'calc(100vh - 112px)',
           }}
         >
           <Outlet />
