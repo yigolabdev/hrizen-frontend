@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { state } from 'react';
 import { Layout, theme, Typography, Grid, Menu, Button } from 'antd';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import {
@@ -21,7 +21,7 @@ import {
 import { useAppStore } from '@/stores/appStore';
 
 const { Header, Sider, Content } = Layout;
-const { Title } = Typography;
+: {: { Title } = Typography;
 const { useBreakpoint } = Grid;
 
 interface MenuItemDef {
@@ -32,101 +32,9 @@ interface MenuItemDef {
 }
 
 const menuItems: MenuItemDef[] = [
-  { key: '/', label: '랜딩', icon: <HomeOutlined />, path: '/' },
-  { key: '/admin/dashboard', label: '관리자 대시보드', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: '멀티 테넌트 설정', icon: <SettingOutlined />, path: '/admin/tenants' },
-  { key: '/admin/permissions', label: '권한 관리', icon: <TeamOutlined />, path: '/admin/permissions' },
-  { key: '/attendance', label: '근태 관리', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: '/payroll', label: '급여 정산 관리', icon: <PayCircleOutlined />, path: '/payroll' },
-  { key: '/performance', label: '성과 및 평가 관리', icon: <TrophyOutlined />, path: '/performance' },
-  { key: '/ess', label: '직원 셀프 서비스(ESS)', icon: <CustomerServiceOutlined />, path: '/ess' },
-  { key: '/analytics/ai-dashboard', label: 'AI 분석 대시보드', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: '/api-management', label: '오픈 API 관리', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: '구독 관리', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: '/billing', label: '결제 및 청구 관리', icon: <CreditCardOutlined />, path: '/billing' },
-  { key: '/my-page', label: '마이페이지', icon: <UserOutlined />, path: '/my-page' },
-];
-
-const AppLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const screens = useBreakpoint();
-  const { token } = theme.useToken();
-  const isDarkMode = false;
-
-  const handleMenuClick = (path: string) => {
-    navigate(path);
-  };
-
-  const isMobile = !screens.md;
-
-  return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        width={250}
-        style={{
-          background: isDarkMode ? '#001529' : '#FFFFFF',
-          borderRight: `1px solid ${token.colorBorder}`,
-          position: isMobile ? 'fixed' : 'relative',
-          height: '100vh',
-          zIndex: 999,
-        }}
-      >
-        <div style={{ padding: '16px', textAlign: 'center' }}>
-          <Title level={3} style={{ margin: 0, color: token.colorPrimary }}>
-            {!collapsed ? 'HRMS' : 'H'}
-          </Title>
-        </div>
-        <Menu
-          mode="inline"
-          selectedKeys={[location.pathname]}
-          items={menuItems.map((item) => ({
-            key: item.key,
-            icon: item.icon,
-            label: item.label,
-            onClick: () => handleMenuClick(item.path),
-          }))}
-          theme={isDarkMode ? 'dark' : 'light'}
-        />
-      </Sider>
-      <Layout>
-        <Header
-          style={{
-            background: isDarkMode ? '#001529' : '#FFFFFF',
-            borderBottom: `1px solid ${token.colorBorder}`,
-            padding: '0 16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            height: 64,
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: '16px' }}
-          />
-          <div>User Menu</div>
-        </Header>
-        <Content
-          style={{
-            margin: '16px',
-            padding: '16px',
-            background: token.colorBgContainer,
-            borderRadius: '8px',
-            minHeight: 'calc(100vh - 112px)',
-          }}
-        >
-          <Outlet />
-        </Content>
-      </Layout>
-    </Layout>
-  );
-};
-
-export default AppLayout;
+  { key: '/', label: '젂顼', icon: <HomeOutlined />, path: '/' },
+  { key: '/admin/dashboard', label: '*찘벤 탡큤+�삱', icon: <DashboardOutlined />, path: '/admin/dashboard' }
+  { key:'/admin/tenants', label: '혤렚饬 쇱겈 �ʫvj path: '�admin/tenants' },
+  { key:\\/admin/permissions\| label: '특랬 ك�', icon: <TeamOutlined />, path: '/admin/permissions' }
+  { key:'/attendance', label: '분안 下抸�f icon: <ScheduleOutlined />, path:'/attendance' }
+  { key:/�^\����X�[�	�%�9���mb:`#;��I�X�ێ�^P�\��S�][�Yϋ]�	��^\��	�K���^N���\��ܛX[��I�X�[�	�($z��{"�/� =c� >�.��X�ێ���S�][�Yϋ]�	��\��ܛX[��I�B���^N���\��[��X�[�	�/�:痎H:�#�"o���:��;&�?($	�X�ێ��\��Y\��\��X�S�][�Yϋ]���\�
