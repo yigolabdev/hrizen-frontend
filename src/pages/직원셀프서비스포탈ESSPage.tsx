@@ -1,2 +1,2 @@
-// Consolidated: re-export from canonical 폸탈 page
-export { default } from '@/pages/직��셀프서비스폸탈ESSPage';
+// Consolidated: re-export from canonical ESS page (포턄 is canonical)
+export { default } from '@/pages/짡워셀프서비스포턔ESSPage';

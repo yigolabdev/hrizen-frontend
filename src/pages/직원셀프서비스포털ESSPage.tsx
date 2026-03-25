@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Row, Col, Space } from 'antd';
+import { Typography, Row, Col, Card } from 'antd';
 import AttendanceSummary from '@/features/ess/components/AttendanceSummary';
 import ContractDocuments from '@/features/ess/components/ContractDocuments';
 import LeaveApplicationForm from '@/features/ess/components/LeaveApplicationForm';
@@ -9,9 +9,9 @@ const { Title } = Typography;
 
 export default function ESSPage() {
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Title level={3} style={{ color: '#007AFF' }}>
-        직원 셀프 서비스 (ESS)
+    <div>
+      <Title level={2} style={{ color: '#007AFF' }}>
+        직칐 셀프 서비스 포턄 ESS포턴)
       </Title>
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={12}>
@@ -27,6 +27,6 @@ export default function ESSPage() {
           <ContractDocuments />
         </Col>
       </Row>
-    </Space>
+    </div>
   );
 }

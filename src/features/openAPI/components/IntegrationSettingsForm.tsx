@@ -1,2 +1,3 @@
 // Consolidated: re-export from canonical apiManagement module
-export { IntegrationSettingsForm as default, IntegrationSettingsForm } from '@/features/apiManagement/components/IntegrationSettingsForm';
+export { IntegrationSettingsForm } from '@/features/apiManagement/components/IntegrationSettingsForm';
+export { IntegrationSettingsForm as default } from '@/features/apiManagement/components/IntegrationSettingsForm';

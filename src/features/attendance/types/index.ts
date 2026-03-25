@@ -44,5 +44,5 @@ export interface AnomalyItem {
   severity: 'high' | 'medium' | 'low';
   description: string;
   detectedAt: string;
-  confidence: number;
+  affectedDates: string[];
 }
