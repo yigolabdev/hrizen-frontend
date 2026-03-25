@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Space, Divider } from 'antd';
+import { Typography, Card, Divider } from 'antd';
 import { APIKeyGenerator } from '@/features/apiManagement/components/APIKeyGenerator';
 import { IntegrationSettingsForm } from '@/features/apiManagement/components/IntegrationSettingsForm';
 import { UsageStatisticsChart } from '@/features/apiManagement/components/UsageStatisticsChart';
@@ -8,13 +8,17 @@ const { Title } = Typography;
 
 export default function OpenAPIPage() {
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Title level={3} style={{ color: '#007AFF' }}>오픈 API 관리</Title>
-      <APIKeyGenerator />
-      <Divider />
-      <UsageStatisticsChart />
-      <Divider />
-      <IntegrationSettingsForm />
-    </Space>
+    <div>
+      <Title level={2} style={{ marginBottom: 24, color: '#007AFF' }}>
+        오픈 API 관리
+      </Title>
+      <Card bordered={false} style={{ borderRadius: 12 }}>
+        <APIKeyGenerator />
+        <Divider />
+        <IntegrationSettingsForm />
+        <Divider />
+        <UsageStatisticsChart />
+      </Card>
+    </div>
   );
 }

@@ -38,18 +38,18 @@ const mockLeaveRequests: LeaveRequest[] = [
     employeeId: 'E002',
     employeeName: '이지은',
     department: '마케팅',
-    leaveType: '병가',
+    leaveType: '뛑가',
     startDate: '2025-01-16',
     endDate: '2025-01-17',
     days: 2,
-    reason: '병원 치료, 진단서 첨부',
+    reason: '병원 치료, �?�단쬀 첨부',
     status: 'approved',
     requestedAt: '2025-01-14T14:30:00Z',
   },
   {
     id: 'LR003',
     employeeId: 'E005',
-    employeeName: '정태욀',
+    employeeName: '정태욐',
     department: '영업팀',
     leaveType: '반차(오전)',
     startDate: '2025-01-22',
@@ -68,7 +68,7 @@ const mockOvertimeStats: OvertimeStats = {
   overLimitCount: 23,
   departmentStats: [
     { department: '개발팀', avgHours: 18.2, employeeCount: 42 },
-    { department: '영엄팀', avgHours: 14.5, employeeCount: 35 },
+    { department: '영업팀', avgHours: 14.5, employeeCount: 35 },
     { department: '마케팅', avgHours: 9.8, employeeCount: 28 },
     { department: '인사팀', avgHours: 6.2, employeeCount: 15 },
   ],
@@ -81,29 +81,29 @@ const mockAnomalies: AnomalyItem[] = [
     employeeName: '박준형',
     type: 'unusual_overtime',
     severity: 'high',
-    description: '최근 2주간 일일 평균근제 시간 12시간 초과, 주말 근무가 4회 이상 감지되었습니다.',
-    detectedAt: '2025-01-14T10:00:00Z',
-    confidence: 92,
+    description: '최근 2주간 일일 평균근었 시간이 12시간을 초과하며 주말 근무가 4회 이상 감지되었습니다.',
+    detectedAt: '2025-01-15T09:32:00Z',
+    confidence: 94,
   },
   {
     id: 'ANM-002',
     employeeId: 'E002',
-    employeeName: '이록은',
+    employeeName: '이지읨<',
     type: 'frequent_late',
     severity: 'medium',
-    description: '최근 1개월 내 지각 횘수가 7회로, 이전 3개월 평균(1회) 대비 크게 즁가했습니다.',
+    description: '최근 1개원 내 지각 횜수가 7회로, 이전 3�Id�A� 평균(1회) 대비 크게 증 가했습니다.',
     detectedAt: '2025-01-14T08:00:00Z',
-    confidence: 89,
+    confidence: 91,
   },
   {
     id: 'ANM-003',
     employeeId: 'E005',
-    employeeName: '정태우',
+    employeeName: '정이우',
     type: 'pattern_change',
     severity: 'low',
-    description: '최근 1주일 근무 패턴이 변경되었습니다. 조기 퍴부 빈도가 증가했습니다.',
-    detectedAt: '2025-01-13T16:00:00Z',
-    confidence: 75,
+    description: '평소보다 조기 중시이 읽관적으로 변경감지되었습니다.',
+    detectedAt: '2025-01-13T16:45:00Z',
+    confidence: 76,
   },
 ];
 
@@ -111,18 +111,18 @@ const mockAnomalies: AnomalyItem[] = [
 
 export async function fetchAttendanceRecords(): Promise<AttendanceRecord[]> {
   if (USE_MOCK) {
-    await delay(600);
+    await delay(500);
     return mockAttendanceRecords;
   }
-  return apiClient.get<AttendanceRecord[]>('/api/attendance/records');
+  return apiClient.get<AttendanceRecord[]>('/attendance/records');
 }
 
 export async function fetchLeaveRequests(): Promise<LeaveRequest[]> {
   if (USE_MOCK) {
-    await delay(500);
+    await delay(400);
     return mockLeaveRequests;
   }
-  return apiClient.get<LeaveRequest[]>('/api/attendance/leave-requests');
+  return apiClient.get<LeaveRequest[]>('/attendance/leave-requests');
 }
 
 export async function updateLeaveStatus(
@@ -130,26 +130,7 @@ export async function updateLeaveStatus(
   status: 'approved' | 'rejected'
 ): Promise<LeaveRequest> {
   if (USE_MOCK) {
-    await delay(400);
+    await delay(600);
     const request = mockLeaveRequests.find((r) => r.id === id);
     if (!request) throw new Error('Leave request not found');
-    return { ...request, status };
-  }
-  return apiClient.patch<LeaveRequest>(`/api/attendance/leave-requests/${id}`, { status });
-}
-
-export async function fetchOvertimeStats(): Promise<OvertimeStats> {
-  if (USE_MOCK) {
-    await delay(700);
-    return mockOvertimeStats;
-  }
-  return apiClient.get<OvertimeStats>('/api/attendance/overtime-stats');
-}
-
-export async function fetchAnomalies(): Promise<AnomalyItem[]> {
-  if (USE_MOCK) {
-    await delay(800);
-    return mockAnomalies;
-  }
-  return apiClient.get<AnomalyItem[]>('/api/attendance/anomalies');
-}
+    retu

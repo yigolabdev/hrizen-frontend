@@ -10,27 +10,21 @@ const { Title } = Typography;
 export default function ESSPage() {
   return (
     <div>
-      <Title level={2} style={{ marginBottom: 24 }}>직� 셀프 서비스 (ESS)</Title>
+      <Title level={2} style={{ marginBottom: 24, color: '#007AFF' }}>
+        직원 셀프 서비스 (ESS)
+      </Title>
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={12}>
-          <Card style={{ marginBottom: 16, borderRadius: 12 }}>
-            <AttendanceSummary />
-          </Card>
+          <AttendanceSummary />
         </Col>
         <Col xs={24} lg={12}>
-          <Card style={{ marginBottom: 16, borderRadius: 12 }}>
-            <PayslipViewer />
-          </Card>
+          <PayslipViewer />
         </Col>
         <Col xs={24} lg={12}>
-          <Card style={{ marginBottom: 16, borderRadius: 12 }}>
-            <LeaveApplicationForm />
-          </Card>
+          <LeaveApplicationForm />
         </Col>
         <Col xs={24} lg={12}>
-          <Card style={{ marginBottom: 16, borderRadius: 12 }}>
-            <ContractDocuments />
-          </Card>
+          <ContractDocuments />
         </Col>
       </Row>
     </div>
