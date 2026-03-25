@@ -3,6 +3,8 @@ import { Card, Typography, Space, Progress, Divider } from 'antd';
 import { DollarCircleOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
+const { Text } = Typography;
+
 interface PayrollItem {
   name: string;
   value: number;
@@ -69,11 +71,10 @@ export default function PayrollOverview() {
                 data={payrollData}
                 cx="50%"
                 cy="50%"
-                innerRadius={60}
-                outerRadius={100}
-                fill="#8884d8"
-                paddingAngle={2}
+                innerRadius={55}
+                outerRadius={80}
                 dataKey="value"
+                stroke="none"
               >
                 {payrollData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
@@ -91,39 +92,42 @@ export default function PayrollOverview() {
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: 24, fontWeight: 700, color: '#1a1a1a' }}>
-              {totalPayroll.toLocaleString()}
+            <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a' }}>
+              {totalPayroll.toLocaleString()}개
             </div>
-            <div style={{ fontSize: 12, color: '#999', marginTop: 4 }}>만원</div>
+            <div style={{ fontSize: 11, color: '#8E8E93' }}>총 급여액�د
           </div>
         </div>
-      </div>
 
-      <Divider />
-
-      <Space direction="vertical" style={{ width: '100%' }} size="large">
-        {payrollData.map((item) => (
-          <div key={item.name}>
+        <div style={{ marginTop: 16, width: '100%' }}>
+          {payrollData.map((item) => (
             <div
+              key={item.name}
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                marginBottom: 8,
+                alignItems: 'center',
+                padding: '6px 0',
               }}
             >
-              <span style={{ fontSize: 12, color: '#666' }}>{item.name}</span>
-              <span style={{ fontWeight: 600, color: '#1a1a1a' }}>
-                {item.value.toLocaleString()}만원
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: '50%',
+                    backgroundColor: item.color,
+                  }}
+                />
+                <Text style={{ fontSize: 13, color: '#666666' }}>{item.name}</Text>
+              </div>
+              <Text style={{ fontWeight: 600, fontSize: 13 }}>
+                {item.value.toLocaleString()}만�
+              </Text>
             </div>
-            <Progress
-              percent={(item.value / totalPayroll) * 100}
-              strokeColor={item.color}
-              showInfo={false}
-            />
-          </div>
-        ))}
-      </Space>
+          ))}
+        </div>
+      </div>
     </Card>
   );
 }

@@ -11,6 +11,8 @@ import {
   RightOutlined,
 } from '@ant-design/icons';
 
+const { Text } = Typography;
+
 type ActivityType = 'attendance' | 'payroll' | 'onboarding' | 'leave' | 'alert';
 
 interface Activity {
@@ -26,8 +28,8 @@ const activities: Activity[] = [
   {
     id: '1',
     type: 'alert',
-    title: '이직 위험 알림',
-    description: '개발팀 김서준 님의 이직 위험도가 85%로 상승했습니다.',
+    title: '이텍 위험 알림',
+    description: '개발팀 김서준 님의 이직 위험도가 85%로 상승-��숕니다.',
     time: '5분 전',
     status: 'error',
   },
@@ -50,8 +52,8 @@ const activities: Activity[] = [
   {
     id: '4',
     type: 'leave',
-    title: '연차 승인 요청',
-    description: '영업팀 박준서 님의 연차 신청(7/22~7/23)이 대기 중입니다.',
+    title: '연차 승호 요청',
+    description: '영업팀 박준서 님의 연차 신청(7/22~7/23) 대기 중입니다.',
     time: '3시간 전',
     status: 'warning',
   },
@@ -62,22 +64,6 @@ const activities: Activity[] = [
     description: 'QA팀 최민지 님이 09:15에 출근하였습니다.',
     time: '4시간 전',
     status: 'warning',
-  },
-  {
-    id: '6',
-    type: 'payroll',
-    title: '4대보험 신고 완료',
-    description: '2024년 7월 4대보험 신고가 정상 처리되었습니다.',
-    time: '5시간 전',
-    status: 'success',
-  },
-  {
-    id: '7',
-    type: 'onboarding',
-    title: '수습 평가 알림',
-    description: '디자인팀 정소율 님의 수습 평가 기간이 종료됩니다.',
-    time: '6시간 전',
-    status: 'info',
   },
 ];
 
@@ -100,14 +86,13 @@ function getIcon(type: ActivityType): React.ReactNode {
 function getStatusColor(status: Activity['status']): string {
   switch (status) {
     case 'success':
-      return 'green';
+      return '#34C759';
     case 'warning':
-      return 'orange';
-    case 'error':
-      return 'red';
+      return '#FF9500';
     case 'info':
-    default:
-      return 'blue';
+      return '#007AFF';
+    case 'error':
+      return '#FF3B30';
   }
 }
 
@@ -123,39 +108,28 @@ export default function RecentActivitiesFeed() {
       }}
       bodyStyle={{ padding: '24px' }}
     >
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>최근 활동</span>
+        <Button type="link" size="small" icon={<RightOutlined />}>
+          전체 보기
+        </Button>
       </div>
 
       <Timeline
         items={activities.map((activity) => ({
-          dot: (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {getIcon(activity.type)}
-            </div>
-          ),
+          color: getStatusColor(activity.status),
+          dot: getIcon(activity.type),
           children: (
-            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+            <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontWeight: 600, fontSize: 13, color: '#1a1a1a' }}>
-                  {activity.title}
-                </span>
-                <Tag color={getStatusColor(activity.status)} style={{ margin: 0 }}>
-                  {activity.status}
-                </Tag>
+                <Text strong style={{ fontSize: 13 }}>{activity.title}</Text>
+                <Text type="secondary" style={{ fontSize: 11 }}>{activity.time}</Text>
               </div>
-              <span style={{ fontSize: 12, color: '#666' }}>{activity.description}</span>
-              <span style={{ fontSize: 11, color: '#999' }}>{activity.time}</span>
-            </Space>
+              <Text type="secondary" style={{ fontSize: 12 }}>{activity.description}</Text>
+            </div>
           ),
         }))}
       />
-
-      <div style={{ marginTop: 20, textAlign: 'center' }}>
-        <Button type="text" icon={<RightOutlined />}>
-          모든 활동 보기
-        </Button>
-      </div>
     </Card>
   );
 }

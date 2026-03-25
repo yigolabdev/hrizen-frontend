@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, theme, Typography, Grid, Menu, Button } from 'antd';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import {
@@ -33,47 +33,41 @@ interface MenuItemDef {
 
 const menuItems: MenuItemDef[] = [
   { key: '/', label: 'Home', icon: <HomeOutlined />, path: '/' },
-  { key: '/admin/dashboard', label: 'Admin Dashboard', icon: <DashboardOutlined />, path: '/admin/dashboard' },
-  { key: '/admin/tenants', label: 'Multi-Tenant', icon: <SettingOutlined />, path: '/admin/tenants' },
-  { key: '/admin/permissions', label: 'Permissions', icon: <TeamOutlined />, path: '/admin/permissions' },
-  { key: '/attendance', label: 'Attendance', icon: <ScheduleOutlined />, path: '/attendance' },
-  { key: '/payroll', label: 'Payroll', icon: <PayCircleOutlined />, path: '/payroll' },
-  { key: '/performance', label: 'Performance', icon: <TrophyOutlined />, path: '/performance' },
-  { key: '/ess', label: 'ESS', icon: <CustomerServiceOutlined />, path: '/ess' },
-  { key: '/analytics/ai-dashboard', label: 'AI Analytics', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
-  { key: '/api-management', label: 'API Management', icon: <ApiOutlined />, path: '/api-management' },
-  { key: '/subscription', label: 'Subscription', icon: <DollarCircleOutlined />, path: '/subscription' },
-  { key: '/billing', label: 'Billing', icon: <CreditCardOutlined />, path: '/billing' },
-  { key: '/my-page', label: 'My Page', icon: <UserOutlined />, path: '/my-page' },
+  { key: 'admin/dashboard', label: 'Admin Dashboard', icon: <DashboardOutlined />, path: '/admin/dashboard' },
+  { key: 'admin/tenants', label: 'Multi-Tenant', icon: <SettingOutlined />, path: '/admin/tenants' },
+  { key: 'admin/permissions', label: 'Permissions', icon: <TeamOutlined />, path: '/admin/permissions' },
+  { key: 'attendance', label: 'Attendance', icon: <ScheduleOutlined />, path: '/attendance' },
+  { key: 'payroll', label: 'Payroll', icon: <PayCircleOutlined />, path: '/payroll' },
+  { key: 'performance', label: 'Performance', icon: <TrophyOutlined />, path: '/performance' },
+  { key: 'ess', label: 'ESS', icon: <CustomerServiceOutlined />, path: '/ess' },
+  { key: 'analytics/ai-dashboard', label: 'AI Analytics', icon: <RobotOutlined />, path: '/analytics/ai-dashboard' },
+  { key: 'api-management', label: 'API Management', icon: <ApiOutlined />, path: '/api-management' },
+  { key: 'subscription', label: 'Subscription', icon: <DollarCircleOutlined />, path: '/subscription' },
+  { key: 'billing', label: 'Billing', icon: <CreditCardOutlined />, path: '/billing' },
+  { key: 'my-page', label: 'My Page', icon: <UserOutlined />, path: '/my-page' },
 ];
 
 export default function AppLayout() {
-  const { sidebarCollapsed, setSidebarCollapsed } = useAppStore();
+  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { token } = theme.useToken();
   const screens = useBreakpoint();
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
-  const isMobile = !screens.md;
-
-  const handleMenuClick = (e: { key: string }) => {
-    const item = menuItems.find((m) => m.key === e.key);
-    if (item) {
-      navigate(item.path);
-    }
-  };
+  const selectedKey = location.pathname === '/' ? '/' : location.pathname.slice(1);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
         collapsible
-        collapsed={sidebarCollapsed}
-        onCollapse={(val) => setSidebarCollapsed(val)}
-        breakpoint="md"
-        collapsedWidth={isMobile ? 0 : 80}
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+        breakpoint="lg"
         style={{
-          background: token.colorBgContainer,
-          borderRight: `1px solid ${token.colorBorder}`,
+          background: colorBgContainer,
+          borderRight: '1px solid #f0f0f0',
         }}
       >
         <div
@@ -85,51 +79,46 @@ export default function AppLayout() {
             padding: '0 16px',
           }}
         >
-          {!sidebarCollapsed && (
-            <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
-              HRiZen
-            </Title>
-          )}
+          <Title level={4} style={{ margin: 0, color: '#007AFF' }}>
+            {collapsed ? 'HR' : 'HR Platform'}
+          </Title>
         </div>
         <Menu
           mode="inline"
-          selectedKeys={[location.pathname]}
-          onClick={handleMenuClick}
-          style={{ borderRight: 0 }}
+          selectedKeys={[selectedKey]}
           items={menuItems.map((item) => ({
             key: item.key,
             icon: item.icon,
             label: item.label,
+            onClick: () => navigate(item.path),
           }))}
+          style={{ borderRight: 'none' }}
         />
       </Sider>
       <Layout>
         <Header
           style={{
-            background: token.colorBgContainer,
             padding: '0 16px',
+            background: colorBgContainer,
             display: 'flex',
             alignItems: 'center',
-            borderBottom: `1px solid ${token.colorBorder}`,
+            borderBottom: '1px solid #f0f0f0',
           }}
         >
           <Button
             type="text"
-            icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            style={{ fontSize: 16, width: 64, height: 64 }}
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{ fontSize: 16, width: 48, height: 48 }}
           />
-          <Title level={4} style={{ margin: 0, marginLeft: 8 }}>
-            HRiZen
-          </Title>
         </Header>
         <Content
           style={{
-            margin: 24,
+            margin: 16,
             padding: 24,
-            minHeight: 280,
-            background: token.colorBgContainer,
-            borderRadius: token.borderRadiusLG,
+            background: '#f5f5f5',
+            borderRadius: 8,
+            minHeight: 'calc(100vh - 112px)',
           }}
         >
           <Outlet />

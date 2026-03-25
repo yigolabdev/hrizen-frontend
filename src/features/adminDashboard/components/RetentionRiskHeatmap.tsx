@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, Typography, Tag, Tooltip, Badge, Space } from 'antd';
 import { WarningOutlined, UserOutlined } from '@ant-design/icons';
 
+const { Text } = Typography;
+
 interface Department {
   name: string;
   riskLevel: 'high' | 'medium' | 'low';
@@ -12,70 +14,14 @@ interface Department {
 }
 
 const departments: Department[] = [
-  {
-    name: '개발팀',
-    riskLevel: 'high',
-    riskScore: 78,
-    atRiskCount: 8,
-    totalCount: 42,
-    topReasons: ['연봉 불만족', '성장 기회 부족'],
-  },
-  {
-    name: '마케팅팀',
-    riskLevel: 'medium',
-    riskScore: 52,
-    atRiskCount: 4,
-    totalCount: 28,
-    topReasons: ['워라밸', '업무 과중'],
-  },
-  {
-    name: '영업팀',
-    riskLevel: 'high',
-    riskScore: 71,
-    atRiskCount: 6,
-    totalCount: 35,
-    topReasons: ['성과 압박', '조직 문화'],
-  },
-  {
-    name: '인사팀',
-    riskLevel: 'low',
-    riskScore: 25,
-    atRiskCount: 1,
-    totalCount: 15,
-    topReasons: ['안정적'],
-  },
-  {
-    name: '재무팀',
-    riskLevel: 'low',
-    riskScore: 30,
-    atRiskCount: 1,
-    totalCount: 18,
-    topReasons: ['안정적'],
-  },
-  {
-    name: '디자인팀',
-    riskLevel: 'medium',
-    riskScore: 48,
-    atRiskCount: 3,
-    totalCount: 20,
-    topReasons: ['커리어 전환', '업무 범위'],
-  },
-  {
-    name: 'QA팀',
-    riskLevel: 'low',
-    riskScore: 22,
-    atRiskCount: 0,
-    totalCount: 12,
-    topReasons: ['안정적'],
-  },
-  {
-    name: '경영지원팀',
-    riskLevel: 'medium',
-    riskScore: 45,
-    atRiskCount: 2,
-    totalCount: 14,
-    topReasons: ['보상 불만족'],
-  },
+  { name: '개발팀', riskLevel: 'high', riskScore: 78, atRiskCount: 8, totalCount: 42, topReasons: ['연봉 불만족', '성장 기회 부족'] },
+  { name: '마케팅', riskLevel: 'medium', riskScore: 52, atRiskCount: 4, totalCount: 28, topReasons: ['워라밸', '업무 과중'] },
+  { name: '영업팀', riskLevel: 'high', riskScore: 71, atRiskCount: 6, totalCount: 35, topReasons: ['성과 압박', '조직 문화'] },
+  { name: '인사팀', riskLevel: 'low', riskScore: 25, atRiskCount: 1, totalCount: 15, topReasons: ['안정적'] },
+  { name: '재무팀', riskLevel: 'low', riskScore: 30, atRiskCount: 1, totalCount: 18, topReasons: ['안정적'] },
+  { name: '디자인팀', riskLevel: 'medium', riskScore: 48, atRiskCount: 3, totalCount: 20, topReasons: ['커리어 전환', '업묘 범위'] },
+  { name: 'QA팀', riskLevel: 'low', riskScore: 22, atRiskCount: 0, totalCount: 12, topReasons: ['안정적'] },
+  { name: '경영지원팀', riskLevel: 'medium', riskScore: 45, atRiskCount: 2, totalCount: 14, topReasons: ['보상 불만족'] },
 ];
 
 function getRiskColor(level: Department['riskLevel']): string {
@@ -105,9 +51,9 @@ function getRiskLabel(level: Department['riskLevel']): string {
     case 'high':
       return '높음';
     case 'medium':
-      return '중간';
+      return '보통';
     case 'low':
-      return '낮음';
+      return '놮음';
   }
 }
 
@@ -124,43 +70,55 @@ export default function RetentionRiskHeatmap() {
       bodyStyle={{ padding: '24px' }}
     >
       <div style={{ marginBottom: 20 }}>
-        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>부서별 이직 위험도</span>
+        <span style={{ fontWeight: 700, fontSize: 16, color: '#1a1a1a' }}>이퇍 위험 히트맵</span>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+          gap: 12,
+        }}
+      >
         {departments.map((dept) => (
-          <div
+          <Tooltip
             key={dept.name}
-            style={{
-              padding: '16px',
-              backgroundColor: getRiskBg(dept.riskLevel),
-              borderRadius: '12px',
-              border: `1px solid ${getRiskColor(dept.riskLevel)}20`,
-            }}
+            title={
+              <div>
+                <div>위험 인원: {dept.atRiskCount}명 / {dept.totalCount}명</div>
+                <div>케이 원인': {dept.topReasons.join(', ')}</div>
+              </div>
+            }
           >
-            <Space direction="vertical" size={8} style={{ width: '100%' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontWeight: 600, fontSize: 13 }}>{dept.name}</span>
-                <Badge
-                  count={dept.riskScore}
-                  style={{
-                    backgroundColor: getRiskColor(dept.riskLevel),
-                    color: '#fff',
-                    fontSize: '11px',
-                  }}
-                />
+            <div
+              style={{
+                background: getRiskBg(dept.riskLevel),
+                border: `1px solid ${getRiskColor(dept.riskLevel)}20`,
+                borderRadius: 12,
+                padding: 16,
+                textAlign: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+              }}
+            >
+              <div style={{ fontWeight: 600, fontSize: 14, color: '#1a1a1a', marginBottom: 8 }}>
+                {dept.name}
               </div>
-              <div style={{ fontSize: 12, color: '#666' }}>
-                위험도: <span style={{ color: getRiskColor(dept.riskLevel), fontWeight: 600 }}>{getRiskLabel(dept.riskLevel)}</span>
+              <div
+                style={{
+                  fontSize: 24,
+                  fontWeight: 700,
+                  color: getRiskColor(dept.riskLevel),
+                  marginBottom: 4,
+                }}
+              >
+                {dept.riskScore}%
               </div>
-              <div style={{ fontSize: 12, color: '#666' }}>
-                위험 인원: {dept.atRiskCount}/{dept.totalCount}
-              </div>
-              <div style={{ fontSize: 11, color: '#999' }}>
-                {dept.topReasons.join(', ')}
-              </div>
-            </Space>
-          </div>
+              <Tag color={getRiskColor(dept.riskLevel)} style={{ borderRadius: 8 }}>
+                {getRiskLabel(dept.riskLevel)}
+              </Tag>
+            </div>
+          </Tooltip>
         ))}
       </div>
     </Card>

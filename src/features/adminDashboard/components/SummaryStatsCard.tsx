@@ -9,6 +9,8 @@ import {
   ArrowDownOutlined,
 } from '@ant-design/icons';
 
+const { Text } = Typography;
+
 interface StatItem {
   key: string;
   title: string;
@@ -47,8 +49,9 @@ const stats: StatItem[] = [
   },
   {
     key: 'payroll',
-    title: '이번 달 급여 총액',
-    value: 4820000000,
+    title: '이번 달 급여액',
+    value: 4820,
+    suffix: '만�',
     icon: <PayCircleOutlined />,
     color: '#FF9500',
     bgColor: 'rgba(255, 149, 0, 0.08)',
@@ -57,7 +60,7 @@ const stats: StatItem[] = [
   },
   {
     key: 'risk',
-    title: '이직 위험 인원',
+    title: '이퇍 위험 인원',
     value: 23,
     suffix: '명',
     icon: <WarningOutlined />,
@@ -67,16 +70,6 @@ const stats: StatItem[] = [
     trendValue: '2.4%',
   },
 ];
-
-function formatKRW(value: number): string {
-  if (value >= 100000000) {
-    return `${(value / 100000000).toFixed(1)}억원`;
-  }
-  if (value >= 10000) {
-    return `${(value / 10000).toFixed(0)}만원`;
-  }
-  return value.toLocaleString();
-}
 
 export default function SummaryStatsCard() {
   return (
@@ -93,61 +86,44 @@ export default function SummaryStatsCard() {
             }}
             bodyStyle={{ padding: '20px' }}
           >
-            <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                }}
-              >
-                <span style={{ fontSize: 12, color: '#666' }}>{stat.title}</span>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '40px',
-                    height: '40px',
-                    backgroundColor: stat.bgColor,
-                    borderRadius: '8px',
-                    color: stat.color,
-                    fontSize: '20px',
-                  }}
-                >
-                  {stat.icon}
-                </div>
-              </div>
-
-              <div>
-                <Statistic
-                  value={stat.value}
-                  suffix={stat.suffix}
-                  formatter={(value) => {
-                    if (stat.key === 'payroll') {
-                      return formatKRW(value);
-                    }
-                    if (stat.suffix === '%') {
-                      return value.toFixed(1);
-                    }
-                    return value.toLocaleString();
-                  }}
-                  valueStyle={{ color: stat.color, fontSize: '24px', fontWeight: 700 }}
-                />
-              </div>
-
-              <div
-                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 12,
+                  backgroundColor: stat.bgColor,
                   display: 'flex',
                   alignItems: 'center',
-                  fontSize: '12px',
-                  color: stat.trend === 'up' ? '#FF3B30' : '#34C759',
+                  justifyContent: 'center',
+                  color: stat.color,
+                  fontSize: 20,
                 }}
               >
-                {stat.trend === 'up' ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                <span style={{ marginLeft: '4px' }}>{stat.trendValue}</span>
+                {stat.icon}
               </div>
-            </Space>
+              <div>
+                <Text type="secondary" style={{ fontSize: 12 }}>{stat.title}</Text>
+                <div style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a' }}>
+                  {stat.value.toLocaleString()}{stat.suffix || ''}
+                </div>
+                <Space size={4}>
+                  {stat.trend === 'up' ? (
+                    <ArrowUpOutlined style={{ color: '#34C759', fontSize: 11 }} />
+                  ) : (
+                    <ArrowDownOutlined style={{ color: '#FF3B30', fontSize: 11 }} />
+                  )}
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      color: stat.trend === 'up' ? '#34C759' : '#FF3B30',
+                    }}
+                  >
+                    {stat.trendValue}
+                  </Text>
+                </Space>
+              </div>
+            </div>
           </Card>
         </Col>
       ))}
