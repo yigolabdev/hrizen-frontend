@@ -1,17 +1,37 @@
 import { Routes, Route } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout';
-import AdminDashboardPage from '@/pages/관리자대시보드Page';
-import MultiTenantSettingsPage from '@/pages/멀티테난트\설정Page';
-import PermissionsPage from '@/pages/궈한관리Page';
+import LandingPage from '@/pages/뮑딩페이지Page';
+import AdminDashboardPage from '@/pages/가리자대시보듐Page';
+import MultiTenantSettingsPage from '@/pages/멀티테날트설정Page';
+import PermissionsPage from '@/pages/권한관리Page';
 import AttendancePage from '@/pages/근태관리Page';
 import PayrollManagementPage from '@/pages/급여정산관리Page';
-import PerformancePage from '@/pages/성과밌평가관리Page';
-import ESSPage from '@/pages/직원셀프서비스포털ESSPage';
-import AIAnalyticsPage from '@/pages/AI분석답시보드Page';
+import PerformancePage from '@/pages/성과및평가관리Page';
+import ESSPage from '@/pages/직원셀프서비스포�aESSPage';
+import AIAnalyticsPage from '@/pages/AI분석대시보듐Page';
 import OpenAPIPage from '@/pages/오픐API관리Page';
-import SubscriptionPage from '@/pages/구독관리Page';
-import BillingPage from '@/pages/ꬬ;(':�#�,�z�k:� :�Y�I�[\ܝ[�[��Y�H���H	��Y�\���:�*{c�;'m;)�Y�I�[\ܝ^TY�H���H	��Y�\���m;'n:��;'m;c�;'m;)�Y�I��^ܝY�][�[��[ۈ\
+import SubscriptionPage from '@/pages/구럏관리Page';
+import BillingPage from '@/pages/檰제및쳭구관리Page';
+import MyPage from '@/pages/개인오이페이지Page';
 
-H�]\��
-�\^[�]����]\ς���]H]H�Ȉ[[Y[�^�[�[��Y�HϟHς���]H]H��YZ[��\���\��[[Y[�^�YZ[�\���\�Y�HϟHς���]H]H��YZ[��[�[�Ȉ[[Y[�^�][U[�[��][���Y�HϟHς���]H]H��YZ[��\�Z\��[ۜȈ[[Y[�^�\�Z\��[ۜ�Y�HϟHς���]H]H��][�[��H�[[Y[�^�][�[��TY�HϟHς���]H]H��^\���[[Y[�^�^\��X[�Y�[Y[�Y�HϟHς���]H]H��\��ܛX[��H�[[Y[�^�\��ܛX[��TY�HϟHς���]H]H��\�Ȉ[[Y[�^�T��Y�HϟHς���]H]H��[�[]X���ZKY\���\��[[Y[�^�RP[�[]X��Y�HϟHς���]H]H��\K[X[�Y�[Y[��[[Y[�^��[�TTY�HϟHς���]H]H���X��ܚ\[ۈ�[[Y[�^��X��ܚ\[۔Y�HϟHς���]H]H�ؚ[[�Ȉ[[Y[�^��[[��Y�HϟHς���]H]H��^K\Y�H�[[Y[�^�^TY�HϟHς���]H]H���[[Y[�^�]��[O^��Y[�Έ���܎�	��NNI�_O�c�;'m;)�:�o;,/�'a;"&;%�"�z��:����]��Hς�ԛ�]\ς��\^[�]��
-NB
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route element={<AppLayout><AdminDashboardPage /></AppLayout>}}>
+        <Route path="/admin/dashboard" element={<AppLayout><AdminDashboardPage /></AppLayout>} />
+      </Route>
+      <Route path="/admin/tenants" element={<AppLayout><MultiTenantSettingsPage /></AppLayout>} />
+      <Route path="/admin/permissions" element={<AppLayout><PermissionsPage /></AppLayout>}} />
+      <Route path="/attendance" element={<AppLayout><AttendancePage /></AppLayout>} />
+      <Route path="/payroll" element={<AppLayout><PayrollManagementPage /></AppLayout>} />
+      <Route path="/performance" element={<AppLayout><PerformancePage /></AppLayout>} />
+      <Route path="/ess" element={<AppLayout><ESSPage /></AppLayout>} />
+      <Route path="/analytics/ai-dashboard" element={<AppLayout><AIAnalyticsPage /></AppLayout>}} />
+      <Route path="/api-management" element={<AppLayout><OpenAPIPage /></AppLayout>} />
+      <Route path="/subscription" element={<AppLayout><SubscriptionPage /></AppLayout>}} />
+      <Route path="/billing" element={<AppLayout><BillingPage /></AppLayout>} />
+      <Route path="/my-page" element={<AppLayout><MyPage /></AppLayout>} />
+    </Routes>
+  );
+}

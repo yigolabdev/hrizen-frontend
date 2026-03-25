@@ -1,88 +1,109 @@
 import { create } from 'zustand';
 
-export interface UserInfo {
+interface User {
   id: string;
   name: string;
   email: string;
   role: 'admin' | 'manager' | 'employee';
   tenantId: string;
-  avatar?: string;
 }
 
-export interface NotificationItem {
+interface Notification {
   id: string;
-  type: 'info' | 'warning' | 'error' | 'success';
   message: string;
-  timestamp: string;
+  type: 'info' | 'success' | 'warning' | 'error';
   read: boolean;
+  createdAt: string;
 }
 
 interface AppState {
-  // User
-  user: UserInfo | null;
-  isAuthenticated: boolean;
-  setUser: (user: UserInfo | null) => void;
-  logout: () => void;
-
-  // Global UI
+  // UI state
   sidebarCollapsed: boolean;
   toggleSidebar: () => void;
   setSidebarCollapsed: (value: boolean) => void;
 
+  // Auth state
+  currentUser: User | null;
+  isAuthenticated: boolean;
+  authLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+  setUser: (user: User) => void;
+
   // Notifications
-  notifications: NotificationItem[];
-  addNotification: (notification: Omit<NotificationItem, 'id' | 'timestamp' | 'read'>) => void;
+  notifications: Notification[];
+  unreadCount: number;
+  addNotification: (notification: Omit<Notification, 'id' | 'read' | 'createdAt'>) => void;
   markNotificationRead: (id: string) => void;
   clearNotifications: () => void;
 
-  // Tenant
-  currentTenantId: string | null;
-  setCurrentTenantId: (id: string | null) => void;
-
-  // Loading
+  // Global loading
   globalLoading: boolean;
   setGlobalLoading: (value: boolean) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  // User
-  user: null,
-  isAuthenticated: false,
-  setUser: (user) => set({ user, isAuthenticated: !!user }),
-  logout: () => set({ user: null, isAuthenticated: false, notifications: [] }),
-
-  // Global UI
+export const useAppStore = create<AppState>((set, get) => ({
+  // UI state
   sidebarCollapsed: false,
   toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
-  setSidebarCollapsed: (value) => set({ sidebarCollapsed: value }),
+  setSidebarCollapsed: (value: boolean) => set({ sidebarCollapsed: value }),
+
+  // Auth state
+  currentUser: null,
+  isAuthenticated: false,
+  authLoading: false,
+  login: async (email: string, _password: string) => {
+    set({ authLoading: true });
+    try {
+      // TODO: Replace with real API call
+      await new Promise((r) => setTimeout(r, 800));
+      const mockUser: User = {
+        id: 'usr-001',
+        name: '관리자',
+        email,
+        role: 'admin',
+        tenantId: 'tenant-001',
+      };
+      set({ currentUser: mockUser, isAuthenticated: true, authLoading: false });
+    } catch {
+      set({ authLoading: false });
+      throw new Error('로그인 실패');
+    }
+  },
+  logout: () => {
+    set({ currentUser: null, isAuthenticated: false, notifications: [], unreadCount: 0 });
+  },
+  setUser: (user: User) => set({ currentUser: user, isAuthenticated: true }),
 
   // Notifications
   notifications: [],
-  addNotification: (notification) =>
+  unreadCount: 0,
+  addNotification: (notification) => {
+    const newNotif: Notification = {
+      ...notification,
+      id: `notif-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      read: false,
+      createdAt: new Date().toISOString(),
+    };
     set((state) => ({
-      notifications: [
-        {
-          ...notification,
-          id: `notif-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-          timestamp: new Date().toISOString(),
-          read: false,
-        },
-        ...state.notifications,
-      ],
-    })),
-  markNotificationRead: (id) =>
-    set((state) => ({
-      notifications: state.notifications.map((n) => (n.id === id ? { ...n, read: true } : n)),
-    })),
-  clearNotifications: () => set({ notifications: [] }),
+      notifications: [newNotif, ...state.notifications],
+      unreadCount: state.unreadCount + 1,
+    }));
+  },
+  markNotificationRead: (id: string) => {
+    set((state) => {
+      const updated = state.notifications.map((n) =>
+        n.id === id ? { ...n, read: true } : n
+      );
+      return {
+        notifications: updated,
+        unreadCount: updated.filter((n) => !n.read).length,
+      };
+    });
+  },
+  clearNotifications: () => set({ notifications: [], unreadCount: 0 }),
 
-  // Tenant
-  currentTenantId: null,
-  setCurrentTenantId: (id) => set({ currentTenantId: id }),
-
-  // Loading
+  // Global loading
   globalLoading: false,
-  setGlobalLoading: (value) => set({ globalLoading: value }),
+  setGlobalLoading: (value: boolean) => set({ globalLoading: value }),
 }));
-
-export default useAppStore;

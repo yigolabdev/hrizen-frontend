@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Space } from 'antd';
+import { Typography } from 'antd';
 import HeroSection from '@/features/landing/components/HeroSection';
 import FeatureHighlightSection from '@/features/landing/components/FeatureHighlightSection';
 import CustomerTestimonials from '@/features/landing/components/CustomerTestimonials';
@@ -9,19 +9,13 @@ import LandingFooter from '@/features/landing/components/LandingFooter';
 
 export default function LandingPage() {
   return (
-    <Layout
-      style={{
-        background: '#FFFFFF',
-        minHeight: '100vh',
-        overflow: 'hidden',
-      }}
-    >
+    <div>
       <HeroSection />
       <FeatureHighlightSection />
-      <CustomerTestimonials />
       <PricingOverview />
+      <CustomerTestimonials />
       <CallToActionButtons />
       <LandingFooter />
-    </Layout>
+    </div>
   );
 }
